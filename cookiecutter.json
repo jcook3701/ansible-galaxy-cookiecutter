@@ -1,0 +1,25 @@
+{
+  "project_name": "ansible-galaxy-cookiecutter",
+  "package_name": "{{ cookiecutter.project_name|lower|replace('-', '_') }}",
+  "author": "Jared Cook",
+  "email": "jcook3701+github@gmail.com",
+  "version": "0.1.0",
+  "description": "Description of project",
+  "ga_tracking": "G-C7PWLWSHB9",
+  "github_username": "jcook3701",
+  "twitter_username": "",
+  "linkedin_usercode": "jared-cook-b3585a114",
+  "buymeacoffee_username": "jcook3701",
+  "theme": "pmarsceill/just-the-docs",
+  "config": {
+    "keywords": ["python3"],
+    "classifiers": [
+      "Development Status :: 3 - Alpha",
+      "Intended Audience :: Developers",
+      "Intended Audience :: Education",
+      "Programming Language :: Python :: 3",
+      "Operating System :: POSIX :: Linux"
+    ],
+    "requires_python": ">=3.11"
+  }
+}
