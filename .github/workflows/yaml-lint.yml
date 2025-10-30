@@ -1,0 +1,28 @@
+name: Template YAML Lint
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [master, develop]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install yaml-lint
+        run: |
+          make install
+
+      - name: Lint YAML files
+        run: |
+          make yaml-lint-check
