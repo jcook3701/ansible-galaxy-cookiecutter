@@ -1,4 +1,8 @@
 # pyproject.toml
+# =========================================
+# Project: {{ cookiecutter.namespace }}.{{ cookiecutter.package_name }}
+# =========================================
+
 [build-system]
 requires = ["setuptools>=65.0.0", "wheel"]
 build-backend = "setuptools.build_meta"

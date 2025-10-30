@@ -1,4 +1,3 @@
-# coding: utf-8
 """Python3 Cookiecutter Package
 
 © All rights reserved. Jared Cook

@@ -2,14 +2,18 @@
 # =========================================
 # Project: ansible-galaxy-cookiecutter
 # =========================================
+
+# --------------------------------------------------
+# Environment Settings
+# --------------------------------------------------
 SHELL := /bin/bash
 .SHELLFLAGS := -O globstar -c
 
-SRC_DIR := plugins
-PLAYBOOKS_DIR := playbooks
-ROLES_DIR := roles
-TEST_DIR := tests
-
+# --------------------------------------------------
+# Build Directories
+# --------------------------------------------------
+HOOKS_DIR := hooks
+TESTS_DIR := tests
 DOCS_DIR := docs
 SPHINX_DIR := docs/sphinx
 JEKYLL_DIR := docs/jekyll
@@ -85,15 +89,15 @@ install: venv
 	@echo "✅ Dependencies installed."
 
 # --------------------------------------------------
-# Linting / Typechecking / Testing
+# Linting (ruff, yaml, jinja2)
 # --------------------------------------------------
 ruff-lint-check:
 	@echo "🔍 Running ruff linting..."
-	$(RUFF) check $(SRC_DIR) $(TEST_DIR)
+	$(RUFF) check $(HOOKS_DIR) $(TESTS_DIR)
 
 ruff-lint-fix:
 	@echo "🔍 Running ruff lint fixes..."
-	$(RUFF) check --fix --show-files $(SRC_DIR) $(TEST_DIR)
+	$(RUFF) check --fix --show-files $(HOOKS_DIR) $(TESTS_DIR)
 
 yaml-lint-check:
 	@echo "🔍 Running yamllint..."
@@ -113,11 +117,17 @@ jinja2-lint-check:
 
 lint-check: ruff-lint-check yaml-lint-check jinja2-lint-check
 
-typecheck: install
-	$(MYPY) $(SRC_DIR)
+# --------------------------------------------------
+# Typechecking (MyPy)
+# --------------------------------------------------
+typecheck:
+	$(MYPY) $(HOOKS_DIR)
 
-test: install
-	$(PYTEST) -v --maxfail=1 --disable-warnings $(TEST_DIR)
+# --------------------------------------------------
+# Testing (pytest)
+# --------------------------------------------------
+test:
+	$(PYTEST) -v --maxfail=1 --disable-warnings $(TESTS_DIR)
 
 # --------------------------------------------------
 # Documentation (Sphinx + Jekyll)
@@ -141,9 +151,8 @@ clean:
 	rm -rf $(SPHINX_DIR)/_build $(JEKYLL_OUTPUT_DIR)
 	cd $(JEKYLL_DIR) && $(JEKYLL_CLEAN)
 	rm -rf build dist *.egg-info
-	find $(SRC_DIR) $(TEST_DIR) -name "__pycache__" -type d -exec rm -rf {} +
+	find $(HOOKS_DIR) $(TESTS_DIR) -name "__pycache__" -type d -exec rm -rf {} +
 	-[ -d "$(VENV_DIR)" ] && rm -r $(VENV_DIR)
-	rm -f $(GALAXY_NAMESPACE)-$(GALAXY_COLLECTION)-*.tar.gz
 	@echo "🧹 Cleaned build artifacts."
 
 # --------------------------------------------------

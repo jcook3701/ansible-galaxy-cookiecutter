@@ -1,7 +1,7 @@
 {
-  "project_name": "ansible-galaxy-collection",
-  "package_name": "{{ cookiecutter.project_name|lower|replace('-', '_') }}",
   "namespace": "jcook3701",
+  "project_name": "ansible-galaxy-collection",
+  "package_name": "{{ cookiecutter.namespace }}.{{ cookiecutter.project_name|lower|replace('-', '_') }}",
   "author": "Jared Cook",
   "email": "jcook3701+github@gmail.com",
   "version": "0.1.0",
