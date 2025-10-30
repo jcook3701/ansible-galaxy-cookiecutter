@@ -107,7 +107,11 @@ jinja2-lint-check:
 	@echo "🔍 jinja2 linting all template files under {{ cookiecutter.package_name }}..."
 	jq '{cookiecutter: .}' cookiecutter.json > /tmp/_cc_wrapped.json
 	find '{{ cookiecutter.package_name }}' -type f \
-		! -name "*.png" ! -name "*.jpg" ! -name "*.ico" ! -name "*.gif" \
+		! -path "{{ cookiecutter.package_name }}/.github/*" \
+		! -name "*.png" \
+		! -name "*.jpg" \
+		! -name "*.ico" \
+		! -name "*.gif" \
 		-print0 | while IFS= read -r -d '' f; do \
 			if file "$$f" | grep -q text; then \
 				echo "Checking $$f"; \
