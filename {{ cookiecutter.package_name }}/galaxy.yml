@@ -8,15 +8,14 @@ dependencies:
   ansible.builtin: "*"
   community.general: ">=8.0.0"
 description: >
-  A collection of custom Ansible modules and roles for managing
-  infrastructure and automation tasks across environments.
+  {{ cookiecutter.description }}
 namespace: {{ cookiecutter.github_username }}
 name: {{ cookiecutter.package_name }}
 version: {{ cookiecutter.version }}
 license:
   - MIT
 license_file: LICENSE
-readme: README.md
+readme: ./docs/README.md
 tags:
   - lab
   - homelab

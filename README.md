@@ -23,7 +23,7 @@ $ cookiecutter git@github.com:jcook3701/ansible-galaxy-cookiecutter.git \
 $ cookiecutter git@github.com:jcook3701/ansible-galaxy-cookiecutter.git \
 	 --checkout develop \
 	  --no-input \
-	  project_name="test-project"
+	  project_name="test-project"  
 ```
 replace ```test-project``` or any of the other variables with real context configuration variables:  
 

@@ -4,48 +4,45 @@ requires = ["setuptools>=65.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "{{ cookiecutter.package_name }}"
-version = "{{ cookiecutter. version }}"
-description = "{{ cookiecutter.description }}"
+name = "ansible-galaxy-cookiecuter"
+version = "0.1.0"
+description = "Ansible Galaxy cookiecutter template + integration with (github-docs-cookiecutter) Github docs template generation."
 authors = [
-    { name="{{ cookiecutter.author }}", email="{{ cookiecutter.email }}" }
+    { name="Jared Cook", email="jcook3701+github@gmail.com" }
 ]
-readme = "./docs/README.md"
+readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.11"
-dependencies = [
-  "ansible>=12.0",
-  "ansible-core>=2.0"
-]
-keywords = ["ansible","galaxy", "scripts", "automation"]
+dependencies = []
+keywords = ["ansible", "galaxy", "cookiecuter", "automation"]
 classifiers = [
   "Programming Language :: Python :: 3",
   "Operating System :: OS Independent",
 ]
 
 [tool.setuptools.packages.find]
-include = ["plugins", "playbooks", "roles", "tests"]
+include = ["hooks", "tests"]
 
 [project.urls]
-Homepage = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_name }}"
-Repository = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_name }}"
-Documentation = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_name }}/docs/jekyll"
+Homepage = "https://github.com/jcook3701/ansible-galaxy-cookiecuter"
+Repository = "https://github.com/jcook3701/ansible-galaxy-cookiecuter"
+Documentation = "https://github.com/jcook3701/ansible-galaxy-cookiecuter/docs/jekyll"
 
 [project.optional-dependencies]
 dev = [
   "ruff>=0.14.0",
   "mypy==1.9",
   "pytest>=8.0",
-  "ansible-lint>=25.0",
+  "pytest-cookies>=0.7",
   "yamllint>=1.0",
+  "jinja2-cli>=0.8",
 ]
 docs = [
   "sphinx>=8.0",
   "sphinx-rtd-theme>=3.0",
   "sphinx-markdown-builder>=0.6",
   "sphinx-autodoc-typehints>=3.5",
-  "ansible-autodoc>=0.5",
 ]
 
 [tool.ruff]
@@ -53,7 +50,7 @@ docs = [
 target-version = "py311"
 
 # Directories to lint and format
-src = [ "meta", "plugins","playbooks", "roles", "tests"]
+src = ["{{ cookiecutter.package_name }}", "hooks", "tests"]
 
 # Exclude these paths
 exclude = [
@@ -96,7 +93,7 @@ ignore = [
 # ====================================
 [tool.ruff.lint.isort]
 combine-as-imports = true
-known-first-party = ["{{ cookiecutter.package_name }}"]
+known-first-party = ["ansible-galaxy-cookiecuter"]
 
 # ====================================
 # Formatter configuration
@@ -109,7 +106,7 @@ line-ending = "lf"
 skip-magic-trailing-comma = false
 
 [tool.mypy]
-python_version = {{ cookiecutter.config.requires_python }}
+python_version = 3.11
 warn_unused_configs = true
 disallow_untyped_defs = true
 ignore_missing_imports = true
