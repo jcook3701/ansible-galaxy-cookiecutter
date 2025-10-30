@@ -1,10 +1,10 @@
 ---
 authors:
-  - {{ cookiecutter.author }} @{{ cookiecutter.github_username }}
+  - "{{ cookiecutter.author }} @{{ cookiecutter.github_username }}"
 # Optional dependencies on other collections
 dependencies:
   jcook3701.pkgs: "*"
-  jcook3701.utils: "*"  
+  jcook3701.utils: "*"
   ansible.builtin: "*"
   community.general: ">=8.0.0"
 description: >
@@ -29,8 +29,16 @@ build_ignore:
   - docs/
   - scripts/
   - .venv/
-repository: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.github_username }}.{{ cookiecutter.package_name }}
-documentation: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.github_username }}.{{ cookiecutter.package_name }}/blob/main/README.md
-homepage: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.github_username }}.{{ cookiecutter.package_name }}
-issues: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.github_username }}.{{ cookiecutter.package_name }}/issues
+repository: >-
+  https://github.com/{{ cookiecutter.github_username }}/\
+  {{ cookiecutter.github_username }}.{{ cookiecutter.package_name }}
+documentation: >-
+  https://github.com/{{ cookiecutter.github_username }}/\
+  {{ cookiecutter.github_username }}.{{ cookiecutter.package_name }}/blob/main/README.md
+homepage: >-
+  https://github.com/{{ cookiecutter.github_username }}/\
+  {{ cookiecutter.github_username }}.{{ cookiecutter.package_name }}
+issues: >-
+  https://github.com/{{ cookiecutter.github_username }}/\
+  {{ cookiecutter.github_username }}.{{ cookiecutter.package_name }}/issues
 ...
