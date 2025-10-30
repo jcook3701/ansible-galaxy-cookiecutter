@@ -17,12 +17,12 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install Project Dependencies
         run: |
           make install  # create .venv and install dependencies
-          
+
       - name: Run Ruff Lint Check
         run: |
           make ruff-lint-check  # Check formatting with ruff
@@ -34,4 +34,3 @@ jobs:
       - name: Run Ansible Lint Check
         run: |
           make ansible-lint-check  # Check formatting with ansible-lint
-
