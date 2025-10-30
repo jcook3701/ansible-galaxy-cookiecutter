@@ -22,4 +22,7 @@
     ],
     "requires_python": ">=3.11"
   }
+  "_copy_without_render": [
+    ".github/*"
+  ]
 }
