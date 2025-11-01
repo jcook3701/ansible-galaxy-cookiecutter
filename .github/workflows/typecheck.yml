@@ -1,6 +1,6 @@
-# yaml lint
+# typecheck
 ---
-name: Cookiecutter template YAML lint
+name: Typecheck
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
     branches: [main, develop]
 
 jobs:
-  yaml-lint:
+  typecheck:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,10 +21,10 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install yaml-lint
+      - name: Install mypy
         run: |
           make install
 
-      - name: Lint YAML files
+      - name: Run typecheck
         run: |
-          make yaml-lint-check
+          make typecheck

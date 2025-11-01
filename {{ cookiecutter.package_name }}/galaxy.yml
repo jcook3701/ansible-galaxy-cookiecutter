@@ -9,7 +9,7 @@ dependencies:
   community.general: ">=8.0.0"
 description: >
   {{ cookiecutter.description }}
-namespace: {{ cookiecutter.github_username }}
+namespace: {{ cookiecutter.namespace }}
 name: {{ cookiecutter.package_name }}
 version: {{ cookiecutter.version }}
 license:
