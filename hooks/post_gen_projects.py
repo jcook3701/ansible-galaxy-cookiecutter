@@ -14,7 +14,7 @@ import shutil
 from cookiecutter.main import cookiecutter
 
 
-def main():
+def main() -> None:
    # Detect CI (e.g. GitHub Actions, GitLab CI, etc.)
     if os.getenv("CI"):
         print("⚙️  Detected CI environment — skipping GitHub Docs generation.")
