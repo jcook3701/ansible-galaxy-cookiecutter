@@ -110,7 +110,8 @@ def generate_ansible_dirs() -> None:
     ansible_dirs = [
         "playbooks",
         "roles",
-        "plugins"
+        "plugins",
+        "tests"
     ]
 
     for d in ansible_dirs:
