@@ -103,7 +103,6 @@ venv:
 install: venv
 	$(AT)echo "📦 Installing project dependencies..."
 	$(AT)$(PIP) install --upgrade pip
-	$(AT)$(PIP) install -e $(DEPS)
 	$(AT)$(PIP) install -e $(DEV_DEPS)
 	$(AT)$(PIP) install -e $(DEV_DOCS)
 	$(AT)echo "✅ Dependencies installed."
