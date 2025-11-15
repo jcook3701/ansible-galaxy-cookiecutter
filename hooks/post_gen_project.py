@@ -10,6 +10,7 @@ Author: Jared Cook
 import json
 import os
 import shutil
+import subprocess
 from pathlib import Path
 
 from cookiecutter.main import cookiecutter
