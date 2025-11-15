@@ -33,9 +33,9 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_name }}"
-Repository = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_name }}"
-Documentation = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_name }}/docs/jekyll"
+Homepage = "https://github.com/{{ cookiecutter.package_name }}"
+Repository = "https://github.com/{{ cookiecutter.package_name }}"
+Documentation = "https://github.com/{{ cookiecutter.package_name }}/docs/jekyll"
 
 [project.optional-dependencies]
 dev = [
@@ -54,19 +54,6 @@ docs = [
   "ansible-autodoc>=0.5",
 ]
 # ====================================
-# Setuptools Configuration:
-# ====================================
-[tool.setuptools.packages.find]
-where = [
-  "plugins"
-]
-include = [
-  "plugins",
-  "playbooks",
-  "roles",
-  "tests"
-]
-# ====================================
 # Ruff Configuration:
 # ====================================
 [tool.ruff]
@@ -74,14 +61,14 @@ include = [
 target-version = "py311"
 # Directories to lint and format
 src = [
-  "meta",
   "plugins",
-  "playbooks",
+  "library",
   "roles",
   "tests"
 ]
 # Exclude these paths
 exclude = [
+  "playbooks",
   ".venv",
   "build",
   "dist",
@@ -125,7 +112,7 @@ ignore = [
 # ====================================
 [tool.ruff.lint.isort]
 combine-as-imports = true
-known-first-party = ["{{ cookiecutter.package_name }}"]
+known-first-party = ["plugins", "library"]
 # ====================================
 # Formatter Configuration:
 # Ruff also formats YAML, TOML, and Markdown
@@ -141,7 +128,8 @@ docstring-code-format = true
 # ====================================
 [tool.mypy]
 python_version = {{ cookiecutter.config.requires_python }}
-mypy_path = "src"
+mypy_path = "plugins:library"
+namespace_packages = true
 strict = true
 warn_unused_ignores = true
 warn_unused_configs = true
@@ -154,4 +142,4 @@ ignore_missing_imports = true
 minversion = "7.0"
 addopts = ["-v", "--maxfail=1", "--disable-warnings", "--strict-markers"]
 testpaths = ["tests"]
-pythonpath = ["plugins"]
+pythonpath = ["plugins", "library"]

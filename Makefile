@@ -66,7 +66,7 @@ PYTEST := $(ACTIVATE) && $(PYTHON) -m pytest
 # 📘 Documentation (Sphinx + Jekyll)
 # --------------------------------------------------
 SPHINX := $(ACTIVATE) && $(PYTHON) -m sphinx -b markdown
-JEKYLL_BUILD := bundle exec jekyll build
+JEKYLL_BUILD := bundle exec jekyll build --quiet
 JEKYLL_CLEAN := bundle exec jekyll clean
 JEKYLL_SERVE := bundle exec jekyll serve
 # --------------------------------------------------

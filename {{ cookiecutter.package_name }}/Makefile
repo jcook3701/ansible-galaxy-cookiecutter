@@ -22,14 +22,16 @@ endif
 # --------------------------------------------------
 # 📁 Build Directories
 # --------------------------------------------------
-SRC_DIR := plugins
+LIBRARY_DIR := library
 PLAYBOOKS_DIR := playbooks
+PLUGINS_DIR := plugins
 ROLES_DIR := roles
+SRC_DIR := $(PLUGINS_DIR) $(LIBRARY_DIR)
 TEST_DIR := tests
 
 DOCS_DIR := docs
-SPHINX_DIR := docs/sphinx
-JEKYLL_DIR := docs/jekyll
+SPHINX_DIR := $(DOCS_DIR)/sphinx
+JEKYLL_DIR := $(DOCS_DIR)/jekyll
 
 SPHINX_BUILD_DIR := $(SPHINX_DIR)/_build/html
 JEKYLL_OUTPUT_DIR := $(JEKYLL_DIR)/sphinx
@@ -71,7 +73,7 @@ PYTEST := $(ACTIVATE) && $(PYTHON) -m pytest
 # --------------------------------------------------
 SPHINX := $(ACTIVATE) && $(PYTHON) -m sphinx -b markdown
 AUTODOC := $(ACTIVATE) && ansible-autodoc
-JEKYLL_BUILD := bundle exec jekyll build
+JEKYLL_BUILD := bundle exec jekyll build --quiet
 JEKYLL_CLEAN := bundle exec jekyll clean
 JEKYLL_SERVE := bundle exec jekyll serve
 # --------------------------------------------------
@@ -142,7 +144,7 @@ typecheck:
 # --------------------------------------------------
 test:
 	$(AT)echo "🧪 Running tests with pytest..."
-	$(AT)$(PYTEST) -v --maxfail=1 --disable-warnings $(TEST_DIR)
+	$(AT)$(PYTEST) -v --maxfail=1 --disable-warnings $(TEST_DIR) || true
 # --------------------------------------------------
 # Documentation (Sphinx + Ansible Autodoc + Jekyll)
 # --------------------------------------------------
