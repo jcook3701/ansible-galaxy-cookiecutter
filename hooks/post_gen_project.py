@@ -10,17 +10,18 @@ Author: Jared Cook
 import json
 import os
 import shutil
+from pathlib import Path
 
 from cookiecutter.main import cookiecutter
 
 
 def generate_docs_templates(context: dict) -> None:
     """Generate one or more documentation templates inside docs/"""
-    project_dir = os.getcwd()
-    docs_dir = os.path.join(project_dir, "docs")
-    tmp_dir = os.path.join(docs_dir, "_tmp_docs")
+    project_dir = Path.cwd()
+    docs_dir = project_dir / "docs"
+    tmp_dir = docs_dir / "_tmp_docs"
 
-    os.makedirs(tmp_dir, exist_ok=True)
+    tmp_dir.mkdir(parents=True, exist_ok=True)
 
     base_ctx = {
         "project_name": context.get("project_name"),
@@ -34,7 +35,7 @@ def generate_docs_templates(context: dict) -> None:
             "enabled": context.get("add_github_docs", True),
             "name": "Github",
             "repo": "jcook3701/github-docs-cookiecutter",
-            "target": os.path.join(docs_dir, "jekyll"),
+            "target": docs_dir / "jekyll",
             "extra_ctx": {
                 **base_ctx,
                 "theme": context.get("theme"),
@@ -49,7 +50,7 @@ def generate_docs_templates(context: dict) -> None:
             "enabled": context.get("add_sphinx_docs", True),
             "name": "Sphinx",
             "repo": "jcook3701/sphinx-cookiecutter",
-            "target": os.path.join(docs_dir, "sphinx"),
+            "target": docs_dir / "sphinx",
             "extra_ctx": {
                 **base_ctx,
             },
@@ -78,22 +79,22 @@ def generate_docs_templates(context: dict) -> None:
             )
 
             # Find the generated folder (Cookiecutter creates a subfolder automatically)
-            subdirs = [os.path.join(tmp_dir, d) for d in os.listdir(tmp_dir) if os.path.isdir(os.path.join(tmp_dir, d))]
+            subdirs = [d for d in tmp_dir.iterdir() if d.is_dir()]
             if not subdirs:
                 print(f"⚠️  No generated directory found for {name}")
                 continue
 
             generated_dir = subdirs[0]
 
-            if os.path.exists(target):
+            if target.exists():
                 shutil.rmtree(target)
+
             shutil.move(generated_dir, target)
 
             # Clean up tmp
-            for d in os.listdir(tmp_dir):
-                path = os.path.join(tmp_dir, d)
-                if os.path.isdir(path):
-                    shutil.rmtree(path)
+            for d in tmp_dir.iterdir():
+                if d.is_dir():
+                    shutil.rmtree(d)
 
             print(f"✅ {name} Docs generated in {target}")
 
@@ -103,7 +104,26 @@ def generate_docs_templates(context: dict) -> None:
         print("🎉 All documentation templates generated successfully!")
 
 
+def generate_ansible_dirs() -> None:
+    """Generate ansible project directories"""
+    project_dir = Path.cwd()
+    ansible_dirs = [
+        "playbooks",
+        "roles",
+        "plugins"
+    ]
+
+    for d in ansible_dirs:
+        dir_path = project_dir / d
+        if not dir_path.exists():
+            dir_path.mkdir(parents=True, exist_ok=True)
+            print(f"📁 Created {dir_path}")
+        else:
+            print(f"✔️  {dir_path} already exists")
+
+
 def main() -> None:
+    """Cookiecutter Post Generation Scripts"""
     # Detect CI (e.g. GitHub Actions, GitLab CI, etc.)
     if os.getenv("CI"):
         print("⚙️  Detected CI environment — skipping GitHub Docs generation.")
@@ -113,7 +133,7 @@ def main() -> None:
     context = json.loads("""{{ cookiecutter | jsonify }}""")
 
     generate_docs_templates(context)
-
+    generate_ansible_dirs()
 
 if __name__ == "__main__":
     main()
