@@ -108,9 +108,9 @@ def generate_ansible_dirs() -> None:
     """Generate ansible project directories"""
     project_dir = Path.cwd()
     ansible_dirs = [
+        "library",
         "playbooks",
         "roles",
-        "plugins",
         "tests"
     ]
 
