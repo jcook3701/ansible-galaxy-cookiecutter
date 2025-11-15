@@ -122,6 +122,15 @@ def generate_ansible_dirs() -> None:
         else:
             print(f"✔️  {dir_path} already exists")
 
+            
+def make(cmd: str) -> None:
+    """Run a make target inside post-gen, exiting on failure."""
+    print(f"▶ Running: make {cmd}")
+    result = subprocess.run(["make", cmd], check=True)
+    if result.returncode != 0:
+        print(f"❌ Command failed: make {cmd}")
+        sys.exit(result.returncode)
+
 
 def main() -> None:
     """Cookiecutter Post Generation Scripts"""
@@ -135,6 +144,15 @@ def main() -> None:
 
     generate_docs_templates(context)
     generate_ansible_dirs()
+
+    make_cmds = [
+        "install",
+        "build-docs",
+    ]
+
+    for cmd in make_cmds:
+        make(cmd)
+    
 
 if __name__ == "__main__":
     main()
