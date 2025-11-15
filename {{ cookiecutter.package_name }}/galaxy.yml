@@ -15,7 +15,7 @@ version: {{ cookiecutter.version }}
 license:
   - MIT
 license_file: LICENSE
-readme: ./docs/README.md
+readme: ./README.md
 tags:
   - lab
   - homelab

@@ -24,7 +24,7 @@ def generate_docs_templates(context: dict) -> None:
     tmp_dir.mkdir(parents=True, exist_ok=True)
 
     base_ctx = {
-        "project_name": context.get("project_name"),
+        "project_name": context.get("package_name"),
         "author": context.get("author"),
         "version": context.get("version"),
         "description": context.get("description"),
