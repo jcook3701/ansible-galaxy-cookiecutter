@@ -2,7 +2,6 @@
 # =========================================
 # Project: ansible-galaxy-cookiecutter
 # =========================================
-
 [build-system]
 requires = ["setuptools>=65.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
@@ -30,12 +29,6 @@ classifiers = [
   "Operating System :: OS Independent",
 ]
 
-[tool.setuptools.packages.find]
-include = [
-  "hooks",
-  "tests"
-]
-
 [project.urls]
 Homepage = "https://github.com/jcook3701/ansible-galaxy-cookiecutter"
 Repository = "https://github.com/jcook3701/ansible-galaxy-cookiecutter"
@@ -56,18 +49,26 @@ docs = [
   "sphinx-markdown-builder>=0.6",
   "sphinx-autodoc-typehints>=3.5",
 ]
-
+# ====================================
+# Setuptools Configuration:
+# ====================================
+[tool.setuptools.packages.find]
+include = [
+  "hooks",
+  "tests"
+]
+# ====================================
+# Ruff Configuration:
+# ====================================
 [tool.ruff]
 # Target Python version
 target-version = "py311"
-
 # Directories to lint and format
 src = [
   "{{ cookiecutter.package_name }}",
   "hooks",
   "tests"
 ]
-
 # Exclude these paths
 exclude = [
   ".venv",
@@ -79,12 +80,12 @@ exclude = [
   ".git",
   ".github",
 ]
-
 # Maximum line length
 line-length = 120
-
+# ====================================
+# Ruff Lint Configuration:
+# ====================================
 [tool.ruff.lint]
-
 # Enable linting rules
 select = [
   "W",  # PyCodeStyle warnings
@@ -101,7 +102,6 @@ select = [
   "PL", # pylint-style checks
   "RUF", # ruff-specific
 ]
-
 # Ignore specific rules
 ignore = [
   "E501",  # line too long (handled by formatter)
@@ -109,13 +109,13 @@ ignore = [
   "B008",  # function call in default argument
 ]
 # ====================================
-# Import sorting (Python helper scripts)
+# Import Sorting Configuration: (Python helper scripts)
 # ====================================
 [tool.ruff.lint.isort]
 combine-as-imports = true
 known-first-party = ["ansible-galaxy-cookiecutter"]
 # ====================================
-# Formatter configuration
+# Formatter Configuration:
 # Ruff also formats YAML, TOML, and Markdown
 # ====================================
 [tool.ruff.format]
@@ -125,7 +125,7 @@ line-ending = "lf"
 skip-magic-trailing-comma = false
 docstring-code-format = true
 # ====================================
-# Mypy (type checker) Configuration
+# Mypy (type-checker) Configuration:
 # ====================================
 [tool.mypy]
 python_version = 3.11
@@ -133,7 +133,7 @@ warn_unused_configs = true
 disallow_untyped_defs = true
 ignore_missing_imports = true
 # ====================================
-# Pytest configuration
+# Pytest Configuration:
 # ====================================
 [tool.pytest.ini_options]
 minversion = "7.0"

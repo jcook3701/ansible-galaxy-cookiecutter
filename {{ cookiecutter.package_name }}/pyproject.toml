@@ -1,8 +1,7 @@
 # pyproject.toml
 # =========================================
-# Project: {{ cookiecutter.namespace }}.{{ cookiecutter.package_name }}
+# Project: {{ cookiecutter.package_name }}
 # =========================================
-
 [build-system]
 requires = ["setuptools>=65.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
@@ -22,14 +21,16 @@ dependencies = [
   "ansible>=12.0",
   "ansible-core>=2.0"
 ]
-keywords = ["ansible","galaxy", "scripts", "automation"]
+keywords = [
+  "ansible",
+  "galaxy",
+  "scripts",
+  "automation"
+]
 classifiers = [
   "Programming Language :: Python :: 3",
   "Operating System :: OS Independent",
 ]
-
-[tool.setuptools.packages.find]
-include = ["plugins", "playbooks", "roles", "tests"]
 
 [project.urls]
 Homepage = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_name }}"
@@ -51,14 +52,30 @@ docs = [
   "sphinx-autodoc-typehints>=3.5",
   "ansible-autodoc>=0.5",
 ]
-
+# ====================================
+# Setuptools Configuration:
+# ====================================
+[tool.setuptools.packages.find]
+include = [
+  "plugins",
+  "playbooks",
+  "roles",
+  "tests"
+]
+# ====================================
+# Ruff Configuration:
+# ====================================
 [tool.ruff]
 # Target Python version
 target-version = "py311"
-
 # Directories to lint and format
-src = [ "meta", "plugins","playbooks", "roles", "tests"]
-
+src = [
+  "meta",
+  "plugins",
+  "playbooks",
+  "roles",
+  "tests"
+]
 # Exclude these paths
 exclude = [
   ".venv",
@@ -70,12 +87,12 @@ exclude = [
   ".git",
   ".github",
 ]
-
 # Maximum line length
 line-length = 120
-
+# ====================================
+# Ruff Lint Configuration:
+# ====================================
 [tool.ruff.lint]
-
 # Enable linting rules
 select = [
   "W",  # PyCodeStyle warnings
@@ -93,23 +110,20 @@ select = [
   "PL", # pylint-style checks
   "RUF", # ruff-specific
 ]
-
 # Ignore specific rules
 ignore = [
   "E501",  # line too long (handled by formatter)
   "PLR2004",  # magic value comparison
   "B008",  # function call in default argument
 ]
-
 # ====================================
-# Import sorting (Python helper scripts)
+# Import Sorting Configuration: (Python helper scripts)
 # ====================================
 [tool.ruff.lint.isort]
 combine-as-imports = true
 known-first-party = ["{{ cookiecutter.package_name }}"]
-
 # ====================================
-# Formatter configuration
+# Formatter Configuration:
 # Ruff also formats YAML, TOML, and Markdown
 # ====================================
 [tool.ruff.format]
@@ -117,13 +131,18 @@ quote-style = "double"
 indent-style = "space"
 line-ending = "lf"
 skip-magic-trailing-comma = false
-
+docstring-code-format = true
+# ====================================
+# Mypy (type-checker) Configuration:
+# ====================================
 [tool.mypy]
 python_version = {{ cookiecutter.config.requires_python }}
 warn_unused_configs = true
 disallow_untyped_defs = true
 ignore_missing_imports = true
-
+# ====================================
+# Pytest Configuration:
+# ====================================
 [tool.pytest.ini_options]
 minversion = "7.0"
 addopts = "--strict-markers"
