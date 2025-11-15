@@ -84,10 +84,15 @@ select = [
   "E",  # pycodestyle errors
   "F",  # pyflakes
   "I",  # isort (import sorting)
+  "N",  # pep8-naming
   "UP", # pyupgrade
   "B",  # flake8-bugbear
   "A",  # flake8-builtins
+  "C4", # comprehensions
+  "TID", # tidy imports
+  "FA", # future annotations
   "PL", # pylint-style checks
+  "RUF", # ruff-specific
 ]
 
 # Ignore specific rules
@@ -96,14 +101,12 @@ ignore = [
   "PLR2004",  # magic value comparison
   "B008",  # function call in default argument
 ]
-
 # ====================================
 # Import sorting (Python helper scripts)
 # ====================================
 [tool.ruff.lint.isort]
 combine-as-imports = true
 known-first-party = ["ansible-galaxy-cookiecutter"]
-
 # ====================================
 # Formatter configuration
 # Ruff also formats YAML, TOML, and Markdown
@@ -113,13 +116,18 @@ quote-style = "double"
 indent-style = "space"
 line-ending = "lf"
 skip-magic-trailing-comma = false
-
+docstring-code-format = true
+# ====================================
+# Mypy (type checker) Configuration
+# ====================================
 [tool.mypy]
 python_version = 3.11
 warn_unused_configs = true
 disallow_untyped_defs = true
 ignore_missing_imports = true
-
+# ====================================
+# Pytest configuration
+# ====================================
 [tool.pytest.ini_options]
 minversion = "7.0"
 addopts = "--strict-markers"
