@@ -85,13 +85,24 @@ GALAXY_PATH := .
 
 ANSIBLE_GALAXY := $(ACTIVATE) && ansible-galaxy
 # --------------------------------------------------
-.PHONY: all venv install ruff-formatter ruff-lint-check ruff-lint-fix yaml-lint-check \
+# Hacks
+# --------------------------------------------------
+AUTODOC_FIX := sed -i 's|yaml.load(yaml_file)|yaml.load(yaml_file, Loader=yaml.SafeLoader)|' $(VENV_DIR)/lib/$(PYTHON)/site-packages/ansibleautodoc/Annotation.py
+
+# --------------------------------------------------
+.PHONY: all autodoc-hack venv install ruff-formatter ruff-lint-check ruff-lint-fix yaml-lint-check \
 	ansible-lint-check lint-check typecheck test sphinx autodoc jekyll readme docs-build \
 	jekyll-serve run-docs galaxy-build galaxy-install galaxy-publish clean help
 # --------------------------------------------------
 # Default: run lint, typecheck, tests, and docs
 # --------------------------------------------------
 all: install lint-check typecheck test build-docs
+# --------------------------------------------------
+# Hacks (ansible-autodoc)
+# --------------------------------------------------
+autodoc-hack:
+	$(AT)echo "🩹 Applying YAML loader hack for ansible-autodoc..."
+	$(AT)$(AUTODOC_FIX)
 # --------------------------------------------------
 # Virtual Environment Setup
 # --------------------------------------------------
@@ -107,6 +118,7 @@ install: venv
 	$(AT)$(PIP) install -e $(DEV_LINT)
 	$(AT)$(PIP) install -e $(DEV_DOCS)
 	$(AT)echo "✅ Dependencies installed."
+	$(AT)$(MAKE) autodoc-hack
 # --------------------------------------------------
 # Formating (ruff)
 # --------------------------------------------------
@@ -157,7 +169,7 @@ sphinx:
 
 autodoc:
 	$(AT)echo "🔨 Building Ansible autodoc documentation..."
-	$(AT)$(AUTODOC) $(GALAXY_PATH) --output $(AUTODOC_OUTPUT)
+	$(AT)$(AUTODOC) $(GALAXY_PATH) -o $(AUTODOC_OUTPUT)
 	$(AT)echo "✅ Ansible autodoc documentation generated at $(AUTODOC_OUTPUT)"
 
 jekyll:
