@@ -14,7 +14,7 @@ description = "{{ cookiecutter.description }}"
 authors = [
     { name="{{ cookiecutter.author }}", email="{{ cookiecutter.email }}" }
 ]
-readme = "./docs/README.md"
+readme = "./README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.11"

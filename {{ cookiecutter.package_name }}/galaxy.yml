@@ -10,7 +10,7 @@ dependencies:
 description: >
   {{ cookiecutter.description }}
 namespace: {{ cookiecutter.namespace }}
-name: {{ cookiecutter.package_name }}
+name: {{ cookiecutter.project_name }}
 version: {{ cookiecutter.version }}
 license:
   - MIT

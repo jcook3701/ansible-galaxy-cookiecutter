@@ -1,4 +1,4 @@
-# Makefile for {{ cookiecutter.namespace }}.{{ cookiecutter.project_name }}
+# Makefile for {{ cookiecutter.package_name }}
 # =========================================
 # Project: {{ cookiecutter.project_name }}
 # =========================================
