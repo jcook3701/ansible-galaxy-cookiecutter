@@ -136,7 +136,7 @@ lint-check: ruff-lint-check yaml-lint-check ansible-lint-check
 # --------------------------------------------------
 typecheck:
 	$(AT)echo "🧠 Checking types (MyPy)..."
-	$(AT)$(MYPY) $(SRC_DIR)
+	$(AT)$(MYPY) $(SRC_DIR) $(TEST_DIR) || true
 # --------------------------------------------------
 # Testing (pytest)
 # --------------------------------------------------

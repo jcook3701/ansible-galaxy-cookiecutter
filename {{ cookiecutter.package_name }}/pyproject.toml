@@ -44,6 +44,7 @@ dev = [
   "pytest>=8.0",
   "ansible-lint>=25.0",
   "yamllint>=1.0",
+  "myst-parser>=0.18"
 ]
 docs = [
   "sphinx>=8.0",
@@ -56,6 +57,9 @@ docs = [
 # Setuptools Configuration:
 # ====================================
 [tool.setuptools.packages.find]
+where = [
+  "plugins"
+]
 include = [
   "plugins",
   "playbooks",
@@ -137,6 +141,9 @@ docstring-code-format = true
 # ====================================
 [tool.mypy]
 python_version = {{ cookiecutter.config.requires_python }}
+mypy_path = "src"
+strict = true
+warn_unused_ignores = true
 warn_unused_configs = true
 disallow_untyped_defs = true
 ignore_missing_imports = true
@@ -145,5 +152,6 @@ ignore_missing_imports = true
 # ====================================
 [tool.pytest.ini_options]
 minversion = "7.0"
-addopts = "--strict-markers"
+addopts = ["-v", "--maxfail=1", "--disable-warnings", "--strict-markers"]
 testpaths = ["tests"]
+pythonpath = ["plugins"]
