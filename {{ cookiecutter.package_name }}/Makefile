@@ -34,8 +34,8 @@ SPHINX_DIR := $(DOCS_DIR)/sphinx
 JEKYLL_DIR := $(DOCS_DIR)/jekyll
 
 SPHINX_BUILD_DIR := $(SPHINX_DIR)/_build/html
-JEKYLL_OUTPUT_DIR := $(JEKYLL_DIR)/sphinx
-AUTODOC_OUTPUT := $(SPHINX_DIR)/source/ansible-docs
+SPHINX_OUTPUT_DIR := $(JEKYLL_DIR)/sphinx
+AUTODOC_OUTPUT_DIR := $(JEKYLL_DIR)/ansible-docs
 README_GEN_DIR := $(JEKYLL_DIR)/tmp_readme
 # --------------------------------------------------
 # 🐍 Python / Virtual Environment
@@ -91,7 +91,7 @@ AUTODOC_FIX := sed -i 's|yaml.load(yaml_file)|yaml.load(yaml_file, Loader=yaml.S
 
 # --------------------------------------------------
 .PHONY: all autodoc-hack venv install ruff-formatter ruff-lint-check ruff-lint-fix yaml-lint-check \
-	ansible-lint-check lint-check typecheck test sphinx autodoc jekyll readme docs-build \
+	ansible-lint-check lint-check typecheck test sphinx autodoc jekyll readme build-docs \
 	jekyll-serve run-docs galaxy-build galaxy-install galaxy-publish clean help
 # --------------------------------------------------
 # Default: run lint, typecheck, tests, and docs
@@ -162,15 +162,15 @@ test:
 # --------------------------------------------------
 sphinx:
 	$(AT)echo "🧹 Clening Sphinx build artifacts..."
-	$(AT)rm -rf $(JEKYLL_OUTPUT_DIR)
+	$(AT)rm -rf $(SPHINX_OUTPUT_DIR)
 	$(AT)echo "🔨 Building Sphinx documentation 📘 as Markdown..."
-	$(AT)$(SPHINX) $(SPHINX_DIR) $(JEKYLL_OUTPUT_DIR)
+	$(AT)$(SPHINX) $(SPHINX_DIR) $(SPHINX_OUTPUT_DIR)
 	$(AT)echo "✅ Sphinx Markdown build complete!"
 
 autodoc:
 	$(AT)echo "🔨 Building Ansible autodoc documentation..."
-	$(AT)$(AUTODOC) $(GALAXY_PATH) -o $(AUTODOC_OUTPUT)
-	$(AT)echo "✅ Ansible autodoc documentation generated at $(AUTODOC_OUTPUT)"
+	$(AT)$(AUTODOC) $(GALAXY_PATH) -o $(AUTODOC_OUTPUT_DIR)
+	$(AT)echo "✅ Ansible autodoc documentation generated at $(AUTODOC_OUTPUT_DIR)"
 
 jekyll:
 	$(AT)echo "🔨 Building Jekyll site..."
@@ -226,7 +226,7 @@ galaxy-publish:
 # Clean artifacts
 # --------------------------------------------------
 clean:
-	$(AT)rm -rf $(SPHINX_DIR)/_build $(JEKYLL_OUTPUT_DIR) $(AUTODOC_OUTPUT)
+	$(AT)rm -rf $(SPHINX_DIR)/_build $(SPHINX_OUTPUT_DIR) $(AUTODOC_OUTPUT_DIR)
 	$(AT)cd $(JEKYLL_DIR) && $(JEKYLL_CLEAN)
 	$(AT)rm -rf build dist *.egg-info
 	$(AT)find $(SRC_DIR) $(TEST_DIR) -name "__pycache__" -type d -exec rm -rf {} +
