@@ -34,6 +34,7 @@ JEKYLL_DIR := docs/jekyll
 SPHINX_BUILD_DIR := $(SPHINX_DIR)/_build/html
 JEKYLL_OUTPUT_DIR := $(JEKYLL_DIR)/sphinx
 AUTODOC_OUTPUT := $(SPHINX_DIR)/source/ansible-docs
+README_GEN_DIR := $(JEKYLL_DIR)/tmp_readme
 # --------------------------------------------------
 # 🐍 Python / Virtual Environment
 # --------------------------------------------------

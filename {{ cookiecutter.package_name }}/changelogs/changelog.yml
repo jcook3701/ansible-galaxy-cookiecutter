@@ -2,7 +2,7 @@
 # Index of all changelog files for the collection
 ---
 releases:
-  1.0.0-alpha:
+  {{ cookiecutter.version }}-alpha:
     release_date: "2025-10-15"
     codename: White Rabbit
     changes:
