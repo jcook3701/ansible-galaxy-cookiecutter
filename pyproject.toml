@@ -31,7 +31,10 @@ classifiers = [
 ]
 
 [tool.setuptools.packages.find]
-include = ["hooks", "tests"]
+include = [
+  "hooks",
+  "tests"
+]
 
 [project.urls]
 Homepage = "https://github.com/jcook3701/ansible-galaxy-cookiecutter"
@@ -59,7 +62,11 @@ docs = [
 target-version = "py311"
 
 # Directories to lint and format
-src = ["{{ cookiecutter.package_name }}", "hooks", "tests"]
+src = [
+  "{{ cookiecutter.package_name }}",
+  "hooks",
+  "tests"
+]
 
 # Exclude these paths
 exclude = [
