@@ -45,8 +45,8 @@ VENV_DIR := .venv
 # --------------------------------------------------
 # 🐍 Python Dependencies
 # --------------------------------------------------
-DEPS := .
 DEV_DEPS := .[dev]
+DEV_LINT := .[lint]
 DEV_DOCS := .[docs]
 # --------------------------------------------------
 # 🐍 Python Commands (venv, activate, pip)
@@ -104,6 +104,7 @@ install: venv
 	$(AT)echo "📦 Installing project dependencies..."
 	$(AT)$(PIP) install --upgrade pip
 	$(AT)$(PIP) install -e $(DEV_DEPS)
+	$(AT)$(PIP) install -e $(DEV_LINT)
 	$(AT)$(PIP) install -e $(DEV_DOCS)
 	$(AT)echo "✅ Dependencies installed."
 # --------------------------------------------------
