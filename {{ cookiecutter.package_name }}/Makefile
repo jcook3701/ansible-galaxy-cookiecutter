@@ -77,7 +77,7 @@ JEKYLL_BUILD := bundle exec jekyll build --quiet
 JEKYLL_CLEAN := bundle exec jekyll clean
 JEKYLL_SERVE := bundle exec jekyll serve
 # --------------------------------------------------
-# Ansible Galaxy
+# 🪐 Ansible Galaxy
 # --------------------------------------------------
 GALAXY_NAMESPACE := {{ cookiecutter.namespace }}
 GALAXY_COLLECTION := {{ cookiecutter.project_name }}
@@ -85,10 +85,9 @@ GALAXY_PATH := .
 
 ANSIBLE_GALAXY := $(ACTIVATE) && ansible-galaxy
 # --------------------------------------------------
-# Hacks
+# 🩹 Hacks
 # --------------------------------------------------
 AUTODOC_FIX := sed -i 's|yaml.load(yaml_file)|yaml.load(yaml_file, Loader=yaml.SafeLoader)|' $(VENV_DIR)/lib/$(PYTHON)/site-packages/ansibleautodoc/Annotation.py
-
 # --------------------------------------------------
 .PHONY: all autodoc-hack venv install ruff-formatter ruff-lint-check ruff-lint-fix yaml-lint-check \
 	ansible-lint-check lint-check typecheck test sphinx autodoc jekyll readme build-docs \
@@ -209,23 +208,24 @@ run-docs: jekyll-serve
 # Ansible Galaxy Commands
 # --------------------------------------------------
 galaxy-build:
-	$(AT)echo "📦 Building Ansible Galaxy collection..."
+	$(AT)echo "🔨 Building Ansible Galaxy collection... 🪐"
 	$(AT)$(ANSIBLE_GALAXY) collection build $(GALAXY_PATH)
 	$(AT)echo "✅ Build complete."
 
 galaxy-install:
-	$(AT)echo "🧰 Installing local Ansible Galaxy collection..."
+	$(AT)echo "📦 Installing local Ansible Galaxy collection... 🪐"
 	$(AT)$(ANSIBLE_GALAXY) collection install $(GALAXY_NAMESPACE)-$(GALAXY_COLLECTION)-*.tar.gz --force
 	$(AT)echo "✅ Installed."
 
 galaxy-publish:
-	$(AT)echo "🚀 Publishing collection to Ansible Galaxy..."
+	$(AT)echo "🚀 Publishing collection to Ansible Galaxy... 🪐"
 	$(AT)$(ANSIBLE_GALAXY) collection publish $(GALAXY_NAMESPACE)-$(GALAXY_COLLECTION)-*.tar.gz
 	$(AT)echo "✅ Published."
 # --------------------------------------------------
 # Clean artifacts
 # --------------------------------------------------
 clean:
+	$(AT)echo "🧹 Clening build artifacts..."
 	$(AT)rm -rf $(SPHINX_DIR)/_build $(SPHINX_OUTPUT_DIR) $(AUTODOC_OUTPUT_DIR)
 	$(AT)cd $(JEKYLL_DIR) && $(JEKYLL_CLEAN)
 	$(AT)rm -rf build dist *.egg-info

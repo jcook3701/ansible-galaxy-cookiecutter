@@ -53,9 +53,11 @@ docs = [
 # Setuptools Configuration:
 # ====================================
 [tool.setuptools.packages.find]
+where = [
+  "hooks"
+]
 include = [
-  "hooks",
-  "tests"
+  "hooks*",
 ]
 # ====================================
 # Ruff Configuration:
@@ -129,6 +131,9 @@ docstring-code-format = true
 # ====================================
 [tool.mypy]
 python_version = 3.11
+mypy_path = "hooks"
+strict = true
+warn_unused_ignores = true
 warn_unused_configs = true
 disallow_untyped_defs = true
 ignore_missing_imports = true
@@ -137,5 +142,6 @@ ignore_missing_imports = true
 # ====================================
 [tool.pytest.ini_options]
 minversion = "7.0"
-addopts = "--strict-markers"
+addopts = ["-v", "--maxfail=1", "-W always", "-rw", "--strict-markers"]
 testpaths = ["tests"]
+pythonpath = ["hooks"]

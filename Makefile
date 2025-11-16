@@ -141,7 +141,7 @@ typecheck:
 # --------------------------------------------------
 test:
 	$(AT)echo "🧪 Running tests with pytest..."
-	$(AT)$(PYTEST) -v --maxfail=1 --disable-warnings $(TESTS_DIR)
+	$(AT)$(PYTEST) $(TESTS_DIR)
 # --------------------------------------------------
 # Documentation (Sphinx + Jekyll)
 # --------------------------------------------------
