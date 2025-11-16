@@ -11,9 +11,9 @@ Discription: Post project generation Scripts.
 import json
 import os
 
-from ansible import generate_ansible_dirs
-from docs import generate_docs_templates
-from utils import make
+from hooks.ansible import generate_ansible_dirs
+from hooks.docs import generate_docs_templates
+from hooks.utils import make
 
 
 def main() -> None:
