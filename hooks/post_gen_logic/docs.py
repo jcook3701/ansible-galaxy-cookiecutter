@@ -10,11 +10,12 @@ Discription: Documentation specific post generation hooks.
 
 import shutil
 from pathlib import Path
+from typing import Any
 
 from cookiecutter.main import cookiecutter
 
 
-def generate_docs_templates(context: dict) -> None:
+def generate_docs_templates(context: dict[str, Any]) -> None:
     """Generate one or more documentation templates inside docs/"""
     project_dir = Path.cwd()
     docs_dir = project_dir / "docs"

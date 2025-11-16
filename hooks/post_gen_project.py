@@ -10,10 +10,14 @@ Discription: Post project generation Scripts.
 
 import json
 import os
+import sys
+from pathlib import Path
 
-from hooks.ansible import generate_ansible_dirs
-from hooks.docs import generate_docs_templates
-from hooks.utils import make
+# Add post_gen_logic folder to Python path
+# HOOKS_DIR = Path(__file__).parent / "post_gen_logic"
+# sys.path.insert(0, str(HOOKS_DIR))
+
+from post_gen_logic import generate_ansible_dirs, generate_docs_templates, make
 
 
 def main() -> None:

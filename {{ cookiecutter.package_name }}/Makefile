@@ -87,7 +87,8 @@ ANSIBLE_GALAXY := $(ACTIVATE) && ansible-galaxy
 # --------------------------------------------------
 # 🩹 Hacks
 # --------------------------------------------------
-AUTODOC_FIX := sed -i 's|yaml.load(yaml_file)|yaml.load(yaml_file, Loader=yaml.SafeLoader)|' $(VENV_DIR)/lib/$(PYTHON)/site-packages/ansibleautodoc/Annotation.py
+AUTODOC_FIX := sed -i 's|yaml.load(yaml_file)|yaml.load(yaml_file, Loader=yaml.SafeLoader)|' \
+	$(VENV_DIR)/lib/$(PYTHON)/site-packages/ansibleautodoc/Annotation.py
 # --------------------------------------------------
 .PHONY: all autodoc-hack venv install ruff-formatter ruff-lint-check ruff-lint-fix yaml-lint-check \
 	ansible-lint-check lint-check typecheck test sphinx autodoc jekyll readme build-docs \
