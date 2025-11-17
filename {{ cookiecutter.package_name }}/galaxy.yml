@@ -9,13 +9,13 @@ dependencies:
   community.general: ">=8.0.0"
 description: >
   {{ cookiecutter.description }}
-namespace: {{ cookiecutter.github_username }}
-name: {{ cookiecutter.package_name }}
+namespace: {{ cookiecutter.namespace }}
+name: {{ cookiecutter.project_name }}
 version: {{ cookiecutter.version }}
 license:
   - MIT
 license_file: LICENSE
-readme: ./docs/README.md
+readme: ./README.md
 tags:
   - lab
   - homelab

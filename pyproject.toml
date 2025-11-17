@@ -2,13 +2,12 @@
 # =========================================
 # Project: ansible-galaxy-cookiecutter
 # =========================================
-
 [build-system]
 requires = ["setuptools>=65.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ansible-galaxy-cookiecuter"
+name = "ansible_galaxy_cookiecutter"
 version = "0.1.0"
 description = "Ansible Galaxy cookiecutter template + integration with (github-docs-cookiecutter) Github docs template generation."
 authors = [
@@ -19,25 +18,27 @@ license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.11"
 dependencies = []
-keywords = ["ansible", "galaxy", "cookiecuter", "automation"]
+keywords = [
+  "ansible",
+  "galaxy",
+  "cookiecutter",
+  "automation",
+]
 classifiers = [
   "Programming Language :: Python :: 3",
   "Operating System :: OS Independent",
 ]
 
-[tool.setuptools.packages.find]
-include = ["hooks", "tests"]
-
 [project.urls]
-Homepage = "https://github.com/jcook3701/ansible-galaxy-cookiecuter"
-Repository = "https://github.com/jcook3701/ansible-galaxy-cookiecuter"
-Documentation = "https://github.com/jcook3701/ansible-galaxy-cookiecuter/docs/jekyll"
+Homepage = "https://github.com/jcook3701/ansible-galaxy-cookiecutter"
+Repository = "https://github.com/jcook3701/ansible-galaxy-cookiecutter"
+Documentation = "https://github.com/jcook3701/ansible-galaxy-cookiecutter/docs/jekyll"
 
 [project.optional-dependencies]
 dev = [
   "ruff>=0.14.0",
   "mypy==1.9",
-  "pytest>=8.0",
+  "pytest>=9.0",
   "pytest-cookies>=0.7",
   "yamllint>=1.0",
   "jinja2-cli>=0.8",
@@ -48,14 +49,28 @@ docs = [
   "sphinx-markdown-builder>=0.6",
   "sphinx-autodoc-typehints>=3.5",
 ]
-
+# ====================================
+# Setuptools Configuration:
+# ====================================
+[tool.setuptools.packages.find]
+where = [
+  "hooks"
+]
+include = [
+  "hooks*",
+]
+# ====================================
+# Ruff Configuration:
+# ====================================
 [tool.ruff]
 # Target Python version
 target-version = "py311"
-
 # Directories to lint and format
-src = ["{{ cookiecutter.package_name }}", "hooks", "tests"]
-
+src = [
+  "{{ cookiecutter.package_name }}",
+  "hooks",
+  "tests"
+]
 # Exclude these paths
 exclude = [
   ".venv",
@@ -67,40 +82,42 @@ exclude = [
   ".git",
   ".github",
 ]
-
 # Maximum line length
 line-length = 120
-
+# ====================================
+# Ruff Lint Configuration:
+# ====================================
 [tool.ruff.lint]
-
 # Enable linting rules
 select = [
   "W",  # PyCodeStyle warnings
   "E",  # pycodestyle errors
   "F",  # pyflakes
   "I",  # isort (import sorting)
+  "N",  # pep8-naming
   "UP", # pyupgrade
   "B",  # flake8-bugbear
   "A",  # flake8-builtins
+  "C4", # comprehensions
+  "TID", # tidy imports
+  "FA", # future annotations
   "PL", # pylint-style checks
+  "RUF", # ruff-specific
 ]
-
 # Ignore specific rules
 ignore = [
   "E501",  # line too long (handled by formatter)
   "PLR2004",  # magic value comparison
   "B008",  # function call in default argument
 ]
-
 # ====================================
-# Import sorting (Python helper scripts)
+# Import Sorting Configuration: (Python helper scripts)
 # ====================================
 [tool.ruff.lint.isort]
 combine-as-imports = true
-known-first-party = ["ansible-galaxy-cookiecuter"]
-
+known-first-party = ["ansible_galaxy_cookiecutter"]
 # ====================================
-# Formatter configuration
+# Formatter Configuration:
 # Ruff also formats YAML, TOML, and Markdown
 # ====================================
 [tool.ruff.format]
@@ -108,14 +125,23 @@ quote-style = "double"
 indent-style = "space"
 line-ending = "lf"
 skip-magic-trailing-comma = false
-
+docstring-code-format = true
+# ====================================
+# Mypy (type-checker) Configuration:
+# ====================================
 [tool.mypy]
 python_version = 3.11
+mypy_path = "hooks"
+strict = true
+warn_unused_ignores = true
 warn_unused_configs = true
 disallow_untyped_defs = true
 ignore_missing_imports = true
-
+# ====================================
+# Pytest Configuration:
+# ====================================
 [tool.pytest.ini_options]
 minversion = "7.0"
-addopts = "--strict-markers"
+addopts = ["-v", "--maxfail=1", "-W always", "-rw", "--strict-markers"]
 testpaths = ["tests"]
+pythonpath = ["hooks"]

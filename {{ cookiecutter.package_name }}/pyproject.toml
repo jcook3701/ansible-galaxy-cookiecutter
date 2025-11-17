@@ -1,8 +1,7 @@
 # pyproject.toml
 # =========================================
-# Project: {{ cookiecutter.namespace }}.{{ cookiecutter.package_name }}
+# Project: {{ cookiecutter.package_name }}
 # =========================================
-
 [build-system]
 requires = ["setuptools>=65.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
@@ -14,35 +13,39 @@ description = "{{ cookiecutter.description }}"
 authors = [
     { name="{{ cookiecutter.author }}", email="{{ cookiecutter.email }}" }
 ]
-readme = "./docs/README.md"
+readme = "./README.md"
 license = "MIT"
 license-files = ["LICENSE"]
-requires-python = ">=3.11"
-dependencies = [
-  "ansible>=12.0",
-  "ansible-core>=2.0"
+requires-python = ">={{ cookiecutter.config.requires_python }}"
+dependencies = []
+keywords = [
+  "ansible",
+  "galaxy",
+  "scripts",
+  "automation",
 ]
-keywords = ["ansible","galaxy", "scripts", "automation"]
 classifiers = [
   "Programming Language :: Python :: 3",
   "Operating System :: OS Independent",
 ]
 
-[tool.setuptools.packages.find]
-include = ["plugins", "playbooks", "roles", "tests"]
-
 [project.urls]
-Homepage = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_name }}"
-Repository = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_name }}"
-Documentation = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_name }}/docs/jekyll"
+Homepage = "https://github.com/{{ cookiecutter.package_name }}"
+Repository = "https://github.com/{{ cookiecutter.package_name }}"
+Documentation = "https://github.com/{{ cookiecutter.package_name }}/docs/jekyll"
 
 [project.optional-dependencies]
 dev = [
+  "ansible>=12.0",
+  "ansible-core>=2.0",
+  "pytest>=8.0",
+]
+lint = [
   "ruff>=0.14.0",
   "mypy==1.9",
-  "pytest>=8.0",
   "ansible-lint>=25.0",
   "yamllint>=1.0",
+
 ]
 docs = [
   "sphinx>=8.0",
@@ -50,17 +53,30 @@ docs = [
   "sphinx-markdown-builder>=0.6",
   "sphinx-autodoc-typehints>=3.5",
   "ansible-autodoc>=0.5",
+  "myst-parser>=0.18",
 ]
-
+# ====================================
+# Setuptools Configuration:
+# ====================================
+[tool.setuptools.packages.find]
+where = ["plugins"]
+include = ["plugins*"]
+# ====================================
+# Ruff Configuration:
+# ====================================
 [tool.ruff]
 # Target Python version
 target-version = "py311"
-
 # Directories to lint and format
-src = [ "meta", "plugins","playbooks", "roles", "tests"]
-
+src = [
+  "plugins",
+  "library",
+  "roles",
+  "tests",
+]
 # Exclude these paths
 exclude = [
+  "playbooks",
   ".venv",
   "build",
   "dist",
@@ -70,40 +86,43 @@ exclude = [
   ".git",
   ".github",
 ]
-
 # Maximum line length
 line-length = 120
-
+# ====================================
+# Ruff Lint Configuration:
+# ====================================
 [tool.ruff.lint]
-
 # Enable linting rules
 select = [
   "W",  # PyCodeStyle warnings
   "E",  # pycodestyle errors
   "F",  # pyflakes
   "I",  # isort (import sorting)
+  "N",  # pep8-naming
   "UP", # pyupgrade
   "B",  # flake8-bugbear
   "A",  # flake8-builtins
+  "C4", # comprehensions
+  "TID", # tidy imports
+  "T20", # print statements
+  "FA", # future annotations
   "PL", # pylint-style checks
+  "RUF", # ruff-specific
 ]
-
 # Ignore specific rules
 ignore = [
   "E501",  # line too long (handled by formatter)
   "PLR2004",  # magic value comparison
   "B008",  # function call in default argument
 ]
-
 # ====================================
-# Import sorting (Python helper scripts)
+# Import Sorting Configuration: (Python helper scripts)
 # ====================================
 [tool.ruff.lint.isort]
 combine-as-imports = true
-known-first-party = ["{{ cookiecutter.package_name }}"]
-
+known-first-party = ["plugins", "library"]
 # ====================================
-# Formatter configuration
+# Formatter Configuration:
 # Ruff also formats YAML, TOML, and Markdown
 # ====================================
 [tool.ruff.format]
@@ -111,14 +130,24 @@ quote-style = "double"
 indent-style = "space"
 line-ending = "lf"
 skip-magic-trailing-comma = false
-
+docstring-code-format = true
+# ====================================
+# Mypy (type-checker) Configuration:
+# ====================================
 [tool.mypy]
 python_version = {{ cookiecutter.config.requires_python }}
+mypy_path = "plugins:library"
+namespace_packages = true
+strict = true
+warn_unused_ignores = true
 warn_unused_configs = true
 disallow_untyped_defs = true
 ignore_missing_imports = true
-
+# ====================================
+# Pytest Configuration:
+# ====================================
 [tool.pytest.ini_options]
 minversion = "7.0"
-addopts = "--strict-markers"
+addopts = ["-v", "--maxfail=1", "--disable-warnings", "--strict-markers"]
 testpaths = ["tests"]
+pythonpath = ["plugins", "library"]

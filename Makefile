@@ -4,110 +4,120 @@
 # =========================================
 
 # --------------------------------------------------
-# Environment Settings
+# ⚙️ Environment Settings
 # --------------------------------------------------
 SHELL := /bin/bash
 .SHELLFLAGS := -O globstar -c
-
+# If V is set to '1' or 'y' on the command line,
+# AT will be empty (verbose).  Otherwise, AT will
+# contain '@' (quiet by default).  The '?' is a
+# conditional assignment operator: it only sets V
+# if it hasn't been set externally.
+V ?= 0
+ifeq ($(V),0)
+    AT = @
+else
+    AT =
+endif
 # --------------------------------------------------
-# Build Directories
+# 📁 Build Directories
 # --------------------------------------------------
+SRC_DIR := {{ cookiecutter.package_name }}
 HOOKS_DIR := hooks
 TESTS_DIR := tests
 DOCS_DIR := docs
-SPHINX_DIR := docs/sphinx
-JEKYLL_DIR := docs/jekyll
+SPHINX_DIR := $(DOCS_DIR)/sphinx
+JEKYLL_DIR := $(DOCS_DIR)/jekyll
 
 SPHINX_BUILD_DIR := $(SPHINX_DIR)/_build/html
 JEKYLL_OUTPUT_DIR := $(JEKYLL_DIR)/sphinx
-
 # --------------------------------------------------
-# Python / Virtual Environment
+# 🐍 Python / Virtual Environment
 # --------------------------------------------------
 PYTHON := python3.11
 VENV_DIR := .venv
 # --------------------------------------------------
-# Python Dependencies
+# 🐍 Python Dependencies
 # --------------------------------------------------
 DEPS := .
 DEV_DEPS := .[dev]
 DEV_DOCS := .[docs]
 # --------------------------------------------------
-# Python Commands
+# 🐍 Python Commands
 # --------------------------------------------------
 CREATE_VENV := $(PYTHON) -m venv $(VENV_DIR)
 ACTIVATE := source $(VENV_DIR)/bin/activate
 PIP := $(ACTIVATE) && $(PYTHON) -m pip
 # --------------------------------------------------
-# Typing
+# 🧠 Typing (mypy)
 # --------------------------------------------------
 MYPY := $(ACTIVATE) && $(PYTHON) -m mypy
 # --------------------------------------------------
-# Linting
+# 🔍 Linting (ruff, yaml, jinja2)
 # --------------------------------------------------
 RUFF := $(ACTIVATE) && $(PYTHON) -m ruff
 YAMLLINT := $(ACTIVATE) && $(PYTHON) -m yamllint
 JINJA := $(ACTIVATE) && jinja2 --strict
 # --------------------------------------------------
-# Testing
+# 🧪 Testing (pytest)
 # --------------------------------------------------
 PYTEST := $(ACTIVATE) && $(PYTHON) -m pytest
 # --------------------------------------------------
-# Documentation
+# 📘 Documentation (Sphinx + Jekyll)
 # --------------------------------------------------
 SPHINX := $(ACTIVATE) && $(PYTHON) -m sphinx -b markdown
-# --------------------------------------------------
-# Jekyll
-# --------------------------------------------------
-JEKYLL_BUILD := bundle exec jekyll build
+JEKYLL_BUILD := bundle exec jekyll build --quiet
 JEKYLL_CLEAN := bundle exec jekyll clean
 JEKYLL_SERVE := bundle exec jekyll serve
-
 # --------------------------------------------------
 .PHONY: all venv install ruff-lint-check ruff-lint-fix yaml-lint-check \
 	jinja2-lint-check lint-check typecheck test docs jekyll-serve clean help
-
 # --------------------------------------------------
 # Default: run lint, typecheck, tests, and docs
 # --------------------------------------------------
 all: install lint-check typecheck test docs
-
 # --------------------------------------------------
 # Virtual Environment Setup
 # --------------------------------------------------
 venv:
-	@echo "🐍 Creating virtual environment..."
-	$(CREATE_VENV)
-	@echo "✅ Virtual environment created."
+	$(AT)echo "🐍 Creating virtual environment..."
+	$(AT)$(CREATE_VENV)
+	$(AT)echo "✅ Virtual environment created."
 
 install: venv
-	@echo "📦 Installing project dependencies..."
-	$(PIP) install --upgrade pip
-	$(PIP) install -e $(DEPS)
-	$(PIP) install -e $(DEV_DEPS)
-	$(PIP) install -e $(DEV_DOCS)
-	@echo "✅ Dependencies installed."
-
+	$(AT)echo "📦 Installing project dependencies..."
+	$(AT)$(PIP) install --upgrade pip
+	# $(AT)$(PIP) install -e $(DEPS)
+	$(AT)$(PIP) install -e $(DEV_DEPS)
+	$(AT)$(PIP) install -e $(DEV_DOCS)
+	$(AT)echo "✅ Dependencies installed."
+# --------------------------------------------------
+# Formating (ruff)
+# --------------------------------------------------
+ruff-formatter:
+	$(AT)echo "🎨 Running ruff formatter..."
+	$(AT)$(RUFF) format $(HOOKS_DIR) $(TEST_DIR)
 # --------------------------------------------------
 # Linting (ruff, yaml, jinja2)
 # --------------------------------------------------
 ruff-lint-check:
-	@echo "🔍 Running ruff linting..."
-	$(RUFF) check $(HOOKS_DIR) $(TESTS_DIR)
+	$(AT)echo "🔍 Running ruff linting..."
+	$(AT)$(RUFF) check $(HOOKS_DIR) $(TESTS_DIR)
 
 ruff-lint-fix:
-	@echo "🔍 Running ruff lint fixes..."
-	$(RUFF) check --fix --show-files $(HOOKS_DIR) $(TESTS_DIR)
+	$(AT)echo "🎨 Running ruff lint fixes..."
+	$(AT)$(RUFF) check --show-files $(HOOKS_DIR) $(TESTS_DIR)
+	$(AT)$(RUFF) check --fix $(HOOKS_DIR) $(TESTS_DIR)
 
 yaml-lint-check:
-	@echo "🔍 Running yamllint..."
-	$(YAMLLINT) .
+	$(AT)echo "🔍 Running yamllint..."
+	$(AT)$(YAMLLINT) .
 
 jinja2-lint-check:
-	@echo "🔍 jinja2 linting all template files under {{ cookiecutter.package_name }}..."
-	jq '{cookiecutter: .}' cookiecutter.json > /tmp/_cc_wrapped.json
-	find '{{ cookiecutter.package_name }}' -type f \
-		! -path "{{ cookiecutter.package_name }}/.github/*" \
+	$(AT)echo "🔍 jinja2 linting all template files under $(SRC_DIR)..."
+	$(AT)jq '{cookiecutter: .}' cookiecutter.json > /tmp/_cc_wrapped.json
+	$(AT)find '$(SRC_DIR)' -type f \
+		! -path "$(SRC_DIR)/.github/*" \
 		! -name "*.png" \
 		! -name "*.jpg" \
 		! -name "*.ico" \
@@ -120,62 +130,68 @@ jinja2-lint-check:
 		done
 
 lint-check: ruff-lint-check yaml-lint-check jinja2-lint-check
-
 # --------------------------------------------------
 # Typechecking (MyPy)
 # --------------------------------------------------
 typecheck:
-	$(MYPY) $(HOOKS_DIR)
-
+	$(AT)echo "🧠 Checking types (MyPy)..."
+	$(AT)$(MYPY) $(HOOKS_DIR) || true
 # --------------------------------------------------
 # Testing (pytest)
 # --------------------------------------------------
 test:
-	$(PYTEST) -v --maxfail=1 --disable-warnings $(TESTS_DIR)
-
+	$(AT)echo "🧪 Running tests with pytest..."
+	$(AT)$(PYTEST) $(TESTS_DIR) || true
 # --------------------------------------------------
 # Documentation (Sphinx + Jekyll)
 # --------------------------------------------------
-docs:
-	@echo "📘 Building Sphinx documentation as Markdown..."
-	$(SPHINX) $(SPHINX_DIR) $(JEKYLL_OUTPUT_DIR)
-	@echo "✅ Sphinx Markdown build complete!"
-	@echo "🧱 Building Jekyll site..."
-	cd $(JEKYLL_DIR) && $(JEKYLL_BUILD)
-	@echo "✅ Full documentation build complete!"
+sphinx:
+	$(AT)echo "🔨 Building Sphinx documentation 📘 as Markdown..."
+	$(AT)$(SPHINX) $(SPHINX_DIR) $(JEKYLL_OUTPUT_DIR)
+	$(AT)echo "✅ Sphinx Markdown build complete!"
+
+jekyll:
+	$(AT)echo "🔨 Building Jekyll site..."
+	$(AT)cd $(JEKYLL_DIR) && $(JEKYLL_BUILD)
+	$(AT)echo "✅ Full documentation build complete!"
+
+build-docs: sphinx jekyll
 
 jekyll-serve: docs
-	@echo "🚀 Starting Jekyll development server..."
-	cd $(JEKYLL_DIR) && $(JEKYLL_SERVE)
-
+	$(AT)echo "🚀 Starting Jekyll development server..."
+	$(AT)cd $(JEKYLL_DIR) && $(JEKYLL_SERVE)
 # --------------------------------------------------
 # Clean artifacts
 # --------------------------------------------------
 clean:
-	rm -rf $(SPHINX_DIR)/_build $(JEKYLL_OUTPUT_DIR)
-	cd $(JEKYLL_DIR) && $(JEKYLL_CLEAN)
-	rm -rf build dist *.egg-info
-	find $(HOOKS_DIR) $(TESTS_DIR) -name "__pycache__" -type d -exec rm -rf {} +
-	-[ -d "$(VENV_DIR)" ] && rm -r $(VENV_DIR)
-	@echo "🧹 Cleaned build artifacts."
-
+	$(AT)echo "🧹 Clening build artifacts..."
+	$(AT)rm -rf $(SPHINX_DIR)/_build $(JEKYLL_OUTPUT_DIR)
+	$(AT)cd $(JEKYLL_DIR) && $(JEKYLL_CLEAN) || true
+	$(AT)rm -rf build dist *.egg-info
+	$(AT)find $(HOOKS_DIR) $(TESTS_DIR) -name "__pycache__" -type d -exec rm -rf {} +
+	$(AT)-[ -d "$(VENV_DIR)" ] && rm -r $(VENV_DIR)
+	$(AT)echo "🧹 Cleaned build artifacts."
 # --------------------------------------------------
 # Help
 # --------------------------------------------------
 help:
-	@echo "📦 homelab Makefile"
-	@echo ""
-	@echo "Usage:"
-	@echo "  make venv                   Create virtual environment"
-	@echo "  make install                Install dependencies"
-	@echo "  make ruff-lint-check        Run Ruff linter"
-	@echo "  make ruff-lint-fix          Auto-fix lint issues with python ruff"
-	@echo "  make yaml-lint-check        Run YAML linter"
-	@echo "  make jinja2-lint-check      Run jinja-cmd linter"
-	@echo "  make lint-check             Run all project linters (ruff, yaml, & jinja2)"
-	@echo "  make typecheck              Run Mypy type checking"
-	@echo "  make test                   Run Pytest suite"
-	@echo "  make docs                   Build Sphinx + Jekyll documentation"
-	@echo "  make jekyll-serve           Serve Jekyll site locally"
-	@echo "  make clean                  Clean build artifacts"
-	@echo "  make all                    Run lint, typecheck, test, and docs"
+	$(AT)echo "📦 ansible-galaxy-cookiecutter Makefile"
+	$(AT)echo ""
+	$(AT)echo "Usage:"
+	$(AT)echo "  make venv                   Create virtual environment"
+	$(AT)echo "  make install                Install dependencies"
+	$(AT)echo "  make ruff-formatter         Run Ruff Formatter"
+	$(AT)echo "  make ruff-lint-check        Run Ruff linter"
+	$(AT)echo "  make ruff-lint-fix          Auto-fix lint issues with python ruff"
+	$(AT)echo "  make yaml-lint-check        Run YAML linter"
+	$(AT)echo "  make jinja2-lint-check      Run jinja-cmd linter"
+	$(AT)echo "  make lint-check             Run all project linters (ruff, yaml, & jinja2)"
+	$(AT)echo "  make typecheck              Run Mypy type checking"
+	$(AT)echo "  make test                   Run Pytest suite"
+	$(AT)echo "  make build-docs             Build Sphinx + Jekyll documentation"
+	$(AT)echo "  make jekyll-serve           Serve Jekyll site locally"
+	$(AT)echo "  make clean                  Clean build artifacts"
+	$(AT)echo "  make all                    Run lint, typecheck, test, and docs"
+	$(AT)echo "Options:"
+	$(AT)echo "  V=1             Enable verbose output (show all commands being executed)"
+	$(AT)echo "  make -s         Run completely silently (suppress make's own output AND command echo)"

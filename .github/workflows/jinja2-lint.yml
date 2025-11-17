@@ -1,14 +1,15 @@
+# jinja2 lint
 ---
-name: Template Jinja2 Lint
+name: Cookiecutter template Jinja2 lint
 
 on:
   push:
-    branches: [master, develop]
+    branches: [main, develop]
   pull_request:
-    branches: [master, develop]
+    branches: [main, develop]
 
 jobs:
-  lint:
+  jinja2-lint:
     runs-on: ubuntu-latest
 
     steps:
