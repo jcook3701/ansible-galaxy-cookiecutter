@@ -93,7 +93,7 @@ YAML_FRONT_MATTER := $(PYTHON) -m build_utils.yaml_front_matter
 # 🩹 Hacks
 # --------------------------------------------------
 AUTODOC_FIX := sed -i 's|yaml.load(yaml_file)|yaml.load(yaml_file, Loader=yaml.SafeLoader)|' \
-	$(VENV_DIR)/lib/$(PYTHON)/site-packages/ansibleautodoc/Annotation.py
+	$(VENV_DIR)/lib/$(PYTHON_CMD)/site-packages/ansibleautodoc/Annotation.py
 # --------------------------------------------------
 .PHONY: all autodoc-hack venv install ruff-formatter ruff-lint-check ruff-lint-fix yaml-lint-check \
 	ansible-lint-check lint-check typecheck test sphinx autodocs-front-matter autodoc jekyll readme \
@@ -123,7 +123,7 @@ install: venv
 	$(AT)$(PIP) install -e $(DEV_LINT)
 	$(AT)$(PIP) install -e $(DEV_DOCS)
 	$(AT)echo "✅ Dependencies installed."
-	# $(AT)$(MAKE) autodoc-hack
+	$(AT)$(MAKE) autodoc-hack
 # --------------------------------------------------
 # Formating (ruff)
 # --------------------------------------------------

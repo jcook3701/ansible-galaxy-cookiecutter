@@ -7,6 +7,8 @@ See the LICENSE file for more details.
 Author: Jared Cook
 """
 
+import sys
+
 from pathlib import Path
 from typing import Optional
 
