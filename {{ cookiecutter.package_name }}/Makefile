@@ -123,7 +123,7 @@ install: venv
 	$(AT)$(PIP) install -e $(DEV_LINT)
 	$(AT)$(PIP) install -e $(DEV_DOCS)
 	$(AT)echo "✅ Dependencies installed."
-	$(AT)$(MAKE) autodoc-hack
+	# $(AT)$(MAKE) autodoc-hack
 # --------------------------------------------------
 # Formating (ruff)
 # --------------------------------------------------
