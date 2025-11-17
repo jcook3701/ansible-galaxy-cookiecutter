@@ -13,11 +13,14 @@ import os
 import sys
 from pathlib import Path
 
-# Add post_gen_logic folder to Python path
-# HOOKS_DIR = Path(__file__).parent / "post_gen_logic"
-# sys.path.insert(0, str(HOOKS_DIR))
+# Add the generated package to sys.path so Python can find it
+PROJECT_DIR = Path.cwd()
+HOOKS_DIR = PROJECT_DIR / "_shared_hooks" / "post_gen_logic"
+sys.path.insert(0, str(HOOKS_DIR))
 
-from post_gen_logic import generate_ansible_dirs, generate_docs_templates, make
+from ansible import generate_ansible_dirs  # noqa: E402
+from docs import generate_docs_templates  # noqa: E402
+from utils import clean, make  # noqa: E402
 
 
 def main() -> None:
@@ -41,6 +44,8 @@ def main() -> None:
 
     for cmd in make_cmds:
         make(cmd)
+
+    clean()
 
 
 if __name__ == "__main__":
