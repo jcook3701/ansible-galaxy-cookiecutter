@@ -8,12 +8,10 @@ Author: Jared Cook
 """
 
 import sys
-
 from pathlib import Path
-from typing import Optional
 
 
-def add_yaml_front_matter(file_path: Path, title: Optional[str] = None) -> None:
+def add_yaml_front_matter(file_path: Path, title: str | None = None) -> None:
     """Prepend YAML front matter to a Markdown file."""
     if not file_path.is_file():
         raise FileNotFoundError(f"{file_path} does not exist")

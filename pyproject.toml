@@ -67,9 +67,10 @@ include = [
 target-version = "py311"
 # Directories to lint and format
 src = [
-  "{{ cookiecutter.package_name }}",
+  "{{ cookiecutter.package_name }}/build_utils",
+  "{{ cookiecutter.package_name }}/_shared_hooks",
   "hooks",
-  "tests"
+  "tests",
 ]
 # Exclude these paths
 exclude = [
@@ -81,6 +82,7 @@ exclude = [
   "*.egg-info",
   ".git",
   ".github",
+  "{{ cookiecutter.package_name }}/pyproject.toml",
 ]
 # Maximum line length
 line-length = 120
@@ -109,6 +111,7 @@ ignore = [
   "E501",  # line too long (handled by formatter)
   "PLR2004",  # magic value comparison
   "B008",  # function call in default argument
+  "RUF200", # invalid pyproject.toml file that does not conform to the relevant specifications (PEPs)
 ]
 # ====================================
 # Import Sorting Configuration: (Python helper scripts)
@@ -131,7 +134,10 @@ docstring-code-format = true
 # ====================================
 [tool.mypy]
 python_version = 3.11
-mypy_path = "hooks"
+mypy_path = [
+  "hooks",
+  "tests",
+]
 strict = true
 warn_unused_ignores = true
 warn_unused_configs = true

@@ -135,7 +135,7 @@ docstring-code-format = true
 # Mypy (type-checker) Configuration:
 # ====================================
 [tool.mypy]
-python_version = {{ cookiecutter.config.requires_python }}
+python_version = "{{ cookiecutter.config.requires_python }}"
 mypy_path = "plugins:library"
 namespace_packages = true
 strict = true

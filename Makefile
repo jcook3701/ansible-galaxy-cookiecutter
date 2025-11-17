@@ -22,8 +22,11 @@ endif
 # --------------------------------------------------
 # 📁 Build Directories
 # --------------------------------------------------
-SRC_DIR := {{ cookiecutter.package_name }}
+COOKIE_DIR := {{ cookiecutter.package_name }}
 HOOKS_DIR := hooks
+SHARED_HOOKS_DIR := $(COOKIE_DIR)/_shared_hooks
+BUILD_UTILS_DIR := $(COOKIE_DIR)/build_utils
+SRC_DIR := $(HOOKS_DIR) '$(SHARED_HOOKS_DIR)' '$(BUILD_UTILS_DIR)'
 TESTS_DIR := tests
 DOCS_DIR := docs
 SPHINX_DIR := $(DOCS_DIR)/sphinx
@@ -71,7 +74,7 @@ JEKYLL_BUILD := bundle exec jekyll build --quiet
 JEKYLL_CLEAN := bundle exec jekyll clean
 JEKYLL_SERVE := bundle exec jekyll serve
 # --------------------------------------------------
-.PHONY: all venv install ruff-lint-check ruff-lint-fix yaml-lint-check \
+.PHONY: all venv install list-folders ruff-lint-check ruff-lint-fix yaml-lint-check \
 	jinja2-lint-check lint-check typecheck test docs jekyll-serve clean help
 # --------------------------------------------------
 # Default: run lint, typecheck, tests, and docs
@@ -95,30 +98,40 @@ install: venv
 # --------------------------------------------------
 # Formating (ruff)
 # --------------------------------------------------
+list-folders:
+	$(AT)printf "\
+	     Hooks: $(HOOKS_DIR)\n\
+	     Shared Hooks: '$(SHARED_HOOKS_DIR)'\n\
+	     Build Utilities: '$(BUILD_UTILS_DIR)'\n\
+	     Test: $(TESTS_DIR)\n"
+
 ruff-formatter:
 	$(AT)echo "🎨 Running ruff formatter..."
-	$(AT)$(RUFF) format $(HOOKS_DIR) $(TEST_DIR)
+	$(AT)$(MAKE) list-folders
+	$(AT)$(RUFF) format $(SRC_DIR) $(TESTS_DIR)
 # --------------------------------------------------
 # Linting (ruff, yaml, jinja2)
 # --------------------------------------------------
 ruff-lint-check:
 	$(AT)echo "🔍 Running ruff linting..."
-	$(AT)$(RUFF) check $(HOOKS_DIR) $(TESTS_DIR)
+	$(AT)$(RUFF) check --config pyproject.toml $(SRC_DIR) $(TESTS_DIR) \
+		--force-exclude '$(COOKIE_DIR)/pyproject.toml'
 
 ruff-lint-fix:
 	$(AT)echo "🎨 Running ruff lint fixes..."
-	$(AT)$(RUFF) check --show-files $(HOOKS_DIR) $(TESTS_DIR)
-	$(AT)$(RUFF) check --fix $(HOOKS_DIR) $(TESTS_DIR)
+	$(AT)$(RUFF) check --config pyproject.toml --show-files $(SRC_DIR) $(TESTS_DIR)
+	$(AT)$(RUFF) check --config pyproject.toml --fix $(SRC_DIR) $(TESTS_DIR) \
+		--force-exclude '$(COOKIE_DIR)/pyproject.toml'
 
 yaml-lint-check:
 	$(AT)echo "🔍 Running yamllint..."
 	$(AT)$(YAMLLINT) .
 
 jinja2-lint-check:
-	$(AT)echo "🔍 jinja2 linting all template files under $(SRC_DIR)..."
+	$(AT)echo "🔍 jinja2 linting all template files under $(COOKIE_DIR)..."
 	$(AT)jq '{cookiecutter: .}' cookiecutter.json > /tmp/_cc_wrapped.json
-	$(AT)find '$(SRC_DIR)' -type f \
-		! -path "$(SRC_DIR)/.github/*" \
+	$(AT)find '$(COOKIE_DIR)' -type f \
+		! -path "$(COOKIE_DIR)/.github/*" \
 		! -name "*.png" \
 		! -name "*.jpg" \
 		! -name "*.ico" \
@@ -136,7 +149,8 @@ lint-check: ruff-lint-check yaml-lint-check jinja2-lint-check
 # --------------------------------------------------
 typecheck:
 	$(AT)echo "🧠 Checking types (MyPy)..."
-	$(AT)$(MYPY) $(HOOKS_DIR) || true
+	$(AT)$(MAKE) list-folders
+	$(AT)$(MYPY) $(SRC_DIR) $(TESTS_DIR) || true
 # --------------------------------------------------
 # Testing (pytest)
 # --------------------------------------------------

@@ -10,5 +10,4 @@ Description: Initialization of Build Utilities
 
 from .yaml_front_matter import add_yaml_front_matter
 
-
 __all__ = ["add_yaml_front_matter"]
