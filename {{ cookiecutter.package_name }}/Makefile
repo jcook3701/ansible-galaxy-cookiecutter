@@ -40,7 +40,7 @@ README_GEN_DIR := $(JEKYLL_DIR)/tmp_readme
 # --------------------------------------------------
 # 🐍 Python / Virtual Environment
 # --------------------------------------------------
-PYTHON := python3.11
+PYTHON_CMD := python3.11
 VENV_DIR := .venv
 # --------------------------------------------------
 # 🐍 Python Dependencies
@@ -51,27 +51,28 @@ DEV_DOCS := .[docs]
 # --------------------------------------------------
 # 🐍 Python Commands (venv, activate, pip)
 # --------------------------------------------------
-CREATE_VENV := $(PYTHON) -m venv $(VENV_DIR)
+CREATE_VENV := $(PYTHON_CMD) -m venv $(VENV_DIR)
 ACTIVATE := source $(VENV_DIR)/bin/activate
-PIP := $(ACTIVATE) && $(PYTHON) -m pip
+PYTHON := $(ACTIVATE) && $(PYTHON_CMD)
+PIP := $(PYTHON) -m pip
 # --------------------------------------------------
 # 🧠 Typing (mypy)
 # --------------------------------------------------
-MYPY := $(ACTIVATE) && $(PYTHON) -m mypy
+MYPY := $(PYTHON) -m mypy
 # --------------------------------------------------
 # 🔍 Linting (ruff, yaml)
 # --------------------------------------------------
 ANSIBLE_LINT := $(ACTIVATE) && ansible-lint
-RUFF := $(ACTIVATE) && $(PYTHON) -m ruff
-YAMLLINT := $(ACTIVATE) && $(PYTHON) -m yamllint
+RUFF := $(PYTHON) -m ruff
+YAMLLINT := $(PYTHON) -m yamllint
 # --------------------------------------------------
 # 🧪 Testing (pytest)
 # --------------------------------------------------
-PYTEST := $(ACTIVATE) && $(PYTHON) -m pytest
+PYTEST := $(PYTHON) -m pytest
 # --------------------------------------------------
 # 📘 Documentation (Sphinx + Autodoc + Jekyll)
 # --------------------------------------------------
-SPHINX := $(ACTIVATE) && $(PYTHON) -m sphinx -b markdown
+SPHINX := $(PYTHON) -m sphinx -b markdown
 AUTODOC := $(ACTIVATE) && ansible-autodoc
 JEKYLL_BUILD := bundle exec jekyll build --quiet
 JEKYLL_CLEAN := bundle exec jekyll clean
@@ -85,14 +86,18 @@ GALAXY_PATH := .
 
 ANSIBLE_GALAXY := $(ACTIVATE) && ansible-galaxy
 # --------------------------------------------------
+# 🐍 Build Utils
+# --------------------------------------------------
+YAML_FRONT_MATTER := $(PYTHON) -m build_utils.yaml_front_matter
+# --------------------------------------------------
 # 🩹 Hacks
 # --------------------------------------------------
 AUTODOC_FIX := sed -i 's|yaml.load(yaml_file)|yaml.load(yaml_file, Loader=yaml.SafeLoader)|' \
 	$(VENV_DIR)/lib/$(PYTHON)/site-packages/ansibleautodoc/Annotation.py
 # --------------------------------------------------
 .PHONY: all autodoc-hack venv install ruff-formatter ruff-lint-check ruff-lint-fix yaml-lint-check \
-	ansible-lint-check lint-check typecheck test sphinx autodoc jekyll readme build-docs \
-	jekyll-serve run-docs galaxy-build galaxy-install galaxy-publish clean help
+	ansible-lint-check lint-check typecheck test sphinx autodocs-front-matter autodoc jekyll readme \
+	build-docs jekyll-serve run-docs galaxy-build galaxy-install galaxy-publish clean help
 # --------------------------------------------------
 # Default: run lint, typecheck, tests, and docs
 # --------------------------------------------------
@@ -167,10 +172,15 @@ sphinx:
 	$(AT)$(SPHINX) $(SPHINX_DIR) $(SPHINX_OUTPUT_DIR)
 	$(AT)echo "✅ Sphinx Markdown build complete!"
 
+autodocs-front-matter:
+	$(AT)echo "📝 Adding YAML front matter to generated files in $(AUTODOC_OUTPUT_DIR)..."
+	$(AT)$(YAML_FRONT_MATTER) $(AUTODOC_OUTPUT_DIR)
+
 autodoc:
 	$(AT)echo "🔨 Building Ansible autodoc documentation..."
 	$(AT)$(AUTODOC) $(GALAXY_PATH) -o $(AUTODOC_OUTPUT_DIR)
 	$(AT)echo "✅ Ansible autodoc documentation generated at $(AUTODOC_OUTPUT_DIR)"
+	$(AT)$(MAKE) autodocs-front-matter
 
 jekyll:
 	$(AT)echo "🔨 Building Jekyll site..."

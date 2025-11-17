@@ -34,7 +34,7 @@ JEKYLL_OUTPUT_DIR := $(JEKYLL_DIR)/sphinx
 # --------------------------------------------------
 # 🐍 Python / Virtual Environment
 # --------------------------------------------------
-PYTHON := python3.11
+PYTHON_CMD := python3.11
 VENV_DIR := .venv
 # --------------------------------------------------
 # 🐍 Python Dependencies
@@ -45,27 +45,28 @@ DEV_DOCS := .[docs]
 # --------------------------------------------------
 # 🐍 Python Commands
 # --------------------------------------------------
-CREATE_VENV := $(PYTHON) -m venv $(VENV_DIR)
+CREATE_VENV := $(PYTHON_CMD) -m venv $(VENV_DIR)
 ACTIVATE := source $(VENV_DIR)/bin/activate
-PIP := $(ACTIVATE) && $(PYTHON) -m pip
+PYTHON := $(ACTIVATE) && $(PYTHON_CMD)
+PIP := $(PYTHON) -m pip
 # --------------------------------------------------
 # 🧠 Typing (mypy)
 # --------------------------------------------------
-MYPY := $(ACTIVATE) && $(PYTHON) -m mypy
+MYPY := $(PYTHON) -m mypy
 # --------------------------------------------------
 # 🔍 Linting (ruff, yaml, jinja2)
 # --------------------------------------------------
-RUFF := $(ACTIVATE) && $(PYTHON) -m ruff
-YAMLLINT := $(ACTIVATE) && $(PYTHON) -m yamllint
+RUFF := $(PYTHON) -m ruff
+YAMLLINT := $(PYTHON) -m yamllint
 JINJA := $(ACTIVATE) && jinja2 --strict
 # --------------------------------------------------
 # 🧪 Testing (pytest)
 # --------------------------------------------------
-PYTEST := $(ACTIVATE) && $(PYTHON) -m pytest
+PYTEST := $(PYTHON) -m pytest
 # --------------------------------------------------
 # 📘 Documentation (Sphinx + Jekyll)
 # --------------------------------------------------
-SPHINX := $(ACTIVATE) && $(PYTHON) -m sphinx -b markdown
+SPHINX := $(PYTHON) -m sphinx -b markdown
 JEKYLL_BUILD := bundle exec jekyll build --quiet
 JEKYLL_CLEAN := bundle exec jekyll clean
 JEKYLL_SERVE := bundle exec jekyll serve

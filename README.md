@@ -12,8 +12,11 @@ __Note:__ Unless you are using a newer version of cookiecutter >= 2, ```--no-inp
 ``` shell
 $ cookiecutter git@github.com:jcook3701/ansible-galaxy-cookiecutter.git \
 	--no-input \
-	project_name="test-project"  
+	namespace="jcook3701", \
+	project_name="test-project" \
+	description="Ansible test project."  
 ```
+
 
 ## Development
 
@@ -23,7 +26,9 @@ $ cookiecutter git@github.com:jcook3701/ansible-galaxy-cookiecutter.git \
 $ cookiecutter git@github.com:jcook3701/ansible-galaxy-cookiecutter.git \
 	 --checkout develop \
 	  --no-input \
-	  project_name="test-project"  
+	namespace="jcook3701", \
+	project_name="test-project" \
+	description="Ansible test project."  
 ```
 replace ```test-project``` or any of the other variables with real context configuration variables:  
 
@@ -31,7 +36,5 @@ replace ```test-project``` or any of the other variables with real context confi
 1. This code currently works with cookiecutter 1.7 from Ubuntu's apt repositories.  
 
 ### TODO's
-1. Add Makefile (python) for tests, linting  
-2. Update workflows to use Makefile from above.  
-3. Add pyproject.toml to project and use updated version of cookiecutter to get latest features.  
-4. Update other cookiecutter projects with above features.  
+1. Update pyproject.toml to use latest version of cookiecutter to get latest features.  
+2. Update autodoc init within 
