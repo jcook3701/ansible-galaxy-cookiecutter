@@ -20,7 +20,7 @@ def clean() -> None:
     _shared_hooks = Path.cwd() / "_shared_hooks"
     print(f"hooks directory: {_shared_hooks}")
     if _shared_hooks.exists() and _shared_hooks.is_dir():
-        # shutil.rmtree(hooks_dir)
+        shutil.rmtree(_shared_hooks)
         print(f"Removed {_shared_hooks} directory.")
     else:
         print("_shared_hooks directory does not exist, nothing to remove.")
