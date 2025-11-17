@@ -180,7 +180,7 @@ autodoc:
 	$(AT)echo "🔨 Building Ansible autodoc documentation..."
 	$(AT)$(AUTODOC) $(GALAXY_PATH) -o $(AUTODOC_OUTPUT_DIR)
 	$(AT)echo "✅ Ansible autodoc documentation generated at $(AUTODOC_OUTPUT_DIR)"
-	$(AT)$(MAKE) autodocs-front-matter
+	# $(AT)$(MAKE) autodocs-front-matter
 
 jekyll:
 	$(AT)echo "🔨 Building Jekyll site..."
