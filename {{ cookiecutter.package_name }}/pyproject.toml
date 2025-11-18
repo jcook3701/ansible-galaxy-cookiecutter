@@ -64,7 +64,7 @@ where = [
   "plugins",
 ]
 include = [
-  "build_utils",
+  "build_utils*",
   "plugins*",
 ]
 # ====================================
