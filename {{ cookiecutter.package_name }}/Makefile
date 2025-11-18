@@ -108,6 +108,7 @@ all: install lint-check typecheck test build-docs
 autodoc-hack:
 	$(AT)echo "🩹 Applying YAML loader hack for ansible-autodoc..."
 	$(AT)$(AUTODOC_FIX)
+	$(AT)echo "✅ YAML loader hack for ansible-autodoc complete!"
 # --------------------------------------------------
 # Virtual Environment Setup
 # --------------------------------------------------
@@ -156,12 +157,14 @@ lint-check: ruff-lint-check yaml-lint-check ansible-lint-check
 typecheck:
 	$(AT)echo "🧠 Checking types (MyPy)..."
 	$(AT)$(MYPY) $(SRC_DIR) $(TEST_DIR) || true
+	$(AT)echo "✅ Python typecheck complete!"
 # --------------------------------------------------
 # Testing (pytest)
 # --------------------------------------------------
 test:
 	$(AT)echo "🧪 Running tests with pytest..."
-	$(AT)$(PYTEST) -v --maxfail=1 --disable-warnings $(TEST_DIR) || true
+	$(AT)$(PYTEST) $(TEST_DIR) || true
+	$(AT)echo "✅ Python tests complete!"
 # --------------------------------------------------
 # Documentation (Sphinx + Ansible Autodoc + Jekyll)
 # --------------------------------------------------
@@ -175,6 +178,7 @@ sphinx:
 autodocs-front-matter:
 	$(AT)echo "📝 Adding YAML front matter to generated files in $(AUTODOC_OUTPUT_DIR)..."
 	$(AT)$(YAML_FRONT_MATTER) $(AUTODOC_OUTPUT_DIR)
+	$(AT)echo "✅ Adding YAML front matter to Ansible autodoc files complete!"
 
 autodoc:
 	$(AT)echo "🔨 Building Ansible autodoc documentation..."

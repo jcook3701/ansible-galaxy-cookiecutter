@@ -59,8 +59,14 @@ docs = [
 # Setuptools Configuration:
 # ====================================
 [tool.setuptools.packages.find]
-where = ["plugins"]
-include = ["plugins*"]
+where = [
+  "build_utils",
+  "plugins",
+]
+include = [
+  "build_utils",
+  "plugins*",
+]
 # ====================================
 # Ruff Configuration:
 # ====================================
@@ -69,6 +75,7 @@ include = ["plugins*"]
 target-version = "py311"
 # Directories to lint and format
 src = [
+  "build_utils",
   "plugins",
   "library",
   "roles",
@@ -120,7 +127,11 @@ ignore = [
 # ====================================
 [tool.ruff.lint.isort]
 combine-as-imports = true
-known-first-party = ["plugins", "library"]
+known-first-party = [
+  "build_utils",
+  "plugins",
+  "library",
+]
 # ====================================
 # Formatter Configuration:
 # Ruff also formats YAML, TOML, and Markdown
@@ -136,7 +147,11 @@ docstring-code-format = true
 # ====================================
 [tool.mypy]
 python_version = "{{ cookiecutter.config.requires_python }}"
-mypy_path = "plugins:library"
+mypy_path = [
+  "build_utils",
+  "plugins",
+  "library",
+]
 namespace_packages = true
 strict = true
 warn_unused_ignores = true
@@ -148,6 +163,6 @@ ignore_missing_imports = true
 # ====================================
 [tool.pytest.ini_options]
 minversion = "7.0"
-addopts = ["-v", "--maxfail=1", "--disable-warnings", "--strict-markers"]
+addopts = ["-v", "--maxfail=1", "-W always", "-rw", "--strict-markers"]
 testpaths = ["tests"]
-pythonpath = ["plugins", "library"]
+pythonpath = ["build_utils", "plugins", "library"]
