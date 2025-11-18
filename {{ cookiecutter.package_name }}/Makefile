@@ -96,13 +96,23 @@ YAML_FRONT_MATTER := $(PYTHON) -m build_utils.yaml_front_matter
 AUTODOC_FIX := sed -i 's|yaml.load(yaml_file)|yaml.load(yaml_file, Loader=yaml.SafeLoader)|' \
 	$(VENV_DIR)/lib/$(PYTHON_CMD)/site-packages/ansibleautodoc/Annotation.py
 # --------------------------------------------------
-.PHONY: all autodoc-hack venv install ruff-formatter ruff-lint-check ruff-lint-fix yaml-lint-check \
+.PHONY: all list-folders autodoc-hack venv install ruff-formatter ruff-lint-check ruff-lint-fix yaml-lint-check \
 	ansible-lint-check lint-check typecheck test sphinx autodocs-front-matter autodoc jekyll readme \
 	build-docs jekyll-serve run-docs galaxy-build galaxy-install galaxy-publish clean help
 # --------------------------------------------------
 # Default: run lint, typecheck, tests, and docs
 # --------------------------------------------------
 all: install lint-check typecheck test build-docs
+# --------------------------------------------------
+# Utilities
+# --------------------------------------------------
+list-folders:
+	$(AT)printf "\
+	     Python Source Paths:\n\
+	     Build Utilities: $(BUILD_UTILS)\n\
+	     Plugins: $(PLUGINS_DIR)\n\
+	     Librarys: $(LIBRARY_DIR)\n\
+	     Test: $(TESTS_DIR)\n"
 # --------------------------------------------------
 # Hacks (ansible-autodoc)
 # --------------------------------------------------
@@ -157,6 +167,7 @@ lint-check: ruff-lint-check yaml-lint-check ansible-lint-check
 # --------------------------------------------------
 typecheck:
 	$(AT)echo "🧠 Checking types (MyPy)..."
+	$(AT)$(MAKE) list-folders
 	$(AT)$(MYPY) $(SRC_DIR) $(TEST_DIR) || true
 	$(AT)echo "✅ Python typecheck complete!"
 # --------------------------------------------------

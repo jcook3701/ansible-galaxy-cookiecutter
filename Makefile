@@ -81,6 +81,15 @@ JEKYLL_SERVE := bundle exec jekyll serve
 # --------------------------------------------------
 all: install lint-check typecheck test docs
 # --------------------------------------------------
+# Make Internal Utilities
+# --------------------------------------------------
+list-folders:
+	$(AT)printf "\
+	     Hooks: $(HOOKS_DIR)\n\
+	     Shared Hooks: '$(SHARED_HOOKS_DIR)'\n\
+	     Build Utilities: '$(BUILD_UTILS_DIR)'\n\
+	     Test: $(TESTS_DIR)\n"
+# --------------------------------------------------
 # Virtual Environment Setup
 # --------------------------------------------------
 venv:
@@ -98,13 +107,6 @@ install: venv
 # --------------------------------------------------
 # Formating (ruff)
 # --------------------------------------------------
-list-folders:
-	$(AT)printf "\
-	     Hooks: $(HOOKS_DIR)\n\
-	     Shared Hooks: '$(SHARED_HOOKS_DIR)'\n\
-	     Build Utilities: '$(BUILD_UTILS_DIR)'\n\
-	     Test: $(TESTS_DIR)\n"
-
 ruff-formatter:
 	$(AT)echo "🎨 Running ruff formatter..."
 	$(AT)$(MAKE) list-folders
@@ -151,12 +153,14 @@ typecheck:
 	$(AT)echo "🧠 Checking types (MyPy)..."
 	$(AT)$(MAKE) list-folders
 	$(AT)$(MYPY) $(SRC_DIR) $(TESTS_DIR) || true
+	$(AT)echo "✅ Python typecheck complete!"
 # --------------------------------------------------
 # Testing (pytest)
 # --------------------------------------------------
 test:
 	$(AT)echo "🧪 Running tests with pytest..."
 	$(AT)$(PYTEST) $(TESTS_DIR) || true
+	$(AT)echo "✅ Python tests complete!"
 # --------------------------------------------------
 # Documentation (Sphinx + Jekyll)
 # --------------------------------------------------

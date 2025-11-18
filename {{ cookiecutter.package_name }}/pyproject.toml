@@ -111,7 +111,6 @@ select = [
   "A",  # flake8-builtins
   "C4", # comprehensions
   "TID", # tidy imports
-  "T20", # print statements
   "FA", # future annotations
   "PL", # pylint-style checks
   "RUF", # ruff-specific
