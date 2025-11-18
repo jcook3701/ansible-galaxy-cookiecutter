@@ -22,11 +22,12 @@ endif
 # --------------------------------------------------
 # 📁 Build Directories
 # --------------------------------------------------
+BUILD_UTILS := build_utils
 LIBRARY_DIR := library
 PLAYBOOKS_DIR := playbooks
 PLUGINS_DIR := plugins
 ROLES_DIR := roles
-SRC_DIR := $(PLUGINS_DIR) $(LIBRARY_DIR)
+SRC_DIR := $(BUILD_UTILS) $(PLUGINS_DIR) $(LIBRARY_DIR)
 TEST_DIR := tests
 
 DOCS_DIR := docs
