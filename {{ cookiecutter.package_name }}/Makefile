@@ -28,7 +28,7 @@ PLAYBOOKS_DIR := playbooks
 PLUGINS_DIR := plugins
 ROLES_DIR := roles
 SRC_DIR := $(BUILD_UTILS) $(PLUGINS_DIR) $(LIBRARY_DIR)
-TEST_DIR := tests
+TESTS_DIR := tests
 
 DOCS_DIR := docs
 SPHINX_DIR := $(DOCS_DIR)/sphinx
@@ -141,17 +141,17 @@ install: venv
 # --------------------------------------------------
 ruff-formatter:
 	$(AT)echo "🎨 Running ruff formatter..."
-	$(AT)$(RUFF) format $(SRC_DIR) $(TEST_DIR)
+	$(AT)$(RUFF) format $(SRC_DIR) $(TESTS_DIR)
 # --------------------------------------------------
 # Linting (ruff, yaml, jinja2)
 # --------------------------------------------------
 ruff-lint-check:
 	$(AT)echo "🔍 Running ruff linting..."
-	$(AT)$(RUFF) check $(SRC_DIR) $(TEST_DIR)
+	$(AT)$(RUFF) check $(SRC_DIR) $(TESTS_DIR)
 
 ruff-lint-fix:
 	$(AT)echo "🎨 Running ruff lint fixes..."
-	$(AT)$(RUFF) check --fix --show-files $(SRC_DIR) $(TEST_DIR)
+	$(AT)$(RUFF) check --fix --show-files $(SRC_DIR) $(TESTS_DIR)
 
 yaml-lint-check:
 	$(AT)echo "🔍 Running yamllint..."
@@ -168,14 +168,14 @@ lint-check: ruff-lint-check yaml-lint-check ansible-lint-check
 typecheck:
 	$(AT)echo "🧠 Checking types (MyPy)..."
 	$(AT)$(MAKE) list-folders
-	$(AT)$(MYPY) $(SRC_DIR) $(TEST_DIR) || true
+	$(AT)$(MYPY) $(SRC_DIR) $(TESTS_DIR) || true
 	$(AT)echo "✅ Python typecheck complete!"
 # --------------------------------------------------
 # Testing (pytest)
 # --------------------------------------------------
 test:
 	$(AT)echo "🧪 Running tests with pytest..."
-	$(AT)$(PYTEST) $(TEST_DIR) || true
+	$(AT)$(PYTEST) $(TESTS_DIR) || true
 	$(AT)echo "✅ Python tests complete!"
 # --------------------------------------------------
 # Documentation (Sphinx + Ansible Autodoc + Jekyll)
@@ -256,7 +256,7 @@ clean:
 	$(AT)rm -rf $(SPHINX_DIR)/_build $(SPHINX_OUTPUT_DIR) $(AUTODOC_OUTPUT_DIR)
 	$(AT)cd $(JEKYLL_DIR) && $(JEKYLL_CLEAN)
 	$(AT)rm -rf build dist *.egg-info
-	$(AT)find $(SRC_DIR) $(TEST_DIR) -name "__pycache__" -type d -exec rm -rf {} +
+	$(AT)find $(SRC_DIR) $(TESTS_DIR) -name "__pycache__" -type d -exec rm -rf {} +
 	$(AT)-[ -d "$(VENV_DIR)" ] && rm -r $(VENV_DIR)
 	$(AT)rm -f $(GALAXY_NAMESPACE)-$(GALAXY_COLLECTION)-*.tar.gz
 	$(AT)@echo "🧹 Cleaned build artifacts."

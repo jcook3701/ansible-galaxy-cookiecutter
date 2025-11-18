@@ -18,7 +18,9 @@ def generate_ansible_dirs() -> None:
         "library",
         "playbooks",
         "roles",
-        "tests"
+        "tests",
+        "tests/unit/",
+        "tests/integration",
     ]
 
     for d in ansible_dirs:
