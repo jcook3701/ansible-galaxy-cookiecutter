@@ -50,6 +50,7 @@ def add_front_matter_to_dir(
     for file_path in directory.rglob("*"):
         if not file_path.is_file():
             continue
+        print("Found file:", file_path)
 
         if file_path.suffix.lower() not in extensions:
             continue
