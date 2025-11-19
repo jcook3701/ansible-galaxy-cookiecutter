@@ -34,8 +34,7 @@ def test_add_yaml_front_matter_adds_front_matter(tmp_path: Path) -> None:
 def test_add_yaml_front_matter_skips_existing_front_matter(tmp_path: Path) -> None:
     file = tmp_path / "already.md"
     file.write_text(
-        "---\ntitle: test\nlayout: default\n---\nExisting",
-        encoding="utf-8"
+        "---\ntitle: test\nlayout: default\n---\nExisting", encoding="utf-8"
     )
 
     modified = add_yaml_front_matter(file)

@@ -1,6 +1,6 @@
 # black format
 ---
-name: Cookiecutter template Black format check
+name: Cookiecutter Template Black Format Check
 
 on:
   push:

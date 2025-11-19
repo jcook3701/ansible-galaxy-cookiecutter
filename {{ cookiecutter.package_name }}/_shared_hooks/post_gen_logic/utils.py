@@ -39,4 +39,3 @@ def tree() -> None:
     """Run tree cmd inside the post-gen."""
     print(f"Current working directory: {os.getcwd()}")
     subprocess.run(["tree", "-a", "."], check=False)
-

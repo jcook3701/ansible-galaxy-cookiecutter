@@ -1,6 +1,6 @@
 # typecheck
 ---
-name: Typecheck
+name: Cookiecutter Template Typecheck
 
 on:
   push:

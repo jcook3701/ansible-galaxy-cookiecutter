@@ -1,6 +1,6 @@
 # ruff lint
 ---
-name: Cookiecutter template ruff lint
+name: Cookiecutter Template Ruff Lint
 
 on:
   push:

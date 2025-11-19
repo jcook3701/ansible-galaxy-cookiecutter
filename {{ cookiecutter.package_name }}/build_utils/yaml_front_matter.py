@@ -11,10 +11,7 @@ import sys
 from pathlib import Path
 
 
-def add_yaml_front_matter(
-        file_path: Path,
-        title: str | None = None
-) -> bool:
+def add_yaml_front_matter(file_path: Path, title: str | None = None) -> bool:
     """
     Add YAML front matter to a single file.
     Returns True if modified, False if skipped.
@@ -38,8 +35,8 @@ def add_yaml_front_matter(
 
 
 def add_front_matter_to_dir(
-        directory: Path,
-        extensions: set[str],
+    directory: Path,
+    extensions: set[str],
 ) -> int:
     """
     Walk a directory recursively, adding front matter to all valid extensions.
@@ -63,7 +60,10 @@ def add_front_matter_to_dir(
 
 def main() -> None:
     if len(sys.argv) < 2:
-        print("Usage: python -m build_utils.yaml_front_matter <directory>", file=sys.stderr)
+        print(
+            "Usage: python -m build_utils.yaml_front_matter <directory>",
+            file=sys.stderr,
+        )
         sys.exit(1)
 
     target_dir = Path(sys.argv[1]).resolve()

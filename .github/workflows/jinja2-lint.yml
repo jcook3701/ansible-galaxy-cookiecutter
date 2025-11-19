@@ -1,6 +1,6 @@
 # jinja2 lint
 ---
-name: Cookiecutter template Jinja2 lint
+name: Cookiecutter Template Jinja2 Lint
 
 on:
   push:

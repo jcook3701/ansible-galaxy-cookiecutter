@@ -23,6 +23,7 @@ def test_bake_with_defaults(cookies: Cookies) -> None:
     readme_file = result.project_path / "LICENSE"
     assert readme_file.exists()
 
+
 def test_bake_with_custom_name(cookies: Cookies) -> None:
     """Ensure custom project_name works."""
     result = cookies.bake(extra_context={"project_name": "test_project"})

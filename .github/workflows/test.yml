@@ -1,6 +1,6 @@
 # tests
 ---
-name: Cookiecutter tests
+name: Cookiecutter Template Tests
 
 on:
   push:
