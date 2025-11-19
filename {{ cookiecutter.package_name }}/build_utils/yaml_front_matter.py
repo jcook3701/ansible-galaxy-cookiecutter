@@ -11,39 +11,71 @@ import sys
 from pathlib import Path
 
 
-def add_yaml_front_matter(file_path: Path, title: str | None = None) -> None:
-    """Prepend YAML front matter to a Markdown file."""
-    if not file_path.is_file():
-        raise FileNotFoundError(f"{file_path} does not exist")
+def add_yaml_front_matter(
+        file_path: Path,
+        title: str | None = None
+) -> bool:
+    """
+    Add YAML front matter to a single file.
+    Returns True if modified, False if skipped.
+    """
+    original_content = file_path.read_text(encoding="utf-8")
 
-    yaml_lines = [
+    # Skip if file already begins with '---'
+    if original_content.lstrip().startswith("---"):
+        return False
+
+    front_matter = [
         "---",
         f"title: {title or file_path.stem}",
         "layout: default",
         "---",
         "",
     ]
-    yaml_content = "\n".join(yaml_lines)
+    new_text = "\n".join(front_matter) + original_content
+    file_path.write_text(new_text, encoding="utf-8")
+    return True
 
-    original_content = file_path.read_text(encoding="utf-8")
-    file_path.write_text(yaml_content + original_content, encoding="utf-8")
+
+def add_front_matter_to_dir(
+        directory: Path,
+        extensions: set[str],
+) -> int:
+    """
+    Walk a directory recursively, adding front matter to all valid extensions.
+    Returns the number of files modified.
+    """
+    count = 0
+
+    for file_path in directory.rglob("*"):
+        if not file_path.is_file():
+            continue
+
+        if file_path.suffix.lower() not in extensions:
+            continue
+
+        if add_yaml_front_matter(file_path):
+            count += 1
+
+    return count
 
 
-def add_front_matter_to_dir(directory: Path) -> None:
-    """Recursively add YAML front matter to all .yml files in a directory."""
-    for file_path in directory.rglob("*.yml"):
-        add_yaml_front_matter(file_path)
+def main() -> None:
+    if len(sys.argv) < 2:
+        print("Usage: python -m build_utils.yaml_front_matter <directory>", file=sys.stderr)
+        sys.exit(1)
+
+    target_dir = Path(sys.argv[1]).resolve()
+
+    if not target_dir.exists():
+        print(f"Error: Directory does not exist: {target_dir}", file=sys.stderr)
+        sys.exit(1)
+
+    extensions = {".yml", ".yaml", ".md"}
+
+    modified = add_front_matter_to_dir(target_dir, extensions)
+    print(f"✅ Added YAML front matter to {modified} file(s) under {target_dir}")
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python -m build_utils.yaml_front_matter <directory>")
-        sys.exit(1)
-
-    target_dir = Path(sys.argv[1])
-    if not target_dir.is_dir():
-        print(f"Error: {target_dir} is not a valid directory")
-        sys.exit(1)
-
-    add_front_matter_to_dir(target_dir)
-    print(f"✅ Added YAML front matter to all .yml files under {target_dir}")
+    main()
