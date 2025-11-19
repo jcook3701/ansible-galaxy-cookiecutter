@@ -94,9 +94,9 @@ JEKYLL_BUILD := bundle exec jekyll build --quiet
 JEKYLL_CLEAN := bundle exec jekyll clean
 JEKYLL_SERVE := bundle exec jekyll serve
 # --------------------------------------------------
-.PHONY: all list-folders venv install black-formatter-fix black-formatter-check \
-	ruff-lint-check ruff-lint-fix yaml-lint-check jinja2-lint-check lint-check \
-	typecheck test docs jekyll-serve clean help
+.PHONY: all list-folders venv install black-formatter-check black-formatter-fix \
+	format-check ruff-lint-check ruff-lint-fix yaml-lint-check jinja2-lint-check lint-check \
+	typecheck test sphinx jekyll build-docs jekyll-serve run-docs clean help
 # --------------------------------------------------
 # Default: run lint, typecheck, tests, and docs
 # --------------------------------------------------
@@ -128,20 +128,17 @@ install: venv
 # --------------------------------------------------
 # Formating (black, ruff)
 # --------------------------------------------------
+black-formatter-check:
+	$(AT)echo "🔍 Running black formatter style check..."
+	$(AT)$(call run_ci_safe, $(BLACK) --check $(SRC_DIR) $(TESTS_DIR))
+	$(AT)echo "✅ Finished formatting check of Python code with Black!"
+	
 black-formatter-fix:
 	$(AT)echo "🎨 Running black formatter fixes..."
 	$(AT)$(BLACK) $(SRC_DIR) $(TESTS_DIR)
 	$(AT)echo "✅ Finished formatting Python code with Black!"
 
-black-formatter-check:
-	$(AT)echo "🔍 Running black formatter style check..."
-	$(AT)$(call run_ci_safe, $(BLACK) --check $(SRC_DIR) $(TESTS_DIR))
-	$(AT)echo "✅ Finished formatting check of Python code with Black!"
-
-ruff-formatter:
-	$(AT)echo "🎨 Running ruff formatter..."
-	$(AT)$(MAKE) list-folders
-	$(AT)$(RUFF) format $(SRC_DIR) $(TESTS_DIR)
+format-check: black-formatter-check
 # --------------------------------------------------
 # Linting (ruff, yaml, jinja2)
 # --------------------------------------------------
@@ -213,6 +210,8 @@ build-docs: sphinx jekyll
 jekyll-serve: docs
 	$(AT)echo "🚀 Starting Jekyll development server..."
 	$(AT)cd $(JEKYLL_DIR) && $(JEKYLL_SERVE)
+
+run-docs: jekyll-serve
 # --------------------------------------------------
 # Clean artifacts
 # --------------------------------------------------
@@ -233,7 +232,9 @@ help:
 	$(AT)echo "Usage:"
 	$(AT)echo "  make venv                   Create virtual environment"
 	$(AT)echo "  make install                Install dependencies"
-	$(AT)echo "  make ruff-formatter         Run Ruff Formatter"
+	$(AT)echo "  make black-formatter-check  Run Black formatter check"
+	$(AT)echo "  make black-formatter-fix    Run Black formatter"
+	$(AT)echo "  make format-check           Run all project formatters (black)"
 	$(AT)echo "  make ruff-lint-check        Run Ruff linter"
 	$(AT)echo "  make ruff-lint-fix          Auto-fix lint issues with python ruff"
 	$(AT)echo "  make yaml-lint-check        Run YAML linter"
@@ -241,8 +242,10 @@ help:
 	$(AT)echo "  make lint-check             Run all project linters (ruff, yaml, & jinja2)"
 	$(AT)echo "  make typecheck              Run Mypy type checking"
 	$(AT)echo "  make test                   Run Pytest suite"
+	$(AT)echo "  make sphinx                 Generate Sphinx Documentation"
+	$(AT)echo "  make jekyll                 Generate Jekyll Documentation"
 	$(AT)echo "  make build-docs             Build Sphinx + Jekyll documentation"
-	$(AT)echo "  make jekyll-serve           Serve Jekyll site locally"
+	$(AT)echo "  make run-docs               Serve Jekyll site locally"
 	$(AT)echo "  make clean                  Clean build artifacts"
 	$(AT)echo "  make all                    Run lint, typecheck, test, and docs"
 	$(AT)echo "Options:"

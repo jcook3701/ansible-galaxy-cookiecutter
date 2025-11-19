@@ -1,6 +1,7 @@
-# .github/workflows/lint.yml
+# .github/workflows/ruff-lint.yml
 ---
 name: lint-check
+
 on:
   push:
     branches: ["main", "develop"]
@@ -8,11 +9,12 @@ on:
     branches: ["main", "develop"]
 
 jobs:
-  build:
-    name: Lint Check # Naming the build is important to use it as a status check
+  lint-check:
+    name: Lint Check
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -21,7 +23,7 @@ jobs:
 
       - name: Install Project Dependencies
         run: |
-          make install  # create .venv and install dependencies
+          make install
 
       - name: Run Ruff Lint Check
         run: |

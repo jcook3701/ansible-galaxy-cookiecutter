@@ -19,6 +19,20 @@ ifeq ($(V),0)
 else
     AT =
 endif
+
+# Detect if we are running inside GitHub Actions CI.
+# GitHub sets the environment variable GITHUB_ACTIONS=true in workflows.
+# We set CI=1 if running in GitHub Actions, otherwise CI=0 for local runs.
+ifeq ($(GITHUB_ACTIONS),true)
+CI := 1
+else
+CI := 0
+endif
+
+# Define a reusable CI-safe runner
+define run_ci_safe =
+( $1 || [ "$(CI)" != "1" ] )
+endef
 # --------------------------------------------------
 # 📁 Build Directories
 # --------------------------------------------------
@@ -29,7 +43,6 @@ PLUGINS_DIR := plugins
 ROLES_DIR := roles
 SRC_DIR := $(BUILD_UTILS) $(PLUGINS_DIR) $(LIBRARY_DIR)
 TESTS_DIR := tests
-
 DOCS_DIR := docs
 SPHINX_DIR := $(DOCS_DIR)/sphinx
 JEKYLL_DIR := $(DOCS_DIR)/jekyll
@@ -67,6 +80,10 @@ ANSIBLE_LINT := $(ACTIVATE) && ansible-lint
 RUFF := $(PYTHON) -m ruff
 YAMLLINT := $(PYTHON) -m yamllint
 # --------------------------------------------------
+# 🎨 Formatting (black)
+# --------------------------------------------------
+BLACK := $(PYTHON) -m black
+# --------------------------------------------------
 # 🧪 Testing (pytest)
 # --------------------------------------------------
 PYTEST := $(PYTHON) -m pytest
@@ -96,9 +113,11 @@ YAML_FRONT_MATTER := $(PYTHON) -m build_utils.yaml_front_matter
 AUTODOC_FIX := sed -i 's|yaml.load(yaml_file)|yaml.load(yaml_file, Loader=yaml.SafeLoader)|' \
 	$(VENV_DIR)/lib/$(PYTHON_CMD)/site-packages/ansibleautodoc/Annotation.py
 # --------------------------------------------------
-.PHONY: all list-folders autodoc-hack venv install ruff-formatter ruff-lint-check ruff-lint-fix yaml-lint-check \
-	ansible-lint-check lint-check typecheck test sphinx autodocs-front-matter autodoc jekyll readme \
-	build-docs jekyll-serve run-docs galaxy-build galaxy-install galaxy-publish clean help
+.PHONY: all list-folders autodoc-hack venv install black-formatter-check \
+	black-formatter-fix format-check ruff-lint-check ruff-lint-fix yaml-lint-check \
+	ansible-lint-check lint-check typecheck test sphinx autodocs-front-matter \
+	autodoc jekyll readme build-docs jekyll-serve run-docs \
+	galaxy-build galaxy-install galaxy-publish clean help
 # --------------------------------------------------
 # Default: run lint, typecheck, tests, and docs
 # --------------------------------------------------
@@ -137,16 +156,25 @@ install: venv
 	$(AT)echo "✅ Dependencies installed."
 	$(AT)$(MAKE) autodoc-hack
 # --------------------------------------------------
-# Formating (ruff)
+# Formating (black, ruff)
 # --------------------------------------------------
-ruff-formatter:
-	$(AT)echo "🎨 Running ruff formatter..."
-	$(AT)$(RUFF) format $(SRC_DIR) $(TESTS_DIR)
+black-formatter-check:
+	$(AT)echo "🔍 Running black formatter style check..."
+	$(AT)$(call run_ci_safe, $(BLACK) --check $(SRC_DIR) $(TESTS_DIR))
+	$(AT)echo "✅ Finished formatting check of Python code with Black!"
+
+black-formatter-fix:
+	$(AT)echo "🎨 Running black formatter fixes..."
+	$(AT)$(BLACK) $(SRC_DIR) $(TESTS_DIR)
+	$(AT)echo "✅ Finished formatting Python code with Black!"
+
+format-check: black-formatter-check
 # --------------------------------------------------
-# Linting (ruff, yaml, jinja2)
+# Linting (ruff, yaml, ansible)
 # --------------------------------------------------
 ruff-lint-check:
 	$(AT)echo "🔍 Running ruff linting..."
+	$(AT)$(MAKE) list-folders
 	$(AT)$(RUFF) check $(SRC_DIR) $(TESTS_DIR)
 
 ruff-lint-fix:
@@ -168,14 +196,14 @@ lint-check: ruff-lint-check yaml-lint-check ansible-lint-check
 typecheck:
 	$(AT)echo "🧠 Checking types (MyPy)..."
 	$(AT)$(MAKE) list-folders
-	$(AT)$(MYPY) $(SRC_DIR) $(TESTS_DIR) || true
+	$(AT)$(call run_ci_safe, $(MYPY) $(SRC_DIR) $(TESTS_DIR))
 	$(AT)echo "✅ Python typecheck complete!"
 # --------------------------------------------------
 # Testing (pytest)
 # --------------------------------------------------
 test:
 	$(AT)echo "🧪 Running tests with pytest..."
-	$(AT)$(PYTEST) $(TESTS_DIR) || true
+	$(AT)$(call run_ci_safe, $(PYTEST) $(TESTS_DIR))
 	$(AT)echo "✅ Python tests complete!"
 # --------------------------------------------------
 # Documentation (Sphinx + Ansible Autodoc + Jekyll)
@@ -254,7 +282,7 @@ galaxy-publish:
 clean:
 	$(AT)echo "🧹 Clening build artifacts..."
 	$(AT)rm -rf $(SPHINX_DIR)/_build $(SPHINX_OUTPUT_DIR) $(AUTODOC_OUTPUT_DIR)
-	$(AT)cd $(JEKYLL_DIR) && $(JEKYLL_CLEAN)
+	$(AT)$(call run_ci_safe, cd $(JEKYLL_DIR) && $(JEKYLL_CLEAN))
 	$(AT)rm -rf build dist *.egg-info
 	$(AT)find $(SRC_DIR) $(TESTS_DIR) -name "__pycache__" -type d -exec rm -rf {} +
 	$(AT)-[ -d "$(VENV_DIR)" ] && rm -r $(VENV_DIR)
@@ -269,9 +297,11 @@ help:
 	$(AT)echo "Usage:"
 	$(AT)echo "  make venv                   Create virtual environment"
 	$(AT)echo "  make install                Install dependencies"
-	$(AT)echo "  make ruff-formatter         Run Ruff Formatter"
+	$(AT)echo "  make black-formatter-check  Run Black formatter check"
+	$(AT)echo "  make black-formatter-fix    Run Black formatter"
 	$(AT)echo "  make ruff-lint-check        Run Ruff linter"
 	$(AT)echo "  make ruff-lint-fix          Auto-fix lint issues with python ruff"
+	$(AT)echo "  make format-check           Run all project formatters (black)"
 	$(AT)echo "  make yaml-lint-check        Run YAML linter"
 	$(AT)echo "  make ansible-lint-check     Run Ansible linter"
 	$(AT)echo "  make lint-check             Run all project linters (ruff, yaml, & ansible)"
