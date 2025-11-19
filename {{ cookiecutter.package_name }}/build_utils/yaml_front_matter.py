@@ -50,12 +50,12 @@ def add_front_matter_to_dir(
     for file_path in directory.rglob("*"):
         if not file_path.is_file():
             continue
-        print("Found file:", file_path)
-
+        print("Checking file:", file_path)
         if file_path.suffix.lower() not in extensions:
+            print(" - skipped due to extension:", file_path.suffix)
             continue
-
         if add_yaml_front_matter(file_path):
+            print(" - front matter added:", file_path)
             count += 1
 
     return count
