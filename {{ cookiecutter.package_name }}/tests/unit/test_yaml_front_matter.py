@@ -8,17 +8,15 @@ Author: Jared Cook
 Description: Unit tests for yaml_front_matter.
 """
 
-
-import pytest
 from pathlib import Path
 
 from build_utils.yaml_front_matter import (
-    add_yaml_front_matter,
     add_front_matter_to_dir,
+    add_yaml_front_matter,
 )
 
 
-def test_add_yaml_front_matter_adds_front_matter(tmp_path: Path):
+def test_add_yaml_front_matter_adds_front_matter(tmp_path: Path) -> None:
     file = tmp_path / "example.md"
     file.write_text("Original content", encoding="utf-8")
 
@@ -33,7 +31,7 @@ def test_add_yaml_front_matter_adds_front_matter(tmp_path: Path):
     assert "Original content" in text
 
 
-def test_add_yaml_front_matter_skips_existing_front_matter(tmp_path: Path):
+def test_add_yaml_front_matter_skips_existing_front_matter(tmp_path: Path) -> None:
     file = tmp_path / "already.md"
     file.write_text(
         "---\ntitle: test\nlayout: default\n---\nExisting",
@@ -50,7 +48,7 @@ def test_add_yaml_front_matter_skips_existing_front_matter(tmp_path: Path):
     assert "Existing" in text
 
 
-def test_add_front_matter_to_dir_counts_correctly(tmp_path: Path):
+def test_add_front_matter_to_dir_counts_correctly(tmp_path: Path) -> None:
     valid = tmp_path / "doc.yaml"
     valid.write_text("hello", encoding="utf-8")
 
@@ -66,7 +64,7 @@ def test_add_front_matter_to_dir_counts_correctly(tmp_path: Path):
     assert not invalid.read_text(encoding="utf-8").startswith("---")
 
 
-def test_recursive_directory_handling(tmp_path: Path):
+def test_recursive_directory_handling(tmp_path: Path) -> None:
     subdir = tmp_path / "nested"
     subdir.mkdir()
 
@@ -81,7 +79,7 @@ def test_recursive_directory_handling(tmp_path: Path):
     assert file.read_text(encoding="utf-8").startswith("---")
 
 
-def test_title_is_overridden(tmp_path: Path):
+def test_title_is_overridden(tmp_path: Path) -> None:
     file = tmp_path / "anything.md"
     file.write_text("body", encoding="utf-8")
 

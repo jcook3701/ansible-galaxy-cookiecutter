@@ -27,7 +27,9 @@ HOOKS_DIR := hooks
 SHARED_HOOKS_DIR := $(COOKIE_DIR)/_shared_hooks
 BUILD_UTILS_DIR := $(COOKIE_DIR)/build_utils
 SRC_DIR := $(HOOKS_DIR) '$(SHARED_HOOKS_DIR)' '$(BUILD_UTILS_DIR)'
-TESTS_DIR := tests
+TEST_DIR := tests
+COOKIE_TESTS_DIR := $(COOKIE_DIR)/tests
+TESTS_DIR := '$(COOKIE_TESTS_DIR)' $(TEST_DIR)
 DOCS_DIR := docs
 SPHINX_DIR := $(DOCS_DIR)/sphinx
 JEKYLL_DIR := $(DOCS_DIR)/jekyll
@@ -116,6 +118,7 @@ ruff-formatter:
 # --------------------------------------------------
 ruff-lint-check:
 	$(AT)echo "🔍 Running ruff linting..."
+	$(AT)$(MAKE) list-folders
 	$(AT)$(RUFF) check --config pyproject.toml $(SRC_DIR) $(TESTS_DIR) \
 		--force-exclude '$(COOKIE_DIR)/pyproject.toml'
 
@@ -157,9 +160,11 @@ typecheck:
 # --------------------------------------------------
 # Testing (pytest)
 # --------------------------------------------------
+# NOTE: This is using TEST_DIR and not TESTS_DIR at the moment.
+# TODO: See if I can also get working with '$(COOKIE_TESTS_DIR)'
 test:
 	$(AT)echo "🧪 Running tests with pytest..."
-	$(AT)$(PYTEST) $(TESTS_DIR) || true
+	$(AT)$(PYTEST) $(TEST) || true
 	$(AT)echo "✅ Python tests complete!"
 # --------------------------------------------------
 # Documentation (Sphinx + Jekyll)

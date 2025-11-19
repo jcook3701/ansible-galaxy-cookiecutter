@@ -54,7 +54,7 @@ docs = [
 # ====================================
 [tool.setuptools.packages.find]
 where = [
-  "hooks"
+  "hooks",
 ]
 include = [
   "hooks*",
@@ -71,6 +71,7 @@ src = [
   "{{ cookiecutter.package_name }}/_shared_hooks",
   "hooks",
   "tests",
+  "{{ cookiecutter.package_name }}/tests",
 ]
 # Exclude these paths
 exclude = [
@@ -149,5 +150,12 @@ ignore_missing_imports = true
 [tool.pytest.ini_options]
 minversion = "7.0"
 addopts = ["-v", "--maxfail=1", "-W always", "-rw", "--strict-markers"]
-testpaths = ["tests"]
-pythonpath = ["hooks"]
+testpaths = [
+  "tests",
+  "{{ cookiecutter.package_name }}/tests",
+]
+pythonpath = [
+  ".",
+  "{{ cookiecutter.package_name }}",
+  "hooks",
+]
