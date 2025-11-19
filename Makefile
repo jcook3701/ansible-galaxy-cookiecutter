@@ -19,6 +19,20 @@ ifeq ($(V),0)
 else
     AT =
 endif
+
+# Detect if we are running inside GitHub Actions CI.
+# GitHub sets the environment variable GITHUB_ACTIONS=true in workflows.
+# We set CI=1 if running in GitHub Actions, otherwise CI=0 for local runs.
+ifeq ($(GITHUB_ACTIONS),true)
+CI := 1
+else
+CI := 0
+endif
+
+# Define a reusable CI-safe runner
+define run_ci_safe =
+( $1 || [ "$(CI)" != "1" ] )
+endef
 # --------------------------------------------------
 # 📁 Build Directories
 # --------------------------------------------------
@@ -65,6 +79,10 @@ RUFF := $(PYTHON) -m ruff
 YAMLLINT := $(PYTHON) -m yamllint
 JINJA := $(ACTIVATE) && jinja2 --strict
 # --------------------------------------------------
+# 🎨 Formatting (black)
+# --------------------------------------------------
+BLACK := $(PYTHON) -m black
+# --------------------------------------------------
 # 🧪 Testing (pytest)
 # --------------------------------------------------
 PYTEST := $(PYTHON) -m pytest
@@ -76,8 +94,9 @@ JEKYLL_BUILD := bundle exec jekyll build --quiet
 JEKYLL_CLEAN := bundle exec jekyll clean
 JEKYLL_SERVE := bundle exec jekyll serve
 # --------------------------------------------------
-.PHONY: all venv install list-folders ruff-lint-check ruff-lint-fix yaml-lint-check \
-	jinja2-lint-check lint-check typecheck test docs jekyll-serve clean help
+.PHONY: all list-folders venv install black-formatter-fix black-formatter-check \
+	ruff-lint-check ruff-lint-fix yaml-lint-check jinja2-lint-check lint-check \
+	typecheck test docs jekyll-serve clean help
 # --------------------------------------------------
 # Default: run lint, typecheck, tests, and docs
 # --------------------------------------------------
@@ -107,8 +126,18 @@ install: venv
 	$(AT)$(PIP) install -e $(DEV_DOCS)
 	$(AT)echo "✅ Dependencies installed."
 # --------------------------------------------------
-# Formating (ruff)
+# Formating (black, ruff)
 # --------------------------------------------------
+black-formatter-fix:
+	$(AT)echo "🎨 Running black formatter fixes..."
+	$(AT)$(BLACK) $(SRC_DIR) $(TESTS_DIR)
+	$(AT)echo "✅ Finished formatting Python code with Black!"
+
+black-formatter-check:
+	$(AT)echo "🔍 Running black formatter style check..."
+	$(AT)$(call run_ci_safe, $(BLACK) --check $(SRC_DIR) $(TESTS_DIR))
+	$(AT)echo "✅ Finished formatting check of Python code with Black!"
+
 ruff-formatter:
 	$(AT)echo "🎨 Running ruff formatter..."
 	$(AT)$(MAKE) list-folders
@@ -155,7 +184,7 @@ lint-check: ruff-lint-check yaml-lint-check jinja2-lint-check
 typecheck:
 	$(AT)echo "🧠 Checking types (MyPy)..."
 	$(AT)$(MAKE) list-folders
-	$(AT)$(MYPY) $(SRC_DIR) $(TESTS_DIR) || true
+	$(AT)$(call run_ci_safe, $(MYPY) $(SRC_DIR) $(TESTS_DIR))
 	$(AT)echo "✅ Python typecheck complete!"
 # --------------------------------------------------
 # Testing (pytest)
@@ -164,7 +193,7 @@ typecheck:
 # TODO: See if I can also get working with '$(COOKIE_TESTS_DIR)'
 test:
 	$(AT)echo "🧪 Running tests with pytest..."
-	$(AT)$(PYTEST) $(TEST) || true
+	$(AT)$(call run_ci_safe,$(PYTEST) $(TEST))
 	$(AT)echo "✅ Python tests complete!"
 # --------------------------------------------------
 # Documentation (Sphinx + Jekyll)
@@ -190,7 +219,7 @@ jekyll-serve: docs
 clean:
 	$(AT)echo "🧹 Clening build artifacts..."
 	$(AT)rm -rf $(SPHINX_DIR)/_build $(JEKYLL_OUTPUT_DIR)
-	$(AT)cd $(JEKYLL_DIR) && $(JEKYLL_CLEAN) || true
+	$(AT)$(call run_ci_safe, cd $(JEKYLL_DIR) && $(JEKYLL_CLEAN))
 	$(AT)rm -rf build dist *.egg-info
 	$(AT)find $(HOOKS_DIR) $(TESTS_DIR) -name "__pycache__" -type d -exec rm -rf {} +
 	$(AT)-[ -d "$(VENV_DIR)" ] && rm -r $(VENV_DIR)

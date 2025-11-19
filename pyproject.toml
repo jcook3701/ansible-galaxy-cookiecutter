@@ -36,6 +36,7 @@ Documentation = "https://github.com/jcook3701/ansible-galaxy-cookiecutter/docs/j
 
 [project.optional-dependencies]
 dev = [
+  "black>=25.11",
   "ruff>=0.14.0",
   "mypy==1.9",
   "pytest>=9.0",
