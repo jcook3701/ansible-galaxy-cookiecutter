@@ -12,7 +12,7 @@ from pathlib import Path
 
 from build_utils.yaml_front_matter import (
     add_front_matter_to_dir,
-    add_yaml_front_matter,
+    add_yaml_front_matter_to_file,
 )
 
 
@@ -20,7 +20,7 @@ def test_add_yaml_front_matter_adds_front_matter(tmp_path: Path) -> None:
     file = tmp_path / "example.md"
     file.write_text("Original content", encoding="utf-8")
 
-    modified = add_yaml_front_matter(file)
+    modified = add_yaml_front_matter_to_file(file)
 
     assert modified is True
     text = file.read_text(encoding="utf-8")
@@ -37,7 +37,7 @@ def test_add_yaml_front_matter_skips_existing_front_matter(tmp_path: Path) -> No
         "---\ntitle: test\nlayout: default\n---\nExisting", encoding="utf-8"
     )
 
-    modified = add_yaml_front_matter(file)
+    modified = add_yaml_front_matter_to_file(file)
 
     assert modified is False
     text = file.read_text(encoding="utf-8")
@@ -82,7 +82,7 @@ def test_title_is_overridden(tmp_path: Path) -> None:
     file = tmp_path / "anything.md"
     file.write_text("body", encoding="utf-8")
 
-    add_yaml_front_matter(file, title="Custom Title")
+    add_yaml_front_matter_to_file(file, title="Custom Title")
 
     text = file.read_text(encoding="utf-8")
     assert "title: Custom Title" in text

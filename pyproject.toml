@@ -43,6 +43,7 @@ dev = [
   "pytest-cookies>=0.7",
   "yamllint>=1.0",
   "jinja2-cli>=0.8",
+  "typer>=0.20",
 ]
 docs = [
   "sphinx>=8.0",

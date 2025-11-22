@@ -12,7 +12,7 @@ __Note:__ Unless you are using a newer version of cookiecutter >= 2, ```--no-inp
 ``` shell
 $ cookiecutter git@github.com:jcook3701/ansible-galaxy-cookiecutter.git \
 	--no-input \
-	namespace="jcook3701", \
+	namespace="jcook3701" \
 	project_name="test-project" \
 	description="Ansible test project."  
 ```
@@ -26,7 +26,7 @@ $ cookiecutter git@github.com:jcook3701/ansible-galaxy-cookiecutter.git \
 $ cookiecutter git@github.com:jcook3701/ansible-galaxy-cookiecutter.git \
 	 --checkout develop \
 	  --no-input \
-	namespace="jcook3701", \
+	namespace="jcook3701" \
 	project_name="test-project" \
 	description="Ansible test project."  
 ```
@@ -37,4 +37,5 @@ replace ```test-project``` or any of the other variables with real context confi
 
 ### TODO's
 1. Update pyproject.toml to use latest version of cookiecutter to get latest features.  
-2. Update autodoc init within 
+2. Update cookiecutter.json with:  
+	```"license": ["MIT", "GPLv3", "Apache 2.0"],```

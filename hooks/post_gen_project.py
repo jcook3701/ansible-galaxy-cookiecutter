@@ -39,7 +39,7 @@ def main() -> None:
     # Run make commands to get project seeded
     make_cmds = [
         "install",
-        "build-docs",
+        # "build-docs",
     ]
 
     for cmd in make_cmds:

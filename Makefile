@@ -34,6 +34,12 @@ define run_ci_safe =
 ( $1 || [ "$(CI)" != "1" ] )
 endef
 # --------------------------------------------------
+# ⚙️ Build Settings
+# --------------------------------------------------
+PACKAGE_NAME = "ansible-galaxy-cookiecutter"
+AUTHOR = "Jared Cook"
+VERSION = "0.1.0"
+# --------------------------------------------------
 # 📁 Build Directories
 # --------------------------------------------------
 COOKIE_DIR := {{ cookiecutter.package_name }}
@@ -95,12 +101,12 @@ JEKYLL_CLEAN := bundle exec jekyll clean
 JEKYLL_SERVE := bundle exec jekyll serve
 # --------------------------------------------------
 .PHONY: all list-folders venv install black-formatter-check black-formatter-fix \
-	format-check ruff-lint-check ruff-lint-fix yaml-lint-check jinja2-lint-check lint-check \
-	typecheck test sphinx jekyll build-docs jekyll-serve run-docs clean help
+	format-check format-fix ruff-lint-check ruff-lint-fix yaml-lint-check jinja2-lint-check \
+	lint-check lint-check typecheck test sphinx jekyll build-docs jekyll-serve run-docs clean help
 # --------------------------------------------------
 # Default: run lint, typecheck, tests, and docs
 # --------------------------------------------------
-all: install lint-check typecheck test docs
+all: install lint-check typecheck test build-docs
 # --------------------------------------------------
 # Make Internal Utilities
 # --------------------------------------------------
@@ -126,7 +132,7 @@ install: venv
 	$(AT)$(PIP) install -e $(DEV_DOCS)
 	$(AT)echo "✅ Dependencies installed."
 # --------------------------------------------------
-# Formating (black, ruff)
+# Formating (black)
 # --------------------------------------------------
 black-formatter-check:
 	$(AT)echo "🔍 Running black formatter style check..."
@@ -139,6 +145,7 @@ black-formatter-fix:
 	$(AT)echo "✅ Finished formatting Python code with Black!"
 
 format-check: black-formatter-check
+format-fix: black-formatter-fix
 # --------------------------------------------------
 # Linting (ruff, yaml, jinja2)
 # --------------------------------------------------
@@ -175,6 +182,7 @@ jinja2-lint-check:
 		done
 
 lint-check: ruff-lint-check yaml-lint-check jinja2-lint-check
+lint-check: ruff-lint-fix
 # --------------------------------------------------
 # Typechecking (MyPy)
 # --------------------------------------------------
@@ -190,7 +198,7 @@ typecheck:
 # TODO: See if I can also get working with '$(COOKIE_TESTS_DIR)'
 test:
 	$(AT)echo "🧪 Running tests with pytest..."
-	$(AT)$(call run_ci_safe,$(PYTEST) $(TEST))
+	$(AT)$(call run_ci_safe, $(PYTEST) $(TEST))
 	$(AT)echo "✅ Python tests complete!"
 # --------------------------------------------------
 # Documentation (Sphinx + Jekyll)
@@ -205,12 +213,11 @@ jekyll:
 	$(AT)cd $(JEKYLL_DIR) && $(JEKYLL_BUILD)
 	$(AT)echo "✅ Full documentation build complete!"
 
-build-docs: sphinx jekyll
-
 jekyll-serve: docs
 	$(AT)echo "🚀 Starting Jekyll development server..."
 	$(AT)cd $(JEKYLL_DIR) && $(JEKYLL_SERVE)
 
+build-docs: sphinx jekyll
 run-docs: jekyll-serve
 # --------------------------------------------------
 # Clean artifacts
@@ -234,12 +241,14 @@ help:
 	$(AT)echo "  make install                Install dependencies"
 	$(AT)echo "  make black-formatter-check  Run Black formatter check"
 	$(AT)echo "  make black-formatter-fix    Run Black formatter"
-	$(AT)echo "  make format-check           Run all project formatters (black)"
+	$(AT)echo "  make format-check           Run all project formatter checks (black)"
+	$(AT)echo "  make format-fix             Run all project formatter autofixes (black)"
 	$(AT)echo "  make ruff-lint-check        Run Ruff linter"
 	$(AT)echo "  make ruff-lint-fix          Auto-fix lint issues with python ruff"
 	$(AT)echo "  make yaml-lint-check        Run YAML linter"
 	$(AT)echo "  make jinja2-lint-check      Run jinja-cmd linter"
 	$(AT)echo "  make lint-check             Run all project linters (ruff, yaml, & jinja2)"
+	$(AT)echo "  make lint-fix               Run all project linter autofixes (ruff)"
 	$(AT)echo "  make typecheck              Run Mypy type checking"
 	$(AT)echo "  make test                   Run Pytest suite"
 	$(AT)echo "  make sphinx                 Generate Sphinx Documentation"

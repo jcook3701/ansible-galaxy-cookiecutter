@@ -34,6 +34,15 @@ define run_ci_safe =
 ( $1 || [ "$(CI)" != "1" ] )
 endef
 # --------------------------------------------------
+# ⚙️ Build Settings
+# --------------------------------------------------
+GALAXY_PACKAGE_NAME = {{ cookiecutter.package_name }}
+GALAXY_NAMESPACE := {{ cookiecutter.namespace }}
+GALAXY_COLLECTION := {{ cookiecutter.project_name }}
+GALAXY_AUTHOR = {{ cookiecutter.author }}
+GALAXY_VERSION = {{ cookiecutter.version }}
+GALAXY_PATH := .
+# --------------------------------------------------
 # 📁 Build Directories
 # --------------------------------------------------
 BUILD_UTILS := build_utils
@@ -60,7 +69,7 @@ VENV_DIR := .venv
 # 🐍 Python Dependencies
 # --------------------------------------------------
 DEV_DEPS := .[dev]
-DEV_LINT := .[lint]
+DEV_TOOLS := .[tools]
 DEV_DOCS := .[docs]
 # --------------------------------------------------
 # 🐍 Python Commands (venv, activate, pip)
@@ -98,14 +107,11 @@ JEKYLL_SERVE := bundle exec jekyll serve
 # --------------------------------------------------
 # 🪐 Ansible Galaxy
 # --------------------------------------------------
-GALAXY_NAMESPACE := {{ cookiecutter.namespace }}
-GALAXY_COLLECTION := {{ cookiecutter.project_name }}
-GALAXY_PATH := .
-
 ANSIBLE_GALAXY := $(ACTIVATE) && ansible-galaxy
 # --------------------------------------------------
 # 🐍 Build Utils
 # --------------------------------------------------
+README_BUILD := $(PYTHON) -m build_utils.readme_build
 YAML_FRONT_MATTER := $(PYTHON) -m build_utils.yaml_front_matter
 # --------------------------------------------------
 # 🩹 Hacks
@@ -114,9 +120,9 @@ AUTODOC_FIX := sed -i 's|yaml.load(yaml_file)|yaml.load(yaml_file, Loader=yaml.S
 	$(VENV_DIR)/lib/$(PYTHON_CMD)/site-packages/ansibleautodoc/Annotation.py
 # --------------------------------------------------
 .PHONY: all list-folders autodoc-hack venv install black-formatter-check \
-	black-formatter-fix format-check ruff-lint-check ruff-lint-fix yaml-lint-check \
-	ansible-lint-check lint-check typecheck test sphinx autodocs-front-matter \
-	autodoc jekyll readme build-docs jekyll-serve run-docs \
+	black-formatter-fix format-check format-fix ruff-lint-check ruff-lint-fix \
+	yaml-lint-check ansible-lint-check lint-check lint-fix typecheck test sphinx \
+	autodocs-front-matter autodoc jekyll readme build-docs jekyll-serve run-docs \
 	galaxy-build galaxy-install galaxy-publish clean help
 # --------------------------------------------------
 # Default: run lint, typecheck, tests, and docs
@@ -151,7 +157,7 @@ install: venv
 	$(AT)echo "📦 Installing project dependencies..."
 	$(AT)$(PIP) install --upgrade pip
 	$(AT)$(PIP) install -e $(DEV_DEPS)
-	$(AT)$(PIP) install -e $(DEV_LINT)
+	$(AT)$(PIP) install -e $(DEV_TOOLS)
 	$(AT)$(PIP) install -e $(DEV_DOCS)
 	$(AT)echo "✅ Dependencies installed."
 	$(AT)$(MAKE) autodoc-hack
@@ -169,6 +175,7 @@ black-formatter-fix:
 	$(AT)echo "✅ Finished formatting Python code with Black!"
 
 format-check: black-formatter-check
+format-fix: black-formatter-fix
 # --------------------------------------------------
 # Linting (ruff, yaml, ansible)
 # --------------------------------------------------
@@ -190,6 +197,7 @@ ansible-lint-check:
 	$(AT)$(ANSIBLE_LINT) ./**/*.yml
 
 lint-check: ruff-lint-check yaml-lint-check ansible-lint-check
+lint-fix: ruff-lint-fix
 # --------------------------------------------------
 # Typechecking (MyPy)
 # --------------------------------------------------
@@ -217,14 +225,14 @@ sphinx:
 
 autodocs-front-matter:
 	$(AT)echo "📝 Adding YAML front matter to generated files in $(AUTODOC_OUTPUT_DIR)..."
-	$(AT)$(YAML_FRONT_MATTER) $(AUTODOC_OUTPUT_DIR)
+	$(AT)$(YAML_FRONT_MATTER) $(AUTODOC_OUTPUT_DIR) --project $(GALAXY_PACKAGE_NAME)
 	$(AT)echo "✅ Adding YAML front matter to Ansible autodoc files complete!"
 
 autodoc:
 	$(AT)echo "🔨 Building Ansible autodoc documentation..."
 	$(AT)$(AUTODOC) $(GALAXY_PATH) -o $(AUTODOC_OUTPUT_DIR)
 	$(AT)echo "✅ Ansible autodoc documentation generated at $(AUTODOC_OUTPUT_DIR)"
-	# $(AT)$(MAKE) autodocs-front-matter
+	$(AT)$(MAKE) autodocs-front-matter
 
 jekyll:
 	$(AT)echo "🔨 Building Jekyll site..."
@@ -232,6 +240,9 @@ jekyll:
 	$(AT)echo "✅ Full documentation build complete!"
 
 readme:
+	$(AT)$(README_BUILD) $(JEKYLL_DIR) ./README.md --tmp-dir $(README_GEN_DIR)
+
+readme-old:
 	$(AT)echo "🔨 Building ./README.md 📘 with Jekyll..."
 	$(AT)mkdir -p $(README_GEN_DIR)
 	$(AT)cp $(JEKYLL_DIR)/_config.yml $(README_GEN_DIR)/_config.yml
@@ -292,7 +303,7 @@ clean:
 # Help
 # --------------------------------------------------
 help:
-	$(AT)echo "📦 {{ cookiecutter.package_name }} Makefile"
+	$(AT)echo "📦 $(GALAXY_PACKAGE_NAME) Makefile"
 	$(AT)echo ""
 	$(AT)echo "Usage:"
 	$(AT)echo "  make venv                   Create virtual environment"
@@ -301,10 +312,12 @@ help:
 	$(AT)echo "  make black-formatter-fix    Run Black formatter"
 	$(AT)echo "  make ruff-lint-check        Run Ruff linter"
 	$(AT)echo "  make ruff-lint-fix          Auto-fix lint issues with python ruff"
-	$(AT)echo "  make format-check           Run all project formatters (black)"
+	$(AT)echo "  make format-check           Run all project formatter checks (black)"
+	$(AT)echo "  make format-fix             Run all project formatter autofixes (black)"
 	$(AT)echo "  make yaml-lint-check        Run YAML linter"
 	$(AT)echo "  make ansible-lint-check     Run Ansible linter"
 	$(AT)echo "  make lint-check             Run all project linters (ruff, yaml, & ansible)"
+	$(AT)echo "  make lint-fix               Run all project linter autofixes (ruff)"
 	$(AT)echo "  make typecheck              Run Mypy type checking"
 	$(AT)echo "  make test                   Run Pytest suite"
 	$(AT)echo "  make sphinx                 Generate Sphinx Documentation"

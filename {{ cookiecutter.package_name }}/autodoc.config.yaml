@@ -11,7 +11,7 @@ roles_path: "roles"
 playbooks_path: "playbooks"
 
 # Output settings
-output_path: "docs"
+output_path: "docs/jekyll/ansible-docs"
 # templates_path: my_templates # Uncomment and specify a custom template directory if needed
 
 # Default template to use ('readme' or 'doc_and_readme')
