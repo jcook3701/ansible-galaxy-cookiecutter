@@ -44,9 +44,7 @@ VERSION = "0.1.0"
 # --------------------------------------------------
 COOKIE_DIR := {{ cookiecutter.package_name }}
 HOOKS_DIR := hooks
-SHARED_HOOKS_DIR := $(COOKIE_DIR)/_shared_hooks
-BUILD_UTILS_DIR := $(COOKIE_DIR)/build_utils
-SRC_DIR := $(HOOKS_DIR) '$(SHARED_HOOKS_DIR)' '$(BUILD_UTILS_DIR)'
+SRC_DIR := $(HOOKS_DIR)
 TEST_DIR := tests
 COOKIE_TESTS_DIR := $(COOKIE_DIR)/tests
 TESTS_DIR := '$(COOKIE_TESTS_DIR)' $(TEST_DIR)
@@ -100,9 +98,21 @@ JEKYLL_BUILD := bundle exec jekyll build --quiet
 JEKYLL_CLEAN := bundle exec jekyll clean
 JEKYLL_SERVE := bundle exec jekyll serve
 # --------------------------------------------------
+# 🔖 Version Bumping (bumpy-my-version)
+# --------------------------------------------------
+BUMPVERSION := bump-my-version bump --verbose
+# Patch types:
+MAJOR := major
+MINOR := minor
+PATCH := patch
+# --------------------------------------------------
+# 🏃‍♂️ nutrimatic command
+# --------------------------------------------------
+NUTRIMATIC := $(PYTHON) -m nutrimatic
+# --------------------------------------------------
 .PHONY: all list-folders venv install black-formatter-check black-formatter-fix \
 	format-check format-fix ruff-lint-check ruff-lint-fix yaml-lint-check jinja2-lint-check \
-	lint-check lint-check typecheck test sphinx jekyll build-docs jekyll-serve run-docs clean help
+	lint-check lint-fix typecheck test sphinx jekyll build-docs jekyll-serve run-docs clean help
 # --------------------------------------------------
 # Default: run lint, typecheck, tests, and docs
 # --------------------------------------------------
@@ -113,11 +123,9 @@ all: install lint-check typecheck test build-docs
 list-folders:
 	$(AT)printf "\
 	     Hooks: $(HOOKS_DIR)\n\
-	     Shared Hooks: '$(SHARED_HOOKS_DIR)'\n\
-	     Build Utilities: '$(BUILD_UTILS_DIR)'\n\
 	     Test: $(TESTS_DIR)\n"
 # --------------------------------------------------
-# Virtual Environment Setup
+# 🐍 Virtual Environment Setup
 # --------------------------------------------------
 venv:
 	$(AT)echo "🐍 Creating virtual environment..."
@@ -132,7 +140,7 @@ install: venv
 	$(AT)$(PIP) install -e $(DEV_DOCS)
 	$(AT)echo "✅ Dependencies installed."
 # --------------------------------------------------
-# Formating (black)
+# 🎨 Formating (black)
 # --------------------------------------------------
 black-formatter-check:
 	$(AT)echo "🔍 Running black formatter style check..."
@@ -147,23 +155,26 @@ black-formatter-fix:
 format-check: black-formatter-check
 format-fix: black-formatter-fix
 # --------------------------------------------------
-# Linting (ruff, yaml, jinja2)
+# 🔍 Linting (ruff, yaml, jinja2)
 # --------------------------------------------------
 ruff-lint-check:
 	$(AT)echo "🔍 Running ruff linting..."
 	$(AT)$(MAKE) list-folders
 	$(AT)$(RUFF) check --config pyproject.toml $(SRC_DIR) $(TESTS_DIR) \
 		--force-exclude '$(COOKIE_DIR)/pyproject.toml'
+	$(AT)echo "✅ Finished linting check of Python code with Ruff!"
 
 ruff-lint-fix:
 	$(AT)echo "🎨 Running ruff lint fixes..."
 	$(AT)$(RUFF) check --config pyproject.toml --show-files $(SRC_DIR) $(TESTS_DIR)
 	$(AT)$(RUFF) check --config pyproject.toml --fix $(SRC_DIR) $(TESTS_DIR) \
 		--force-exclude '$(COOKIE_DIR)/pyproject.toml'
+	$(AT)echo "✅ Finished linting Python code with Ruff!"
 
 yaml-lint-check:
 	$(AT)echo "🔍 Running yamllint..."
 	$(AT)$(YAMLLINT) .
+	$(AT)echo "✅ Finished linting check of yaml files with yamllint!"
 
 jinja2-lint-check:
 	$(AT)echo "🔍 jinja2 linting all template files under $(COOKIE_DIR)..."
@@ -180,11 +191,12 @@ jinja2-lint-check:
 				$(JINJA) "$$f" /tmp/_cc_wrapped.json || exit 1; \
 			fi; \
 		done
+	$(AT)echo "✅ Finished linting check of jinja2 files with jinja2!"
 
 lint-check: ruff-lint-check yaml-lint-check jinja2-lint-check
-lint-check: ruff-lint-fix
+lint-fix: ruff-lint-fix
 # --------------------------------------------------
-# Typechecking (MyPy)
+# 🧠 Typechecking (MyPy)
 # --------------------------------------------------
 typecheck:
 	$(AT)echo "🧠 Checking types (MyPy)..."
@@ -192,7 +204,7 @@ typecheck:
 	$(AT)$(call run_ci_safe, $(MYPY) $(SRC_DIR) $(TESTS_DIR))
 	$(AT)echo "✅ Python typecheck complete!"
 # --------------------------------------------------
-# Testing (pytest)
+# 🧪 Testing (pytest)
 # --------------------------------------------------
 # NOTE: This is using TEST_DIR and not TESTS_DIR at the moment.
 # TODO: See if I can also get working with '$(COOKIE_TESTS_DIR)'
@@ -201,17 +213,13 @@ test:
 	$(AT)$(call run_ci_safe, $(PYTEST) $(TEST))
 	$(AT)echo "✅ Python tests complete!"
 # --------------------------------------------------
-# Documentation (Sphinx + Jekyll)
+# 📘 Documentation (Sphinx + Jekyll)
 # --------------------------------------------------
 sphinx:
-	$(AT)echo "🔨 Building Sphinx documentation 📘 as Markdown..."
-	$(AT)$(SPHINX) $(SPHINX_DIR) $(JEKYLL_OUTPUT_DIR)
-	$(AT)echo "✅ Sphinx Markdown build complete!"
+	$(MAKE) -C $(SPHINX_DIR) all PUBLISHDIR=$(JEKYLL_SPHINX_DIR)
 
 jekyll:
-	$(AT)echo "🔨 Building Jekyll site..."
-	$(AT)cd $(JEKYLL_DIR) && $(JEKYLL_BUILD)
-	$(AT)echo "✅ Full documentation build complete!"
+	$(MAKE) -C $(JEKYLL_DIR) all;
 
 jekyll-serve: docs
 	$(AT)echo "🚀 Starting Jekyll development server..."
@@ -220,7 +228,15 @@ jekyll-serve: docs
 build-docs: sphinx jekyll
 run-docs: jekyll-serve
 # --------------------------------------------------
-# Clean artifacts
+# 🔖 Version Bumping (bumpy-my-version)
+# --------------------------------------------------
+# TODO: Also create a git tag of current version.
+bump-version-patch:
+	$(AT)echo "🔖 Updating $(PACKAGE_NAME) version from $(VERSION)..."
+	$(AT)$(BUMPVERSION) $(PATCH)
+	$(AT)echo "✅ $(PACKAGE_NAME) version update complete!"
+# --------------------------------------------------
+# 🧹 Clean artifacts
 # --------------------------------------------------
 clean:
 	$(AT)echo "🧹 Clening build artifacts..."

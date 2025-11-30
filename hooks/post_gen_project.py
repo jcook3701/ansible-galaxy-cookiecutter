@@ -5,22 +5,26 @@
 See the LICENSE file for more details.
 
 Author: Jared Cook
-Discription: Post project generation Scripts.
+Description: Post project generation Scripts.
 """
 
 import json
 import os
-import sys
-from pathlib import Path
+
+from nutrimatic.core.bash import clean, make
+from nutrimatic.hooks.post_gen_logic import (
+    generate_ansible_dirs,
+    generate_docs_templates,
+)
 
 # Add the generated package to sys.path so Python can find it
-PROJECT_DIR = Path.cwd()
-HOOKS_DIR = PROJECT_DIR / "_shared_hooks" / "post_gen_logic"
-sys.path.insert(0, str(HOOKS_DIR))
+# PROJECT_DIR = Path.cwd()
+# HOOKS_DIR = PROJECT_DIR / "_shared_hooks" / "post_gen_logic"
+# sys.path.insert(0, str(HOOKS_DIR))
 
-from ansible import generate_ansible_dirs  # noqa: E402
-from docs import generate_docs_templates  # noqa: E402
-from utils import clean, make  # noqa: E402
+# from ansible import generate_ansible_dirs
+# from docs import generate_docs_templates
+# from utils import clean, make
 
 
 def main() -> None:

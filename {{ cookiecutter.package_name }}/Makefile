@@ -41,24 +41,22 @@ GALAXY_NAMESPACE := {{ cookiecutter.namespace }}
 GALAXY_COLLECTION := {{ cookiecutter.project_name }}
 GALAXY_AUTHOR = {{ cookiecutter.author }}
 GALAXY_VERSION = {{ cookiecutter.version }}
-GALAXY_PATH := .
 # --------------------------------------------------
 # 📁 Build Directories
 # --------------------------------------------------
-BUILD_UTILS := build_utils
-LIBRARY_DIR := library
-PLAYBOOKS_DIR := playbooks
-PLUGINS_DIR := plugins
-ROLES_DIR := roles
-SRC_DIR := $(BUILD_UTILS) $(PLUGINS_DIR) $(LIBRARY_DIR)
-TESTS_DIR := tests
-DOCS_DIR := docs
+PROJECT_ROOT := $(PWD)
+GALAXY_PATH := $(PROJECT_ROOT)
+LIBRARY_DIR := $(PROJECT_ROOT)/library
+PLAYBOOKS_DIR := $(PROJECT_ROOT)/playbooks
+PLUGINS_DIR := $(PROJECT_ROOT)/plugins
+ROLES_DIR := $(PROJECT_ROOT)/roles
+SRC_DIR := $(PLUGINS_DIR) $(LIBRARY_DIR)
+TESTS_DIR := $(PROJECT_ROOT)/tests
+DOCS_DIR := $(PROJECT_ROOT)/docs
 SPHINX_DIR := $(DOCS_DIR)/sphinx
 JEKYLL_DIR := $(DOCS_DIR)/jekyll
-
-SPHINX_BUILD_DIR := $(SPHINX_DIR)/_build/html
-SPHINX_OUTPUT_DIR := $(JEKYLL_DIR)/sphinx
-AUTODOC_OUTPUT_DIR := $(JEKYLL_DIR)/ansible-docs
+JEKYLL_SPHINX_DIR := $(JEKYLL_DIR)/sphinx
+JEKYLL_AUTODOC_DIR := $(JEKYLL_DIR)/ansible-docs
 README_GEN_DIR := $(JEKYLL_DIR)/tmp_readme
 # --------------------------------------------------
 # 🐍 Python / Virtual Environment
@@ -105,14 +103,21 @@ JEKYLL_BUILD := bundle exec jekyll build --quiet
 JEKYLL_CLEAN := bundle exec jekyll clean
 JEKYLL_SERVE := bundle exec jekyll serve
 # --------------------------------------------------
+# 🔖 Version Bumping (bumpy-my-version)
+# --------------------------------------------------
+BUMPVERSION := bump-my-version bump --verbose
+# Patch types:
+MAJOR := major
+MINOR := minor
+PATCH := patch
+# --------------------------------------------------
 # 🪐 Ansible Galaxy
 # --------------------------------------------------
 ANSIBLE_GALAXY := $(ACTIVATE) && ansible-galaxy
 # --------------------------------------------------
-# 🐍 Build Utils
+# 🏃‍♂️ Nutri-Matic Commands
 # --------------------------------------------------
-README_BUILD := $(PYTHON) -m build_utils.readme_build
-YAML_FRONT_MATTER := $(PYTHON) -m build_utils.yaml_front_matter
+NUTRIMATIC := $(PYTHON) -m nutrimatic
 # --------------------------------------------------
 # 🩹 Hacks
 # --------------------------------------------------
@@ -134,19 +139,18 @@ all: install lint-check typecheck test build-docs
 list-folders:
 	$(AT)printf "\
 	     Python Source Paths:\n\
-	     Build Utilities: $(BUILD_UTILS)\n\
 	     Plugins: $(PLUGINS_DIR)\n\
 	     Librarys: $(LIBRARY_DIR)\n\
 	     Test: $(TESTS_DIR)\n"
 # --------------------------------------------------
-# Hacks (ansible-autodoc)
+# 🩹 Hacks (ansible-autodoc)
 # --------------------------------------------------
 autodoc-hack:
 	$(AT)echo "🩹 Applying YAML loader hack for ansible-autodoc..."
 	$(AT)$(AUTODOC_FIX)
 	$(AT)echo "✅ YAML loader hack for ansible-autodoc complete!"
 # --------------------------------------------------
-# Virtual Environment Setup
+# 🐍 Virtual Environment Setup
 # --------------------------------------------------
 venv:
 	$(AT)echo "🐍 Creating virtual environment..."
@@ -162,7 +166,7 @@ install: venv
 	$(AT)echo "✅ Dependencies installed."
 	$(AT)$(MAKE) autodoc-hack
 # --------------------------------------------------
-# Formating (black, ruff)
+# 🎨 Formatting (black, ruff)
 # --------------------------------------------------
 black-formatter-check:
 	$(AT)echo "🔍 Running black formatter style check..."
@@ -177,20 +181,23 @@ black-formatter-fix:
 format-check: black-formatter-check
 format-fix: black-formatter-fix
 # --------------------------------------------------
-# Linting (ruff, yaml, ansible)
+# 🔍 Linting (ruff, yaml, ansible)
 # --------------------------------------------------
 ruff-lint-check:
 	$(AT)echo "🔍 Running ruff linting..."
 	$(AT)$(MAKE) list-folders
 	$(AT)$(RUFF) check $(SRC_DIR) $(TESTS_DIR)
+	$(AT)echo "✅ Finished linting check of Python code with Ruff!"
 
 ruff-lint-fix:
 	$(AT)echo "🎨 Running ruff lint fixes..."
 	$(AT)$(RUFF) check --fix --show-files $(SRC_DIR) $(TESTS_DIR)
+	$(AT)echo "✅ Finished linting Python code with Ruff!"
 
 yaml-lint-check:
 	$(AT)echo "🔍 Running yamllint..."
 	$(AT)$(YAMLLINT) .
+	$(AT)echo "✅ Finished linting check of yaml files with yamllint!"
 
 ansible-lint-check:
 	$(AT)echo "🔍 Running ansible-lint..."
@@ -199,7 +206,7 @@ ansible-lint-check:
 lint-check: ruff-lint-check yaml-lint-check ansible-lint-check
 lint-fix: ruff-lint-fix
 # --------------------------------------------------
-# Typechecking (MyPy)
+# 🧠 Typechecking (MyPy)
 # --------------------------------------------------
 typecheck:
 	$(AT)echo "🧠 Checking types (MyPy)..."
@@ -207,71 +214,58 @@ typecheck:
 	$(AT)$(call run_ci_safe, $(MYPY) $(SRC_DIR) $(TESTS_DIR))
 	$(AT)echo "✅ Python typecheck complete!"
 # --------------------------------------------------
-# Testing (pytest)
+# 🧪 Testing (pytest)
 # --------------------------------------------------
 test:
 	$(AT)echo "🧪 Running tests with pytest..."
 	$(AT)$(call run_ci_safe, $(PYTEST) $(TESTS_DIR))
 	$(AT)echo "✅ Python tests complete!"
 # --------------------------------------------------
-# Documentation (Sphinx + Ansible Autodoc + Jekyll)
+# 📘 Documentation (Sphinx + Ansible Autodoc + Jekyll)
 # --------------------------------------------------
 sphinx:
+	$(MAKE) -C $(SPHINX_DIR) all PUBLISHDIR=$(JEKYLL_SPHINX_DIR)
+
+sphinx-old:
 	$(AT)echo "🧹 Clening Sphinx build artifacts..."
-	$(AT)rm -rf $(SPHINX_OUTPUT_DIR)
+	$(AT)rm -rf $(JEKYLL_SPHINX_DIR)
 	$(AT)echo "🔨 Building Sphinx documentation 📘 as Markdown..."
-	$(AT)$(SPHINX) $(SPHINX_DIR) $(SPHINX_OUTPUT_DIR)
+	$(AT)$(SPHINX) $(SPHINX_DIR) $(JEKYLL_SPHINX_DIR)
 	$(AT)echo "✅ Sphinx Markdown build complete!"
 
 autodocs-front-matter:
-	$(AT)echo "📝 Adding YAML front matter to generated files in $(AUTODOC_OUTPUT_DIR)..."
-	$(AT)$(YAML_FRONT_MATTER) $(AUTODOC_OUTPUT_DIR) --project $(GALAXY_PACKAGE_NAME)
+	$(AT)echo "📝 Adding YAML front matter to generated files in $(JEKYLL_AUTODOC_DIR)..."
+	$(AT)$(NUTRIMATIC) build add-yaml-front-matter $(JEKYLL_AUTODOC_DIR) --project $(GALAXY_PACKAGE_NAME)
 	$(AT)echo "✅ Adding YAML front matter to Ansible autodoc files complete!"
 
 autodoc:
 	$(AT)echo "🔨 Building Ansible autodoc documentation..."
-	$(AT)$(AUTODOC) $(GALAXY_PATH) -o $(AUTODOC_OUTPUT_DIR)
-	$(AT)echo "✅ Ansible autodoc documentation generated at $(AUTODOC_OUTPUT_DIR)"
+	$(AT)$(AUTODOC) $(GALAXY_PATH) -o $(JEKYLL_AUTODOC_DIR)
+	$(AT)echo "✅ Ansible autodoc documentation generated at $(JEKYLL_AUTODOC_DIR)"
 	$(AT)$(MAKE) autodocs-front-matter
 
 jekyll:
-	$(AT)echo "🔨 Building Jekyll site..."
-	$(AT)cd $(JEKYLL_DIR) && $(JEKYLL_BUILD)
-	$(AT)echo "✅ Full documentation build complete!"
+	$(MAKE) -C $(JEKYLL_DIR) build;
+
+jekyll-serve:
+	$(MAKE) -C $(JEKYLL_DIR) run;
 
 readme:
-	$(AT)$(README_BUILD) $(JEKYLL_DIR) ./README.md --tmp-dir $(README_GEN_DIR)
-
-readme-old:
-	$(AT)echo "🔨 Building ./README.md 📘 with Jekyll..."
-	$(AT)mkdir -p $(README_GEN_DIR)
-	$(AT)cp $(JEKYLL_DIR)/_config.yml $(README_GEN_DIR)/_config.yml
-	$(AT)cp $(JEKYLL_DIR)/Gemfile $(README_GEN_DIR)/Gemfile
-	$(AT)printf "%s\n" "---" \
-		"layout: raw" \
-		"permalink: /README.md" \
-		"---" > $(README_GEN_DIR)/README.md
-	$(AT)printf '%s\n' '<!--' \
-		'  Auto-generated file. Do not edit directly.' \
-		'  Edit $(JEKYLL_DIR)/README.md instead.' \
-		'  Run ```make readme``` to regenrate this file' \
-		'-->' >> $(README_GEN_DIR)/README.md
-	$(AT)cat $(JEKYLL_DIR)/README.md >> $(README_GEN_DIR)/README.md
-	$(AT)cd $(README_GEN_DIR) && $(JEKYLL_BUILD)
-	$(AT)cp $(README_GEN_DIR)/_site/README.md ./README.md
-	$(AT)echo "🧹 Clening README.md build artifacts..."
-	$(AT)rm -r $(README_GEN_DIR)
-	$(AT)echo "✅ README.md auto generation complete!"
+	$(AT)$(NUTRIMATIC) build readme $(JEKYLL_DIR) ./README.md \
+		--tmp-dir $(README_GEN_DIR) --jekyll-cmd '$(JEKYLL_BUILD)'
 
 build-docs: sphinx autodoc jekyll readme
-
-jekyll-serve: docs
-	$(AT)echo "🚀 Starting Jekyll development server..."
-	$(AT)cd $(JEKYLL_DIR) && $(JEKYLL_SERVE)
-
 run-docs: jekyll-serve
 # --------------------------------------------------
-# Ansible Galaxy Commands
+# 🔖 Version Bumping (bumpy-my-version)
+# --------------------------------------------------
+# TODO: Also create a git tag of current version.
+bump-version-patch:
+	$(AT)echo "🔖 Updating $(PACKAGE_NAME) version from $(VERSION)..."
+	$(AT)$(BUMPVERSION) $(PATCH)
+	$(AT)echo "✅ $(PACKAGE_NAME) version update complete!"
+# --------------------------------------------------
+# 🪐 Ansible Galaxy Commands
 # --------------------------------------------------
 galaxy-build:
 	$(AT)echo "🔨 Building Ansible Galaxy collection... 🪐"
@@ -288,11 +282,11 @@ galaxy-publish:
 	$(AT)$(ANSIBLE_GALAXY) collection publish $(GALAXY_NAMESPACE)-$(GALAXY_COLLECTION)-*.tar.gz
 	$(AT)echo "✅ Published."
 # --------------------------------------------------
-# Clean artifacts
+# 🧹 Clean artifacts
 # --------------------------------------------------
 clean:
 	$(AT)echo "🧹 Clening build artifacts..."
-	$(AT)rm -rf $(SPHINX_DIR)/_build $(SPHINX_OUTPUT_DIR) $(AUTODOC_OUTPUT_DIR)
+	$(AT)rm -rf $(SPHINX_DIR)/_build $(JEKYLL_SPHINX_DIR) $(JEKYLL_AUTODOC_DIR)
 	$(AT)$(call run_ci_safe, cd $(JEKYLL_DIR) && $(JEKYLL_CLEAN))
 	$(AT)rm -rf build dist *.egg-info
 	$(AT)find $(SRC_DIR) $(TESTS_DIR) -name "__pycache__" -type d -exec rm -rf {} +

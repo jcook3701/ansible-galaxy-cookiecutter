@@ -36,14 +36,18 @@ Documentation = "https://github.com/jcook3701/ansible-galaxy-cookiecutter/docs/j
 
 [project.optional-dependencies]
 dev = [
+  "bump-my-version>=1.2",
+  "coverage>=7.12",
   "black>=25.11",
   "ruff>=0.14.0",
   "mypy==1.9",
+  "nutri-matic>=0.1",
   "pytest>=9.0",
   "pytest-cookies>=0.7",
-  "yamllint>=1.0",
+  "pytest-cov>=7.0",
   "jinja2-cli>=0.8",
   "typer>=0.20",
+  "yamllint>=1.0",
 ]
 docs = [
   "sphinx>=8.0",
@@ -51,6 +55,7 @@ docs = [
   "sphinx-markdown-builder>=0.6",
   "sphinx-autodoc-typehints>=3.5",
 ]
+
 # ====================================
 # Setuptools Configuration:
 # ====================================
@@ -69,8 +74,6 @@ include = [
 target-version = "py311"
 # Directories to lint and format
 src = [
-  "{{ cookiecutter.package_name }}/build_utils",
-  "{{ cookiecutter.package_name }}/_shared_hooks",
   "hooks",
   "tests",
   "{{ cookiecutter.package_name }}/tests",
@@ -154,7 +157,6 @@ minversion = "7.0"
 addopts = ["-v", "--maxfail=1", "-W always", "-rw", "--strict-markers"]
 testpaths = [
   "tests",
-  "{{ cookiecutter.package_name }}/tests",
 ]
 pythonpath = [
   ".",

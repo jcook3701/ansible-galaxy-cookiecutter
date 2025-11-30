@@ -40,9 +40,11 @@ dev = [
   "ansible-core>=2.0",
 ]
 tools = [
+  "bump-my-version>=1.2",
   "black>=25.11",
   "ruff>=0.14.0",
   "mypy==1.9",
+  "nutri-matic>=0.1",
   "ansible-lint>=25.0",
   "yamllint>=1.0",
   "pytest>=9.0",
@@ -68,6 +70,26 @@ include = [
   "build_utils*",
   "plugins*",
 ]
+# ====================================
+# Version Bumping (bump-my-version):
+# ====================================
+[tool.bumpversion]
+current_version = "0.1.2"
+parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
+serialize = ["{major}.{minor}.{patch}"]
+search = "{current_version}"
+replace = "{new_version}"
+tag = false
+commit = false
+
+[[tool.bumpversion.files]]
+filename = "Makefile"
+[[tool.bumpversion.files]]
+filename = "./docs/jekyll/Makefile"
+[[tool.bumpversion.files]]
+filename = "./docs/jekyll/_config.yml"
+[[tool.bumpversion.files]]
+filename = "./docs/sphinx/conf.py"
 # ====================================
 # Ruff Configuration: (Linting)
 # ====================================
