@@ -36,24 +36,22 @@ endef
 # --------------------------------------------------
 # ⚙️ Build Settings
 # --------------------------------------------------
-PACKAGE_NAME = "ansible-galaxy-cookiecutter"
-AUTHOR = "Jared Cook"
-VERSION = "0.1.0"
+PACKAGE_NAME := "ansible-galaxy-cookiecutter"
+AUTHOR := "Jared Cook"
+VERSION := "0.1.0"
 # --------------------------------------------------
 # 📁 Build Directories
 # --------------------------------------------------
-COOKIE_DIR := {{ cookiecutter.package_name }}
-HOOKS_DIR := hooks
+PROJECT_ROOT := $(PWD)
+COOKIE_DIR := $(PROJECT_ROOT)/{{ cookiecutter.package_name }}
+HOOKS_DIR := $(PROJECT_ROOT)/hooks
 SRC_DIR := $(HOOKS_DIR)
-TEST_DIR := tests
-COOKIE_TESTS_DIR := $(COOKIE_DIR)/tests
-TESTS_DIR := '$(COOKIE_TESTS_DIR)' $(TEST_DIR)
-DOCS_DIR := docs
+TEST_DIR := $(PROJECT_ROOT)/tests
+TESTS_DIR := $(TEST_DIR)
+DOCS_DIR := $(PROJECT_ROOT)/docs
 SPHINX_DIR := $(DOCS_DIR)/sphinx
 JEKYLL_DIR := $(DOCS_DIR)/jekyll
-
-SPHINX_BUILD_DIR := $(SPHINX_DIR)/_build/html
-JEKYLL_OUTPUT_DIR := $(JEKYLL_DIR)/sphinx
+JEKYLL_SPHINX_DIR := $(JEKYLL_DIR)/sphinx
 # --------------------------------------------------
 # 🐍 Python / Virtual Environment
 # --------------------------------------------------
@@ -207,7 +205,6 @@ typecheck:
 # 🧪 Testing (pytest)
 # --------------------------------------------------
 # NOTE: This is using TEST_DIR and not TESTS_DIR at the moment.
-# TODO: See if I can also get working with '$(COOKIE_TESTS_DIR)'
 test:
 	$(AT)echo "🧪 Running tests with pytest..."
 	$(AT)$(call run_ci_safe, $(PYTEST) $(TEST))
@@ -222,8 +219,7 @@ jekyll:
 	$(MAKE) -C $(JEKYLL_DIR) all;
 
 jekyll-serve: docs
-	$(AT)echo "🚀 Starting Jekyll development server..."
-	$(AT)cd $(JEKYLL_DIR) && $(JEKYLL_SERVE)
+	$(MAKE) -C $(JEKYLL_DIR) run;
 
 build-docs: sphinx jekyll
 run-docs: jekyll-serve
@@ -240,7 +236,7 @@ bump-version-patch:
 # --------------------------------------------------
 clean:
 	$(AT)echo "🧹 Clening build artifacts..."
-	$(AT)rm -rf $(SPHINX_DIR)/_build $(JEKYLL_OUTPUT_DIR)
+	$(AT)rm -rf $(SPHINX_DIR)/_build $(JEKYLL_SPHINX_DIR)
 	$(AT)$(call run_ci_safe, cd $(JEKYLL_DIR) && $(JEKYLL_CLEAN))
 	$(AT)rm -rf build dist *.egg-info
 	$(AT)find $(HOOKS_DIR) $(TESTS_DIR) -name "__pycache__" -type d -exec rm -rf {} +

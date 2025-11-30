@@ -8,6 +8,7 @@
 # --------------------------------------------------
 SHELL := /bin/bash
 .SHELLFLAGS := -O globstar -c
+PROJECT_ROOT := $(PWD)
 # If V is set to '1' or 'y' on the command line,
 # AT will be empty (verbose).  Otherwise, AT will
 # contain '@' (quiet by default).  The '?' is a
@@ -39,13 +40,12 @@ endef
 GALAXY_PACKAGE_NAME = {{ cookiecutter.package_name }}
 GALAXY_NAMESPACE := {{ cookiecutter.namespace }}
 GALAXY_COLLECTION := {{ cookiecutter.project_name }}
-GALAXY_AUTHOR = {{ cookiecutter.author }}
-GALAXY_VERSION = {{ cookiecutter.version }}
+GALAXY_AUTHOR := {{ cookiecutter.author }}
+GALAXY_VERSION := {{ cookiecutter.version }}
+GALAXY_PATH := $(PROJECT_ROOT)
 # --------------------------------------------------
 # 📁 Build Directories
 # --------------------------------------------------
-PROJECT_ROOT := $(PWD)
-GALAXY_PATH := $(PROJECT_ROOT)
 LIBRARY_DIR := $(PROJECT_ROOT)/library
 PLAYBOOKS_DIR := $(PROJECT_ROOT)/playbooks
 PLUGINS_DIR := $(PROJECT_ROOT)/plugins
@@ -140,7 +140,7 @@ list-folders:
 	$(AT)printf "\
 	     Python Source Paths:\n\
 	     Plugins: $(PLUGINS_DIR)\n\
-	     Librarys: $(LIBRARY_DIR)\n\
+	     Libraries: $(LIBRARY_DIR)\n\
 	     Test: $(TESTS_DIR)\n"
 # --------------------------------------------------
 # 🩹 Hacks (ansible-autodoc)
