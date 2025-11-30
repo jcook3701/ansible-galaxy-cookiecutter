@@ -11,7 +11,7 @@ Description: Post project generation Scripts.
 import json
 import os
 
-from nutrimatic.core.bash import clean, make
+from nutrimatic.core import clean, make
 from nutrimatic.hooks.post_gen_logic import (
     generate_ansible_dirs,
     generate_docs_templates,
