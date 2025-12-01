@@ -24,6 +24,7 @@
   "_copy_without_render": [
     ".github/*"
   ],
+  "timestamp_placeholder": "__TIMESTAMP_GOES_HERE__",
   "add_github_docs": true,
   "add_sphinx_docs": true
 }

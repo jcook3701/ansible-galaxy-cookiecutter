@@ -8,9 +8,10 @@ Author: Jared Cook
 Description: Pre project generation Scripts.
 """
 
-import os
 import json
+import os
 from pathlib import Path
+
 from nutrimatic.hooks.pre_gen_logic import release_date
 
 
