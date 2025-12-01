@@ -24,7 +24,7 @@ def main() -> None:
     print(f"Context: {context}")
     # json_file = "cookiecutter.json"
 
-    json_path = Path(__file__).parent / "cookiecutter.json"
+    json_path = Path(__file__).absolute / "cookiecutter.json"
 
     # project_dir = Path.cwd()
     print(f"FileName: {json_path}")
