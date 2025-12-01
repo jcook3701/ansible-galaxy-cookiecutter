@@ -283,9 +283,9 @@ bump-version-patch:
 # 📜 Changelog generation (git-cliff)
 # --------------------------------------------------
 changelog:
+	GIT_CLIFF_TEMPLATE=release_yaml \
 	$(GITCLIFF) \
 	  --tag $(GALAXY_VERSION) \
-	  --template release_yaml \
 	  --output $(CHANGELOG_RELEASE_DIR)/$(GALAXY_VERSION).yml
 
 	$(GITCLIFF) \
