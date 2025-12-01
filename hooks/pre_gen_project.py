@@ -12,7 +12,7 @@ import json
 import os
 from pathlib import Path
 
-from nutrimatic.hooks.pre_gen_logic import release_date
+# from nutrimatic.hooks.pre_gen_logic import release_date
 
 
 def main() -> None:
@@ -25,13 +25,13 @@ def main() -> None:
     print(f"Context: {context}")
     # json_file = "cookiecutter.json"
 
-    json_path = Path(__file__).absolute() / "cookiecutter.json"
+    # json_path = Path(__file__).absolute() / "cookiecutter.json"
 
     # project_dir = Path.cwd()
-    print(f"FileName: {json_path}")
+    # print(f"FileName: {json_path}")
     # print(f"JSON File: {json_file}")
     # Init Auto Variables
-    release_date(json_path)
+    # release_date(json_path)
 
 
 if __name__ == "__main__":
