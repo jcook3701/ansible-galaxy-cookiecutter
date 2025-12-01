@@ -20,8 +20,8 @@ def main() -> None:
     if os.getenv("CI"):
         print("⚙️  Detected CI environment — skipping GitHub Docs generation.")
         return
-    # context = json.loads("""{{ cookiecutter | jsonify }}""")
-    # print(f"Context: {context}")
+    context = json.loads("""{{ cookiecutter | jsonify }}""")
+    print(f"Context: {context}")
     # json_file = "cookiecutter.json"
 
     json_path = Path(__file__).parent.parent / "cookiecutter.json"
