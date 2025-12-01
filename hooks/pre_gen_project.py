@@ -21,7 +21,7 @@ def main() -> None:
         print("⚙️  Detected CI environment — skipping GitHub Docs generation.")
         return
     
-    json_file = os.path.join(os.path.dirname(__file__), "..", "cookiecutter.json")
+    json_file = os.path.join(os.path.dirname(__file__), "cookiecutter.json")
 
     # project_dir = Path.cwd()
     print(f"FileName: {os.path.dirname(__file__)}")
