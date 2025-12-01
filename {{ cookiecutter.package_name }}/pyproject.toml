@@ -8,7 +8,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "{{ cookiecutter.package_name }}"
-version = "{{ cookiecutter. version }}"
+version = "{{ cookiecutter.version }}"
 description = "{{ cookiecutter.description }}"
 authors = [
     { name="{{ cookiecutter.author }}", email="{{ cookiecutter.email }}" }
@@ -74,7 +74,7 @@ include = [
 # Version Bumping (bump-my-version):
 # ====================================
 [tool.bumpversion]
-current_version = "0.1.2"
+current_version = "{{ cookiecutter.version }}"
 parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
 serialize = ["{major}.{minor}.{patch}"]
 search = "{current_version}"
