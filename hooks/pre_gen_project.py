@@ -24,7 +24,7 @@ def main() -> None:
     json_file = os.path.join(os.path.dirname(__file__), "..", "cookiecutter.json")
 
     # project_dir = Path.cwd()
-    print(os.path.dirname(__file__))
+    print(f"FileName: {os.path.dirname(__file__)}")
     print(f"JSON File: {json_file}")
     # Init Auto Variables
     release_date(json_file)
