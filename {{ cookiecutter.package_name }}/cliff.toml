@@ -1,4 +1,4 @@
-# .git-cliff.toml
+# cliff.toml
 # Git-Cliff config for hybrid changelog system
 
 [git]
