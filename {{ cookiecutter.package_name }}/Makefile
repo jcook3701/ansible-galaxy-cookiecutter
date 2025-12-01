@@ -283,15 +283,13 @@ bump-version-patch:
 # 📜 Changelog generation (git-cliff)
 # --------------------------------------------------
 changelog:
-	GIT_CLIFF_TEMPLATE=release_yaml \
-	$(GITCLIFF) \
+	GIT_CLIFF_TEMPLATE=release_yaml $(GITCLIFF) \
 	  --tag $(GALAXY_VERSION) \
 	  --output $(CHANGELOG_RELEASE_DIR)/$(GALAXY_VERSION).yml
 
-	$(GITCLIFF) \
+	GIT_CLIFF_TEMPLATE=index_append $(GITCLIFF) \
 	  --tag $(GALAXY_VERSION) \
-	  --template index_append \
-	  >> $(CHANGELOG_DIR)/changelog.yml
+	  --output $(CHANGELOG_DIR)/changelog.yml
 # --------------------------------------------------
 # 🐙 Github Release (git)
 # --------------------------------------------------
