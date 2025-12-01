@@ -276,28 +276,28 @@ run-docs: jekyll-serve
 # --------------------------------------------------
 # TODO: Also create a git tag of current version.
 bump-version-patch:
-	$(AT)echo "🔖 Updating $(PACKAGE_NAME) version from $(VERSION)..."
+	$(AT)echo "🔖 Updating $(GALAXY_PACKAGE_NAME) version from $(GALAXY_VERSION)..."
 	$(AT)$(BUMPVERSION) $(PATCH)
-	$(AT)echo "✅ $(PACKAGE_NAME) version update complete!"
+	$(AT)echo "✅ $(GALAXY_PACKAGE_NAME) version update complete!"
 # --------------------------------------------------
 # 📜 Changelog generation (git-cliff)
 # --------------------------------------------------
 changelog:
 	$(GITCLIFF) \
-	  --tag $(VERSION) \
+	  --tag $(GALAXY_VERSION) \
 	  --template release_yaml \
-	  --output $(CHANGELOG_RELEASE_DIR)/$(VERSION).yml
+	  --output $(CHANGELOG_RELEASE_DIR)/$(GALAXY_VERSION).yml
 
 	$(GITCLIFF) \
-	  --tag $(VERSION) \
+	  --tag $(GALAXY_VERSION) \
 	  --template index_append \
 	  >> $(CHANGELOG_DIR)/changelog.yml
 # --------------------------------------------------
 # 🐙 Github Release (git)
 # --------------------------------------------------
 release: changelog
-	$(AT)$(GIT) tag -a v$(VERSION) -m "Release v$(VERSION)"
-	$(AT)$(GIT) push origin v$(VERSION)
+	$(AT)$(GIT) tag -a v$(GALAXY_VERSION) -m "Release v$(GALAXY_VERSION)"
+	$(AT)$(GIT) push origin v$(GALAXY_VERSION)
 # --------------------------------------------------
 # 🪐 Ansible Galaxy Commands
 # --------------------------------------------------
