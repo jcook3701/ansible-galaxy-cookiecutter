@@ -10,6 +10,7 @@ Description: Pre project generation Scripts.
 
 import os
 
+from pathlib import Path
 from nutrimatic.hooks.pre_gen_logic import release_date
 
 
@@ -19,9 +20,11 @@ def main() -> None:
     if os.getenv("CI"):
         print("⚙️  Detected CI environment — skipping GitHub Docs generation.")
         return
+    
+    project_dir = Path.cwd()
 
     # Init Auto Variables
-    release_date()
+    release_date(path=project_dir)
 
 
 if __name__ == "__main__":
