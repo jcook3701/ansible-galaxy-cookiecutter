@@ -25,6 +25,7 @@ def main() -> None:
 
     # project_dir = Path.cwd()
 
+    print(json_file)
     # Init Auto Variables
     release_date(json_file)
 
