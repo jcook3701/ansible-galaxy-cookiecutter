@@ -120,7 +120,7 @@ PATCH := patch
 # --------------------------------------------------
 # 📜 Changelog generation (git-clif)
 # --------------------------------------------------
-GITCLIF := git-cliff
+GITCLIFF := git-cliff
 # --------------------------------------------------
 # 🐙 Github Tools (git)
 # --------------------------------------------------
@@ -283,12 +283,12 @@ bump-version-patch:
 # 📜 Changelog generation (git-cliff)
 # --------------------------------------------------
 changelog:
-	$(GITCLIF) \
+	$(GITCLIFF) \
 	  --tag $(VERSION) \
 	  --template release_yaml \
 	  --output $(CHANGELOG_RELEASE_DIR)/$(VERSION).yml
 
-	$(GITCLIF) \
+	$(GITCLIFF) \
 	  --tag $(VERSION) \
 	  --template index_append \
 	  >> $(CHANGELOG_DIR)/changelog.yml

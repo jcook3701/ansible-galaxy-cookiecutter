@@ -5,5 +5,5 @@
 See the LICENSE file for more details.
 
 Author: Jared Cook
-Discription: hooks initialization.
+Description: hooks initialization.
 """

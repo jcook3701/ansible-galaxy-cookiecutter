@@ -104,7 +104,7 @@ MAJOR := major
 MINOR := minor
 PATCH := patch
 # --------------------------------------------------
-# 🏃‍♂️ nutrimatic command
+# 🏃‍♂️ Nutri-Matic command
 # --------------------------------------------------
 NUTRIMATIC := $(PYTHON) -m nutrimatic
 # --------------------------------------------------

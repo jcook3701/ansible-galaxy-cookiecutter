@@ -29,7 +29,7 @@ types = [
     { type = "chore", title = "Miscellaneous" },
 ]
 
-
+{% raw %}
 [changelog]
 # Do NOT auto-write a file — we manually direct output
 header = ""
@@ -59,4 +59,5 @@ content = """
   "{{ version }}":
     file: "releases/{{ version }}.yml"
     date: "{{ date }}"
+{% endraw %}
 """
