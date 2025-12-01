@@ -9,7 +9,7 @@ Description: Pre project generation Scripts.
 """
 
 import os
-
+import json
 from pathlib import Path
 from nutrimatic.hooks.pre_gen_logic import release_date
 
@@ -20,8 +20,9 @@ def main() -> None:
     if os.getenv("CI"):
         print("⚙️  Detected CI environment — skipping GitHub Docs generation.")
         return
-    
-    json_file = os.path.join(os.path.dirname(__file__), "cookiecutter.json")
+    context = json.loads("""{{ cookiecutter | jsonify }}""")
+    print(f"Context: {context}")
+    json_file = os.path.join(os.path.dirname(__file__), "..", "cookiecutter.json")
 
     # project_dir = Path.cwd()
     print(f"FileName: {os.path.dirname(__file__)}")
