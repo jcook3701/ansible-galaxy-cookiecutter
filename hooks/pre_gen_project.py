@@ -26,7 +26,7 @@ def main() -> None:
     # project_dir = Path.cwd()
 
     # Init Auto Variables
-    release_date(path=json_file)
+    release_date(json_file)
 
 
 if __name__ == "__main__":
