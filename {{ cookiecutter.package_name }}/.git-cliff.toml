@@ -1,0 +1,62 @@
+# .git-cliff.toml
+# Git-Cliff config for hybrid changelog system
+
+[git]
+conventional_commits = true
+filter_unconventional = false
+include_commits = "all"
+
+exclude = [
+    "^Merge",
+    "^chore: bump version",
+    "^chore: update changelog",
+    "^docs: update readme",
+]
+
+[group]
+ref = "type"
+breaks = ["BREAKING CHANGE"]
+types = [
+    { type = "feat", title = "Features" },
+    { type = "fix",  title = "Fixes" },
+    { type = "docs", title = "Documentation" },
+    { type = "perf", title = "Performance" },
+    { type = "refactor", title = "Refactoring" },
+    { type = "style", title = "Styling" },
+    { type = "test", title = "Tests" },
+    { type = "ci",   title = "CI" },
+    { type = "build", title = "Build System" },
+    { type = "chore", title = "Miscellaneous" },
+]
+
+
+[changelog]
+# Do NOT auto-write a file — we manually direct output
+header = ""
+footer = ""
+
+# Embedded templates
+[[changelog.templates]]
+name = "release_yaml"
+content = """ 
+---
+version: "{{ version }}"
+release_date: "{{ date }}"
+changes:
+{{#each groups}}
+  {{ title }}:
+  {{#each commits}}
+    - message: "{{ message }}"
+      scope: "{{ scope }}"
+      breaking: {{ breaking }}
+  {{/each}}
+{{/each}}
+"""
+
+[[changelog.templates]]
+name = "index_append"
+content = """
+  "{{ version }}":
+    file: "releases/{{ version }}.yml"
+    date: "{{ date }}"
+"""

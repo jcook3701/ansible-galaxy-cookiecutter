@@ -2,8 +2,6 @@
 # Index of all changelog files for the collection
 ---
 releases:
-  {{ cookiecutter.version }}-alpha:
-    release_date: "2025-10-15"
-    codename: White Rabbit
-    changes:
-      release_summary: This is the initial White Rabbit release. Enjoy!
+  {{ cookiecutter.version }}:
+    file: "releases/{{ cookiecutter.version }}.yml"
+

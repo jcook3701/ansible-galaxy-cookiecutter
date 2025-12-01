@@ -58,6 +58,13 @@ JEKYLL_DIR := $(DOCS_DIR)/jekyll
 JEKYLL_SPHINX_DIR := $(JEKYLL_DIR)/sphinx
 JEKYLL_AUTODOC_DIR := $(JEKYLL_DIR)/ansible-docs
 README_GEN_DIR := $(JEKYLL_DIR)/tmp_readme
+CHANGELOG_DIR := $(PROJECT_ROOT)/changelogs
+CHANGELOG_RELEASE_DIR = $(CHANGELOG_DIR)/releases
+# --------------------------------------------------
+# 📄 Build Files
+# --------------------------------------------------
+README_FILE = $(PROJECT_ROOT)/README.md
+CHANGELOG_FILE = $(CHANGELOG_DIR)/changelog.yml
 # --------------------------------------------------
 # 🐍 Python / Virtual Environment
 # --------------------------------------------------
@@ -110,6 +117,14 @@ BUMPVERSION := bump-my-version bump --verbose
 MAJOR := major
 MINOR := minor
 PATCH := patch
+# --------------------------------------------------
+# 📜 Changelog generation (git-clif)
+# --------------------------------------------------
+GITCLIF := git-cliff
+# --------------------------------------------------
+# 🐙 Github Tools (git)
+# --------------------------------------------------
+GIT := git
 # --------------------------------------------------
 # 🪐 Ansible Galaxy
 # --------------------------------------------------
@@ -251,7 +266,7 @@ jekyll-serve:
 	$(MAKE) -C $(JEKYLL_DIR) run;
 
 readme:
-	$(AT)$(NUTRIMATIC) build readme $(JEKYLL_DIR) ./README.md \
+	$(AT)$(NUTRIMATIC) build readme $(JEKYLL_DIR) $(README_FILE) \
 		--tmp-dir $(README_GEN_DIR) --jekyll-cmd '$(JEKYLL_BUILD)'
 
 build-docs: sphinx autodoc jekyll readme
@@ -264,6 +279,25 @@ bump-version-patch:
 	$(AT)echo "🔖 Updating $(PACKAGE_NAME) version from $(VERSION)..."
 	$(AT)$(BUMPVERSION) $(PATCH)
 	$(AT)echo "✅ $(PACKAGE_NAME) version update complete!"
+# --------------------------------------------------
+# 📜 Changelog generation (git-cliff)
+# --------------------------------------------------
+changelog:
+	$(GITCLIF) \
+	  --tag $(VERSION) \
+	  --template release_yaml \
+	  --output $(CHANGELOG_RELEASE_DIR)/$(VERSION).yml
+
+	$(GITCLIF) \
+	  --tag $(VERSION) \
+	  --template index_append \
+	  >> $(CHANGELOG_DIR)/changelog.yml
+# --------------------------------------------------
+# 🐙 Github Release (git)
+# --------------------------------------------------
+release: changelog
+	$(AT)$(GIT) tag -a v$(VERSION) -m "Release v$(VERSION)"
+	$(AT)$(GIT) push origin v$(VERSION)
 # --------------------------------------------------
 # 🪐 Ansible Galaxy Commands
 # --------------------------------------------------
@@ -287,7 +321,8 @@ galaxy-publish:
 clean:
 	$(AT)echo "🧹 Clening build artifacts..."
 	$(AT)rm -rf $(SPHINX_DIR)/_build $(JEKYLL_SPHINX_DIR) $(JEKYLL_AUTODOC_DIR)
-	$(AT)$(call run_ci_safe, cd $(JEKYLL_DIR) && $(JEKYLL_CLEAN))
+	$(AT)$(MAKE) -C $(JEKYLL_DIR) clean
+	$(AT)$(MAKE) -C $(SPHINX_DIR) clean
 	$(AT)rm -rf build dist *.egg-info
 	$(AT)find $(SRC_DIR) $(TESTS_DIR) -name "__pycache__" -type d -exec rm -rf {} +
 	$(AT)-[ -d "$(VENV_DIR)" ] && rm -r $(VENV_DIR)

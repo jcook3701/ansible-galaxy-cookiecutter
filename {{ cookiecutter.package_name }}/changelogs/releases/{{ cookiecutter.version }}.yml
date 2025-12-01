@@ -1,0 +1,11 @@
+---
+version: {{ cookiecutter.version }}
+release_date: "{{ cookiecutter.release_date }}"
+codename: "{{ cookiecutter.codename | default('Initial Release') }}"
+changes:
+  release_summary: "{{ cookiecutter.release_summary }}"
+  details: [
+    Initial release of the collection,
+    Added example playbooks,
+    Added basic documentation,
+  ]
