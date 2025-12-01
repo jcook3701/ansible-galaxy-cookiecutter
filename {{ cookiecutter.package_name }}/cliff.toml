@@ -50,8 +50,6 @@ exclude = [
 # Do NOT auto-write a file — we manually direct output
 header = ""
 footer = ""
-
-name = "release_yaml"
 body = """ 
 ---
 version: "{{ version }}"
