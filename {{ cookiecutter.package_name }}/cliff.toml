@@ -6,6 +6,23 @@ conventional_commits = true
 filter_unconventional = false
 include_commits = "all"
 
+commit_parsers = [
+    { message = "^feat", group = "🚀 Added", type = "feat" },
+    { message = "^fix", group = "🐛 Fixed", type = "fix" },
+    { message = "^doc", group = "📚 Documentation", type = "docs" },
+    { message = "^perf", group = "⚡ Performance", type = "perf" },
+    { message = "^refactor", group = "🚜 Refactoring", type = "refactor" },
+    { message = "^style", group = "🎨 Styling", type = "style" },
+    { message = "^test", group = "🧪 Tests", type = "test" },
+    { message = "^deprecate", group = "⚠️ Deprecated", type = "deprecate" },
+    # Assuming 'remove' is an intended type for removed features/files
+    { message = "^remove", group = "🚫 Removed", type = "remove" }, 
+    { message = "^security", group = "🔒 Security", type = "security" },
+    { message = "^chore|^ci", group = "⚙️ Miscellaneous", type = "chore" },
+    # Catch-all for anything missed by the above rules
+    { message = ".*", group = "⚙️ Miscellaneous", type = "chore" },
+]
+
 exclude = [
     "^Merge",
     "^chore: bump version",
@@ -13,21 +30,20 @@ exclude = [
     "^docs: update readme",
 ]
 
-[group]
-ref = "type"
-breaks = ["BREAKING CHANGE"]
-types = [
-    { type = "feat", title = "Features" },
-    { type = "fix",  title = "Fixes" },
-    { type = "docs", title = "Documentation" },
-    { type = "perf", title = "Performance" },
-    { type = "refactor", title = "Refactoring" },
-    { type = "style", title = "Styling" },
-    { type = "test", title = "Tests" },
-    { type = "ci",   title = "CI" },
-    { type = "build", title = "Build System" },
-    { type = "chore", title = "Miscellaneous" },
-]
+[sections]
+"🚀 Added" = ["feat"]
+"🐛 Fixed" = ["fix"]
+"📚 Documentation" = ["docs"]
+"⚡ Performance" = ["perf"]
+"🚜 Refactoring" = ["refactor"]
+"🎨 Styling" = ["style"]
+"🧪 Tests" = ["test"]
+"⚠️ Deprecated" = ["deprecate"]
+"🚫 Removed" = ["remove"]
+"🔒 Security" = ["security"]
+"👷 CI" = ["ci"]
+"🔨 Build System" = ["build"]
+"⚙️ Miscellaneous" = ["chore"]
 
 {% raw %}
 [changelog]
@@ -35,10 +51,8 @@ types = [
 header = ""
 footer = ""
 
-# Embedded templates
-[[changelog.templates]]
 name = "release_yaml"
-content = """ 
+body = """ 
 ---
 version: "{{ version }}"
 release_date: "{{ date }}"
@@ -53,11 +67,12 @@ changes:
 {{/each}}
 """
 
-[[changelog.templates]]
-name = "index_append"
-content = """
-  "{{ version }}":
-    file: "releases/{{ version }}.yml"
-    date: "{{ date }}"
-"""
+# [[changelog.templates]]
+# name = "index_append"
+# content = """
+#  "{{ version }}":
+#    file: "releases/{{ version }}.yml"
+#    date: "{{ date }}"
+# """
+
 {% endraw %}

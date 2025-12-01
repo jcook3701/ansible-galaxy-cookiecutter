@@ -21,7 +21,7 @@ else
     AT =
 endif
 
-# Detect if we are running inside GitHub Actions CI.
+# Detect if we are running inside GitHub Actions CI 👷.
 # GitHub sets the environment variable GITHUB_ACTIONS=true in workflows.
 # We set CI=1 if running in GitHub Actions, otherwise CI=0 for local runs.
 ifeq ($(GITHUB_ACTIONS),true)
@@ -102,7 +102,7 @@ BLACK := $(PYTHON) -m black
 # --------------------------------------------------
 PYTEST := $(PYTHON) -m pytest
 # --------------------------------------------------
-# 📘 Documentation (Sphinx + Autodoc + Jekyll)
+# 📚 Documentation (Sphinx + Autodoc + Jekyll)
 # --------------------------------------------------
 SPHINX := $(PYTHON) -m sphinx -b markdown
 AUTODOC := $(ACTIVATE) && ansible-autodoc
@@ -236,7 +236,7 @@ test:
 	$(AT)$(call run_ci_safe, $(PYTEST) $(TESTS_DIR))
 	$(AT)echo "✅ Python tests complete!"
 # --------------------------------------------------
-# 📘 Documentation (Sphinx + Ansible Autodoc + Jekyll)
+# 📚 Documentation (Sphinx + Ansible Autodoc + Jekyll)
 # --------------------------------------------------
 sphinx:
 	$(MAKE) -C $(SPHINX_DIR) all PUBLISHDIR=$(JEKYLL_SPHINX_DIR)
@@ -244,7 +244,7 @@ sphinx:
 sphinx-old:
 	$(AT)echo "🧹 Clening Sphinx build artifacts..."
 	$(AT)rm -rf $(JEKYLL_SPHINX_DIR)
-	$(AT)echo "🔨 Building Sphinx documentation 📘 as Markdown..."
+	$(AT)echo "🔨 Building Sphinx documentation 📚 as Markdown..."
 	$(AT)$(SPHINX) $(SPHINX_DIR) $(JEKYLL_SPHINX_DIR)
 	$(AT)echo "✅ Sphinx Markdown build complete!"
 
@@ -283,13 +283,14 @@ bump-version-patch:
 # 📜 Changelog generation (git-cliff)
 # --------------------------------------------------
 changelog:
-	GIT_CLIFF_TEMPLATE=release_yaml $(GITCLIFF) \
+# GIT_CLIFF_TEMPLATE=release_yaml 
+	$(GITCLIFF) \
 	  --tag $(GALAXY_VERSION) \
 	  --output $(CHANGELOG_RELEASE_DIR)/$(GALAXY_VERSION).yml
 
-	GIT_CLIFF_TEMPLATE=index_append $(GITCLIFF) \
+#	GIT_CLIFF_TEMPLATE=index_append $(GITCLIFF) \
 	  --tag $(GALAXY_VERSION) \
-	  --output $(CHANGELOG_DIR)/changelog.yml
+	  --prepend $(CHANGELOG_DIR)/changelog.yml
 # --------------------------------------------------
 # 🐙 Github Release (git)
 # --------------------------------------------------
