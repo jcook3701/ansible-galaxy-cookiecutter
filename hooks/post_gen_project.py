@@ -37,12 +37,12 @@ def main() -> None:
         print("⚙️  Detected CI environment — skipping GitHub Docs generation.")
         return
 
-    timestamp = datetime.datetime.now(datetime.timezone.utc)
+    timestamp = datetime.datetime.now(datetime.UTC)
 
     autovars: dict[str, Any] = {
         "{{ cookiecutter.timestamp_placeholder }}": timestamp,
     }
-    
+
     replace_placeholders_in_file(autovars)
 
     # Access cookiecutter context safely
