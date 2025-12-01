@@ -7,6 +7,7 @@
   "email": "jcook3701+github@gmail.com",
   "version": "1.0.0",
   "description": "Description of Ansible Galaxy project",
+  "release_summary": "Initial Release of {{ cookiecutter.package_name }}",
   "ga_tracking": "G-C7PWLWSHB9",
   "github_username": "jcook3701",
   "twitter_username": "",

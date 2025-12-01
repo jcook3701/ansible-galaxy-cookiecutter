@@ -13,7 +13,7 @@ import json
 import os
 from typing import Any
 
-from nutrimatic.core import clean, make
+from nutrimatic.core import make
 from nutrimatic.hooks.post_gen_logic import (
     generate_ansible_dirs,
     generate_docs_templates,
@@ -37,7 +37,7 @@ def main() -> None:
         print("⚙️  Detected CI environment — skipping GitHub Docs generation.")
         return
 
-    timestamp = datetime.datetime.now(datetime.UTC)
+    timestamp = datetime.datetime.now(datetime.UTC).strftime("%Y-%m-%d %H:%M:%S %Z")
 
     # Access cookiecutter context safely
     context = json.loads("""{{ cookiecutter | jsonify }}""")
@@ -59,8 +59,6 @@ def main() -> None:
 
     for cmd in make_cmds:
         make(cmd)
-
-    clean()
 
 
 if __name__ == "__main__":
