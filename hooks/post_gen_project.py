@@ -17,7 +17,7 @@ from nutrimatic.core import clean, make
 from nutrimatic.hooks.post_gen_logic import (
     generate_ansible_dirs,
     generate_docs_templates,
-    replace_placeholders_in_file,
+    replace_placeholders_in_dir,
 )
 
 # Add the generated package to sys.path so Python can find it
@@ -39,14 +39,14 @@ def main() -> None:
 
     timestamp = datetime.datetime.now(datetime.UTC)
 
-    autovars: dict[str, Any] = {
-        "{{ cookiecutter.timestamp_placeholder }}": timestamp,
-    }
-
-    replace_placeholders_in_file(autovars)
-
     # Access cookiecutter context safely
     context = json.loads("""{{ cookiecutter | jsonify }}""")
+
+    autovars: dict[str, Any] = {
+        context["timestamp_placeholder"]: timestamp,
+    }
+
+    replace_placeholders_in_dir(autovars)
 
     generate_docs_templates(context)
     generate_ansible_dirs()
