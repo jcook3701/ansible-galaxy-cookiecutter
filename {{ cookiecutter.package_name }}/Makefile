@@ -84,9 +84,17 @@ ACTIVATE := source $(VENV_DIR)/bin/activate
 PYTHON := $(ACTIVATE) && $(PYTHON_CMD)
 PIP := $(PYTHON) -m pip
 # --------------------------------------------------
-# 🧠 Typing (mypy)
+# 🧬 Dependency Management (deptry)
 # --------------------------------------------------
-MYPY := $(PYTHON) -m mypy
+DEPTRY := $(ACTIVATE) && deptry
+# --------------------------------------------------
+# 🛡️ Security Audit (pip-audit)
+# --------------------------------------------------
+PIPAUDIT :=	$(ACTIVATE) && pip-audit
+# --------------------------------------------------
+# 🎨 Formatting (black)
+# --------------------------------------------------
+BLACK := $(PYTHON) -m black
 # --------------------------------------------------
 # 🔍 Linting (ruff, yaml)
 # --------------------------------------------------
@@ -94,9 +102,13 @@ ANSIBLE_LINT := $(ACTIVATE) && ansible-lint
 RUFF := $(PYTHON) -m ruff
 YAMLLINT := $(PYTHON) -m yamllint
 # --------------------------------------------------
-# 🎨 Formatting (black)
+# 🎓 Spellchecker (codespell)
 # --------------------------------------------------
-BLACK := $(PYTHON) -m black
+CODESPELL := $(ACTIVATE) && codespell
+# --------------------------------------------------
+# 🧠 Typing (mypy)
+# --------------------------------------------------
+MYPY := $(PYTHON) -m mypy
 # --------------------------------------------------
 # 🧪 Testing (pytest)
 # --------------------------------------------------
@@ -184,6 +196,27 @@ install: venv
 	$(AT)$(PIP) install -e $(DEV_DOCS)
 	$(AT)echo "✅ Dependencies installed."
 	$(AT)$(MAKE) autodoc-hack
+# --------------------------------------------------
+# 🚨 Pre-Commit (pre-commit)
+# --------------------------------------------------
+pre-commit-init:
+	$(AT)$(PRECOMMIT) install --install-hooks
+	$(AT)$(PRECOMMIT) install --hook-type pre-commit --hook-type commit-msg
+# --------------------------------------------------
+# 🛡️ Security (pip-audit)
+# --------------------------------------------------
+security:
+	$(AT)echo "🛡️ Running security audit..."
+	$(AT)$(PIPAUDIT)
+	$(AT)echo "✅ Finished security audit!"
+# --------------------------------------------------
+# 🧬 Dependency Management (deptry)
+# --------------------------------------------------
+dependency-check:
+	$(AT)echo "🧬 Checking dependency issues..."
+	$(AT)$(DEPTRY) --pep621-dev-dependency-groups dev,docs \
+		 $(SRC_DIR) $(HOOKS_DIR)
+	$(AT)echo "✅ Finished checking for dependency issues!"
 # --------------------------------------------------
 # 🎨 Formatting (black, ruff)
 # --------------------------------------------------
@@ -296,7 +329,7 @@ changelog:
 	  --tag $(GALAXY_VERSION) \
 	  --prepend $(CHANGELOG_DIR)/changelog.yml
 # --------------------------------------------------
-# 🐙 Github Release (git)
+# 🐙 Github Release Tag (git) #NOTE: Not yet tested!!!
 # --------------------------------------------------
 release: changelog
 	$(AT)$(GIT) tag -a v$(GALAXY_VERSION) -m "Release v$(GALAXY_VERSION)"

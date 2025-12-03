@@ -7,6 +7,7 @@ filter_unconventional = false
 include_commits = "all"
 
 commit_parsers = [
+    { message = "^init", group = "🌱 Init", type = "init" },
     { message = "^feat", group = "🚀 Added", type = "feat" },
     { message = "^fix", group = "🐛 Fixed", type = "fix" },
     { message = "^doc", group = "📚 Documentation", type = "docs" },
@@ -15,11 +16,9 @@ commit_parsers = [
     { message = "^style", group = "🎨 Styling", type = "style" },
     { message = "^test", group = "🧪 Tests", type = "test" },
     { message = "^deprecate", group = "⚠️ Deprecated", type = "deprecate" },
-    # Assuming 'remove' is an intended type for removed features/files
-    { message = "^remove", group = "🚫 Removed", type = "remove" }, 
+    { message = "^remove", group = "🚫 Removed", type = "remove" },
     { message = "^security", group = "🔒 Security", type = "security" },
     { message = "^chore|^ci", group = "⚙️ Miscellaneous", type = "chore" },
-    # Catch-all for anything missed by the above rules
     { message = ".*", group = "⚙️ Miscellaneous", type = "chore" },
 ]
 
@@ -31,6 +30,7 @@ exclude = [
 ]
 
 [sections]
+"🌱 Init" = ["init"]
 "🚀 Added" = ["feat"]
 "🐛 Fixed" = ["fix"]
 "📚 Documentation" = ["docs"]
@@ -50,7 +50,7 @@ exclude = [
 # Do NOT auto-write a file — we manually direct output
 header = ""
 footer = ""
-body = """ 
+body = """
 ---
 version: "{{ version }}"
 release_date: "{{ date }}"

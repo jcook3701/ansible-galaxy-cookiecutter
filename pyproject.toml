@@ -36,6 +36,7 @@ Homepage = "https://github.com/jcook3701/ansible-galaxy-cookiecutter"
 Repository = "https://github.com/jcook3701/ansible-galaxy-cookiecutter"
 Documentation = "https://github.com/jcook3701/ansible-galaxy-cookiecutter/docs/jekyll"
 
+# Maybe upgrade to python 3.12 in future: "pyproject>=1!0.1.2",
 [project.optional-dependencies]
 dev = [
   "black>=25.11",
@@ -51,6 +52,7 @@ dev = [
   "pytest-cookies>=0.7",
   "pytest-cov>=7.0",
   "ruff>=0.14.0",
+  "tomllint>=0.3",
   "typer>=0.20",
   "yamllint>=1.0",
 ]

@@ -75,7 +75,7 @@ PIP := $(PYTHON) -m pip
 # --------------------------------------------------
 DEPTRY := $(ACTIVATE) && deptry
 # --------------------------------------------------
-# 🛡️ Security (pip-audit)
+# 🛡️ Security Audit (pip-audit)
 # --------------------------------------------------
 PIPAUDIT :=	$(ACTIVATE) && pip-audit
 # --------------------------------------------------
@@ -86,6 +86,7 @@ BLACK := $(PYTHON) -m black
 # 🔍 Linting (ruff, yaml, jinja2)
 # --------------------------------------------------
 RUFF := $(PYTHON) -m ruff
+TOMLLINT :=
 YAMLLINT := $(PYTHON) -m yamllint
 JINJA := $(ACTIVATE) && jinja2 --strict
 # --------------------------------------------------
@@ -156,7 +157,7 @@ install: venv
 # --------------------------------------------------
 # 🚨 Pre-Commit (pre-commit)
 # --------------------------------------------------
-pre-commit:
+pre-commit-init:
 	$(AT)$(PRECOMMIT) install --install-hooks
 	$(AT)$(PRECOMMIT) install --hook-type pre-commit --hook-type commit-msg
 # --------------------------------------------------
