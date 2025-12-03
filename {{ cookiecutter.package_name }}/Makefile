@@ -100,6 +100,7 @@ BLACK := $(PYTHON) -m black
 # --------------------------------------------------
 ANSIBLE_LINT := $(ACTIVATE) && ansible-lint
 RUFF := $(PYTHON) -m ruff
+TOMLLINT := $(ACTIVATE) && tomllint
 YAMLLINT := $(PYTHON) -m yamllint
 # --------------------------------------------------
 # 🎓 Spellchecker (codespell)
@@ -200,8 +201,11 @@ install: venv
 # 🚨 Pre-Commit (pre-commit)
 # --------------------------------------------------
 pre-commit-init:
+	$(AT)echo "📦 Installing pre-commit hooks and hook-types..."
+	$(AT)which $(GIT) >/dev/null || { $(AT)echo "Git is required"; exit 1; }
 	$(AT)$(PRECOMMIT) install --install-hooks
 	$(AT)$(PRECOMMIT) install --hook-type pre-commit --hook-type commit-msg
+	$(AT)echo "✅ pre-commit dependencies installed!"
 # --------------------------------------------------
 # 🛡️ Security (pip-audit)
 # --------------------------------------------------
@@ -215,7 +219,7 @@ security:
 dependency-check:
 	$(AT)echo "🧬 Checking dependency issues..."
 	$(AT)$(DEPTRY) --pep621-dev-dependency-groups dev,docs \
-		 $(SRC_DIR) $(HOOKS_DIR)
+		 $(SRC_DIR)
 	$(AT)echo "✅ Finished checking for dependency issues!"
 # --------------------------------------------------
 # 🎨 Formatting (black, ruff)
@@ -245,6 +249,17 @@ ruff-lint-fix:
 	$(AT)echo "🎨 Running ruff lint fixes..."
 	$(AT)$(RUFF) check --fix --show-files $(SRC_DIR) $(TESTS_DIR)
 	$(AT)echo "✅ Finished linting Python code with Ruff!"
+{% raw %}
+toml-lint-check:
+	$(AT)echo "🔍 Running Tomllint..."
+	$(AT)$(ACTIVATE) && \
+		find $(PROJECT_ROOT) -name "*.toml" \
+			! -path "$(VENV_DIR)/*" \
+			! -path "*{{*" \
+			! -path "*}}*" \
+			-print0 | xargs -0 $(TOMLLINT)
+	$(AT)echo "✅ Finished linting check of toml configuration files with Tomllint!"
+{% endraw %}
 
 yaml-lint-check:
 	$(AT)echo "🔍 Running yamllint..."
@@ -255,8 +270,15 @@ ansible-lint-check:
 	$(AT)echo "🔍 Running ansible-lint..."
 	$(AT)$(ANSIBLE_LINT) ./**/*.yml
 
-lint-check: ruff-lint-check yaml-lint-check ansible-lint-check
+lint-check: ruff-lint-check toml-lint-check yaml-lint-check ansible-lint-check
 lint-fix: ruff-lint-fix
+# --------------------------------------------------
+# 🎓 Spellchecker (codespell)
+# --------------------------------------------------
+spellcheck:
+	$(AT)echo "🎓 Checking Spelling (codespell)..."
+	$(AT)$(CODESPELL) $(SRC_DIR) $(TESTS_DIR) $(DOCS_DIR)
+	$(AT)echo "✅ Finished spellcheck!"
 # --------------------------------------------------
 # 🧠 Typechecking (MyPy)
 # --------------------------------------------------
@@ -277,13 +299,6 @@ test:
 # --------------------------------------------------
 sphinx:
 	$(MAKE) -C $(SPHINX_DIR) all PUBLISHDIR=$(JEKYLL_SPHINX_DIR)
-
-sphinx-old:
-	$(AT)echo "🧹 Clening Sphinx build artifacts..."
-	$(AT)rm -rf $(JEKYLL_SPHINX_DIR)
-	$(AT)echo "🔨 Building Sphinx documentation 📚 as Markdown..."
-	$(AT)$(SPHINX) $(SPHINX_DIR) $(JEKYLL_SPHINX_DIR)
-	$(AT)echo "✅ Sphinx Markdown build complete!"
 
 autodocs-front-matter:
 	$(AT)echo "📝 Adding YAML front matter to generated files in $(JEKYLL_AUTODOC_DIR)..."
@@ -320,6 +335,7 @@ bump-version-patch:
 # 📜 Changelog generation (git-cliff)
 # --------------------------------------------------
 changelog:
+	$(AT)echo "📜 $(GALAXY_PACKAGE_NAME) Changelog Generation..."
 # GIT_CLIFF_TEMPLATE=release_yaml
 	$(GITCLIFF) \
 	  --tag $(GALAXY_VERSION) \
@@ -328,12 +344,21 @@ changelog:
 #	GIT_CLIFF_TEMPLATE=index_append $(GITCLIFF) \
 	  --tag $(GALAXY_VERSION) \
 	  --prepend $(CHANGELOG_DIR)/changelog.yml
+	$(AT)echo "✅ Finished Changelog Update!"
 # --------------------------------------------------
-# 🐙 Github Release Tag (git) #NOTE: Not yet tested!!!
+# 🐙 Github Commands (git)
 # --------------------------------------------------
-release: changelog
+git-init:
+	$(AT)echo "🌱 $(GALAXY_PACKAGE_NAME) Git initialization! 🎉"
+	$(AT)$(GIT) init
+	$(AT)echo "✅ Finished Git initialization!"
+
+#NOTE: Not yet tested!!!
+git-release: changelog
+	$(AT)echo "📦 $(GALAXY_PACKAGE_NAME) Release Tag - $(GALAXY_VERSION)! 🎉"
 	$(AT)$(GIT) tag -a v$(GALAXY_VERSION) -m "Release v$(GALAXY_VERSION)"
 	$(AT)$(GIT) push origin v$(GALAXY_VERSION)
+	$(AT)echo "✅ Finished uploading Release - $(GALAXY_VERSION)!"
 # --------------------------------------------------
 # 🪐 Ansible Galaxy Commands
 # --------------------------------------------------

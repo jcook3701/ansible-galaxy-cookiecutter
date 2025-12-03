@@ -39,11 +39,12 @@ Documentation = "https://github.com/jcook3701/ansible-galaxy-cookiecutter/docs/j
 # Maybe upgrade to python 3.12 in future: "pyproject>=1!0.1.2",
 [project.optional-dependencies]
 dev = [
-  "black>=25.11",
   "bump-my-version>=1.2",
+  "black>=25.11",
   "codespell>=2.4",
   "coverage>=7.12",
   "deptry>=0.24",
+  "json-lint-tools>=0.1",
   "jinja2-cli>=0.8",
   "mypy==1.9",
   "pip-audit>=2.10",

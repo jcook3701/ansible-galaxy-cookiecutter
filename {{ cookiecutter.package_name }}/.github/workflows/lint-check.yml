@@ -1,4 +1,4 @@
-# .github/workflows/ruff-lint.yml
+# .github/workflows/lint-check.yml
 ---
 name: lint-check
 
@@ -28,6 +28,10 @@ jobs:
       - name: Run Ruff Lint Check
         run: |
           make ruff-lint-check  # Check formatting with ruff
+
+      - name: Run Toml Lint Check
+        run: |
+          make toml-lint-check # Check formatting with tomllint
 
       - name: Run YAML Lint Check
         run: |

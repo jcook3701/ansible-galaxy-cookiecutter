@@ -1,0 +1,73 @@
+# cliff.toml
+# Git-Cliff config for hybrid changelog system
+
+[git]
+conventional_commits = true
+filter_unconventional = false
+include_commits = "all"
+
+commit_parsers = [
+    { message = "^init", group = "🌱 Init", type = "init" },
+    { message = "^feat", group = "🚀 Added", type = "feat" },
+    { message = "^fix", group = "🐛 Fixed", type = "fix" },
+    { message = "^doc", group = "📚 Documentation", type = "docs" },
+    { message = "^perf", group = "⚡ Performance", type = "perf" },
+    { message = "^refactor", group = "🚜 Refactoring", type = "refactor" },
+    { message = "^style", group = "🎨 Styling", type = "style" },
+    { message = "^test", group = "🧪 Tests", type = "test" },
+    { message = "^deprecate", group = "⚠️ Deprecated", type = "deprecate" },
+    { message = "^remove", group = "🚫 Removed", type = "remove" },
+    { message = "^security", group = "🔒 Security", type = "security" },
+    { message = "^chore|^ci", group = "⚙️ Miscellaneous", type = "chore" },
+    { message = ".*", group = "⚙️ Miscellaneous", type = "chore" },
+]
+
+exclude = [
+    "^Merge",
+    "^chore: bump version",
+    "^chore: update changelog",
+    "^docs: update readme",
+]
+
+[sections]
+"🌱 Init" = ["init"]
+"🚀 Added" = ["feat"]
+"🐛 Fixed" = ["fix"]
+"📚 Documentation" = ["docs"]
+"⚡ Performance" = ["perf"]
+"🚜 Refactoring" = ["refactor"]
+"🎨 Styling" = ["style"]
+"🧪 Tests" = ["test"]
+"⚠️ Deprecated" = ["deprecate"]
+"🚫 Removed" = ["remove"]
+"🔒 Security" = ["security"]
+"👷 CI" = ["ci"]
+"🔨 Build System" = ["build"]
+"⚙️ Miscellaneous" = ["chore"]
+
+[changelog]
+# Do NOT auto-write a file — we manually direct output
+header = ""
+footer = ""
+body = """
+---
+version: "{{ version }}"
+release_date: "{{ release.date | default(value='YYYY-MM-DD') }}"
+changes:
+{% for group, commits in release.commits | group_by(attribute="group") %}
+  {{ group }}:
+  {% for commit in commits %}
+    - message: "{{ commit.message }}"
+      scope: "{{ commit.scope }}"
+      breaking: {{ commit.breaking }}
+  {% endfor %}
+{% endfor %}
+"""
+
+# [[changelog.templates]]
+# name = "index_append"
+# content = """
+#  "{{ version }}":
+#    file: "releases/{{ version }}.yml"
+#    date: "{{ date }}"
+# """

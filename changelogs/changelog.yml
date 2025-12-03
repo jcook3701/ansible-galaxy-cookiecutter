@@ -1,0 +1,7 @@
+# changelogs/changelog.yml
+# Index of all changelog files for the collection
+---
+releases:
+  - name: "0.1.0"
+    tag: v0.1.0 # <-- Add the required tag property
+    file: "releases/v0.1.0.yml"

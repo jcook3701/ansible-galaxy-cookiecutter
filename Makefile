@@ -52,11 +52,19 @@ DOCS_DIR := $(PROJECT_ROOT)/docs
 SPHINX_DIR := $(DOCS_DIR)/sphinx
 JEKYLL_DIR := $(DOCS_DIR)/jekyll
 JEKYLL_SPHINX_DIR := $(JEKYLL_DIR)/sphinx
+README_GEN_DIR := $(JEKYLL_DIR)/tmp_readme
+CHANGELOG_DIR := $(PROJECT_ROOT)/changelogs
+CHANGELOG_RELEASE_DIR = $(CHANGELOG_DIR)/releases
+# --------------------------------------------------
+# 📄 Build Files
+# --------------------------------------------------
+README_FILE = $(PROJECT_ROOT)/README.md
+CHANGELOG_FILE = $(CHANGELOG_DIR)/changelog.yml
 # --------------------------------------------------
 # 🐍 Python / Virtual Environment
 # --------------------------------------------------
 PYTHON_CMD := python3.11
-VENV_DIR := .venv
+VENV_DIR := $(PROJECT_ROOT)/.venv
 # --------------------------------------------------
 # 🐍 Python Dependencies
 # --------------------------------------------------
@@ -86,7 +94,7 @@ BLACK := $(PYTHON) -m black
 # 🔍 Linting (ruff, yaml, jinja2)
 # --------------------------------------------------
 RUFF := $(PYTHON) -m ruff
-TOMLLINT :=
+TOMLLINT := tomllint
 YAMLLINT := $(PYTHON) -m yamllint
 JINJA := $(ACTIVATE) && jinja2 --strict
 # --------------------------------------------------
@@ -102,7 +110,7 @@ MYPY := $(PYTHON) -m mypy
 # --------------------------------------------------
 PYTEST := $(PYTHON) -m pytest
 # --------------------------------------------------
-# 📘 Documentation (Sphinx + Jekyll)
+# 📚 Documentation (Sphinx + Jekyll)
 # --------------------------------------------------
 SPHINX := $(PYTHON) -m sphinx -b markdown
 JEKYLL_BUILD := bundle exec jekyll build --quiet
@@ -116,6 +124,14 @@ BUMPVERSION := $(ACTIVATE) && bump-my-version bump --verbose
 MAJOR := major
 MINOR := minor
 PATCH := patch
+# --------------------------------------------------
+# 📜 Changelog generation (git-clif)
+# --------------------------------------------------
+GITCLIFF := git cliff
+# --------------------------------------------------
+# 🐙 Github Tools (git)
+# --------------------------------------------------
+GIT := git
 # --------------------------------------------------
 # 🚨 Pre-Commit (pre-commit)
 # --------------------------------------------------
@@ -137,7 +153,7 @@ all: install lint-check typecheck test build-docs
 # --------------------------------------------------
 list-folders:
 	$(AT)printf "\
-	     Hooks: $(HOOKS_DIR)\n\
+	     src: $(SRC_DIR)\n\
 	     Test: $(TESTS_DIR)\n"
 # --------------------------------------------------
 # 🐍 Virtual Environment Setup
@@ -158,8 +174,11 @@ install: venv
 # 🚨 Pre-Commit (pre-commit)
 # --------------------------------------------------
 pre-commit-init:
+	$(AT)echo "📦 Installing pre-commit hooks and hook-types..."
+	$(AT)which $(GIT) >/dev/null || { $(AT)echo "Git is required"; exit 1; }
 	$(AT)$(PRECOMMIT) install --install-hooks
 	$(AT)$(PRECOMMIT) install --hook-type pre-commit --hook-type commit-msg
+	$(AT)echo "✅ pre-commit dependencies installed!"
 # --------------------------------------------------
 # 🛡️ Security (pip-audit)
 # --------------------------------------------------
@@ -173,7 +192,7 @@ security:
 dependency-check:
 	$(AT)echo "🧬 Checking dependency issues..."
 	$(AT)$(DEPTRY) --pep621-dev-dependency-groups dev,docs \
-		 $(SRC_DIR) $(HOOKS_DIR)
+		 $(SRC_DIR)
 	$(AT)echo "✅ Finished checking for dependency issues!"
 # --------------------------------------------------
 # 🎨 Formatting (black)
@@ -206,6 +225,16 @@ ruff-lint-fix:
 	$(AT)$(RUFF) check --config pyproject.toml --fix $(SRC_DIR) $(TESTS_DIR) \
 		--force-exclude '$(COOKIE_DIR)/pyproject.toml'
 	$(AT)echo "✅ Finished linting Python code with Ruff!"
+
+toml-lint-check:
+	$(AT)echo "🔍 Running Tomllint..."
+	$(AT)$(ACTIVATE) && \
+		find $(PROJECT_ROOT) -name "*.toml" \
+			! -path "$(VENV_DIR)/*" \
+			! -path "*{{*" \
+			! -path "*}}*" \
+			-print0 | xargs -0 -n 1 $(TOMLLINT)
+	$(AT)echo "✅ Finished linting check of toml configuration files with Tomllint!"
 
 yaml-lint-check:
 	$(AT)echo "🔍 Running yamllint..."
@@ -255,7 +284,7 @@ test:
 	$(AT)$(call run_ci_safe, $(PYTEST) $(TEST))
 	$(AT)echo "✅ Python tests complete!"
 # --------------------------------------------------
-# 📘 Documentation (Sphinx + Jekyll)
+# 📚 Documentation (Sphinx + Jekyll)
 # --------------------------------------------------
 sphinx:
 	$(MAKE) -C $(SPHINX_DIR) all PUBLISHDIR=$(JEKYLL_SPHINX_DIR)
@@ -277,6 +306,29 @@ bump-version-patch:
 	$(AT)$(BUMPVERSION) $(PATCH)
 	$(AT)echo "✅ $(PACKAGE_NAME) version update complete!"
 # --------------------------------------------------
+# 📜 Changelog generation (git-cliff)
+# --------------------------------------------------
+changelog:
+	$(AT)echo "📜 $(PACKAGE_NAME) Changelog Generation..."
+# GIT_CLIFF_TEMPLATE=release_yaml
+	$(GITCLIFF) \
+	  --current --tag $(VERSION) \
+	  --output $(CHANGELOG_RELEASE_DIR)/$(VERSION).yml
+
+#	GIT_CLIFF_TEMPLATE=index_append $(GITCLIFF) \
+	  --tag $(VERSION) \
+	  --prepend $(CHANGELOG_DIR)/changelog.yml
+	$(AT)echo "✅ Finished Changelog Update!"
+# --------------------------------------------------
+# 🐙 Github Commands (git)
+# --------------------------------------------------
+#NOTE: Not yet tested!!!
+git-release: changelog
+	$(AT)echo "📦 $(PACKAGE_NAME) Release Tag - $(VERSION)! 🎉"
+	$(AT)$(GIT) tag -a v$(VERSION) -m "Release v$(VERSION)"
+	$(AT)$(GIT) push origin v$(VERSION)
+	$(AT)echo "✅ Finished uploading Release - $(VERSION)!"
+# --------------------------------------------------
 # 🧹 Clean artifacts
 # --------------------------------------------------
 clean:
@@ -284,9 +336,16 @@ clean:
 	$(AT)rm -rf $(SPHINX_DIR)/_build $(JEKYLL_SPHINX_DIR)
 	$(AT)$(call run_ci_safe, cd $(JEKYLL_DIR) && $(JEKYLL_CLEAN))
 	$(AT)rm -rf build dist *.egg-info
-	$(AT)find $(HOOKS_DIR) $(TESTS_DIR) -name "__pycache__" -type d -exec rm -rf {} +
+	$(AT)find $(SRC_DIR) $(TESTS_DIR) -name "__pycache__" -type d -exec rm -rf {} +
 	$(AT)-[ -d "$(VENV_DIR)" ] && rm -r $(VENV_DIR)
 	$(AT)echo "🧹 Cleaned build artifacts."
+# --------------------------------------------------
+# Version
+# --------------------------------------------------
+version:
+	$(AT)echo "$(PACKAGE_NAME)"
+	$(AT)echo "author: $(AUTHOR)"
+	$(AT)echo "version: $(VERSION)"
 # --------------------------------------------------
 # Help
 # --------------------------------------------------

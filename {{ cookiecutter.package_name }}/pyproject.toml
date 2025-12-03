@@ -17,7 +17,9 @@ readme = "./README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">={{ cookiecutter.config.requires_python }}"
-dependencies = []
+dependencies = [
+  "typer>=0.20",
+]
 keywords = [
   "ansible",
   "galaxy",
@@ -40,16 +42,21 @@ dev = [
   "ansible-core>=2.0",
 ]
 tools = [
+  "ansible-lint>=25.0",
   "bump-my-version>=1.2",
   "black>=25.11",
-  "ruff>=0.14.0",
+  "codespell>=2.4",
+  "coverage>=7.12",
+  "deptry>=0.24",
   "mypy==1.9",
   "nutri-matic>=0.1",
-  "ansible-lint>=25.0",
-  "yamllint>=1.0",
-  "pytest>=9.0",
+  "pip-audit>=2.10",
   "pre-commit>=4.5",
-  "typer>=0.20",
+  "pytest>=9.0",
+  "pytest-cov>=7.0",
+  "ruff>=0.14.0",
+  "tomllint>=0.3",
+  "yamllint>=1.0",
 ]
 docs = [
   "sphinx>=8.0",
