@@ -134,6 +134,7 @@ PATCH := patch
 # 📜 Changelog generation (git-clif)
 # --------------------------------------------------
 GITCLIFF := git cliff
+ANTSIBULL_CHANGELOG := antsibull-changelog
 # --------------------------------------------------
 # 🐙 Github Tools (git)
 # --------------------------------------------------
@@ -156,24 +157,26 @@ NUTRIMATIC := $(PYTHON) -m nutrimatic
 AUTODOC_FIX := sed -i 's|yaml.load(yaml_file)|yaml.load(yaml_file, Loader=yaml.SafeLoader)|' \
 	$(VENV_DIR)/lib/$(PYTHON_CMD)/site-packages/ansibleautodoc/Annotation.py
 # --------------------------------------------------
-.PHONY: all list-folders autodoc-hack venv install black-formatter-check \
-	black-formatter-fix format-check format-fix ruff-lint-check ruff-lint-fix \
-	yaml-lint-check ansible-lint-check lint-check lint-fix typecheck test sphinx \
+.PHONY: all list-folders autodoc-hack venv install pre-commit-init security \
+	dependency-check black-formatter-check black-formatter-fix format-check \
+	format-fix ruff-lint-check ruff-lint-fix toml-lint-check yaml-lint-check \
+	ansible-lint-check lint-check lint-fix spellcheck typecheck test sphinx \
 	autodocs-front-matter autodoc jekyll readme build-docs jekyll-serve run-docs \
-	galaxy-build galaxy-install galaxy-publish clean help
+	bump-version-patch changelog git-init git-release galaxy-build galaxy-install \
+	galaxy-publish clean version help
 # --------------------------------------------------
 # Default: run lint, typecheck, tests, and docs
 # --------------------------------------------------
-all: install lint-check typecheck test build-docs
+all: install lint-check typecheck spellcheck test build-docs
 # --------------------------------------------------
 # Utilities
 # --------------------------------------------------
 list-folders:
 	$(AT)printf "\
-	     Python Source Paths:\n\
-	     Plugins: $(PLUGINS_DIR)\n\
-	     Libraries: $(LIBRARY_DIR)\n\
-	     Test: $(TESTS_DIR)\n"
+	     🐍 Python Source Paths: 📁\n\
+	     🔌 Plugins: $(PLUGINS_DIR)\n\
+	     🏛️ Libraries: $(LIBRARY_DIR)\n\
+	     🧪 Test: $(TESTS_DIR)\n"
 # --------------------------------------------------
 # 🩹 Hacks (ansible-autodoc)
 # --------------------------------------------------
@@ -191,7 +194,7 @@ venv:
 
 install: venv
 	$(AT)echo "📦 Installing project dependencies..."
-	$(AT)$(PIP) install --upgrade pip
+	$(AT)$(PIP) install --upgrade pip setuptools wheel
 	$(AT)$(PIP) install -e $(DEV_DEPS)
 	$(AT)$(PIP) install -e $(DEV_TOOLS)
 	$(AT)$(PIP) install -e $(DEV_DOCS)
@@ -211,7 +214,7 @@ pre-commit-init:
 # --------------------------------------------------
 security:
 	$(AT)echo "🛡️ Running security audit..."
-	$(AT)$(PIPAUDIT)
+	$(AT)$(call run_ci_safe, $(PIPAUDIT))
 	$(AT)echo "✅ Finished security audit!"
 # --------------------------------------------------
 # 🧬 Dependency Management (deptry)
@@ -237,7 +240,7 @@ black-formatter-fix:
 format-check: black-formatter-check
 format-fix: black-formatter-fix
 # --------------------------------------------------
-# 🔍 Linting (ruff, yaml, ansible)
+# 🔍 Linting (ruff, toml, yaml, ansible)
 # --------------------------------------------------
 ruff-lint-check:
 	$(AT)echo "🔍 Running ruff linting..."
@@ -257,7 +260,7 @@ toml-lint-check:
 			! -path "$(VENV_DIR)/*" \
 			! -path "*{{*" \
 			! -path "*}}*" \
-			-print0 | xargs -0 $(TOMLLINT)
+			-print0 | xargs -0 -n 1 $(TOMLLINT)
 	$(AT)echo "✅ Finished linting check of toml configuration files with Tomllint!"
 {% endraw %}
 
@@ -277,7 +280,7 @@ lint-fix: ruff-lint-fix
 # --------------------------------------------------
 spellcheck:
 	$(AT)echo "🎓 Checking Spelling (codespell)..."
-	$(AT)$(CODESPELL) $(SRC_DIR) $(TESTS_DIR) $(DOCS_DIR)
+	$(AT)$(call run_ci_safe, $(CODESPELL) $(SRC_DIR) $(TESTS_DIR) $(DOCS_DIR))
 	$(AT)echo "✅ Finished spellcheck!"
 # --------------------------------------------------
 # 🧠 Typechecking (MyPy)
@@ -390,7 +393,14 @@ clean:
 	$(AT)rm -f $(GALAXY_NAMESPACE)-$(GALAXY_COLLECTION)-*.tar.gz
 	$(AT)@echo "🧹 Cleaned build artifacts."
 # --------------------------------------------------
-# Help
+# Version
+# --------------------------------------------------
+version:
+	$(AT)echo "$(PACKAGE_NAME)"
+	$(AT)echo "author: $(AUTHOR)"
+	$(AT)echo "version: $(VERSION)"
+# --------------------------------------------------
+# ❓ Help
 # --------------------------------------------------
 help:
 	$(AT)echo "📦 $(GALAXY_PACKAGE_NAME) Makefile"

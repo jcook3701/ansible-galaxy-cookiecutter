@@ -53,13 +53,13 @@ SPHINX_DIR := $(DOCS_DIR)/sphinx
 JEKYLL_DIR := $(DOCS_DIR)/jekyll
 JEKYLL_SPHINX_DIR := $(JEKYLL_DIR)/sphinx
 README_GEN_DIR := $(JEKYLL_DIR)/tmp_readme
-CHANGELOG_DIR := $(PROJECT_ROOT)/changelogs
+CHANGELOG_DIR := $(PROJECT_ROOT)
 CHANGELOG_RELEASE_DIR = $(CHANGELOG_DIR)/releases
 # --------------------------------------------------
 # 📄 Build Files
 # --------------------------------------------------
 README_FILE = $(PROJECT_ROOT)/README.md
-CHANGELOG_FILE = $(CHANGELOG_DIR)/changelog.yml
+CHANGELOG_FILE = $(CHANGELOG_DIR)/CHANGELOG.md
 # --------------------------------------------------
 # 🐍 Python / Virtual Environment
 # --------------------------------------------------
@@ -141,20 +141,24 @@ PRECOMMIT := $(ACTIVATE) && pre-commit
 # --------------------------------------------------
 NUTRIMATIC := $(PYTHON) -m nutrimatic
 # --------------------------------------------------
-.PHONY: all list-folders venv install black-formatter-check black-formatter-fix \
-	format-check format-fix ruff-lint-check ruff-lint-fix yaml-lint-check jinja2-lint-check \
-	lint-check lint-fix typecheck test sphinx jekyll build-docs jekyll-serve run-docs clean help
+.PHONY: all list-folders venv install pre-commit-init security \
+	dependency-check black-formatter-check black-formatter-fix \
+	format-check format-fix ruff-lint-check ruff-lint-fix \
+	toml-lint-check yaml-lint-check jinja2-lint-check \
+	lint-check lint-fix spellcheck typecheck test sphinx \
+	jekyll jekyll-serve build-docs run-docs bump-version-patch \
+	changelog clean help
 # --------------------------------------------------
 # Default: run lint, typecheck, tests, and docs
 # --------------------------------------------------
-all: install lint-check typecheck test build-docs
+all: install lint-check typecheck spellcheck test build-docs
 # --------------------------------------------------
 # Make Internal Utilities
 # --------------------------------------------------
 list-folders:
 	$(AT)printf "\
-	     src: $(SRC_DIR)\n\
-	     Test: $(TESTS_DIR)\n"
+		🐍 src: $(SRC_DIR)\n\
+	    🧪 Test: $(TESTS_DIR)\n"
 # --------------------------------------------------
 # 🐍 Virtual Environment Setup
 # --------------------------------------------------
@@ -184,7 +188,7 @@ pre-commit-init:
 # --------------------------------------------------
 security:
 	$(AT)echo "🛡️ Running security audit..."
-	$(AT)$(PIPAUDIT)
+	$(AT)$(call run_ci_safe, $(PIPAUDIT))
 	$(AT)echo "✅ Finished security audit!"
 # --------------------------------------------------
 # 🧬 Dependency Management (deptry)
@@ -210,7 +214,7 @@ black-formatter-fix:
 format-check: black-formatter-check
 format-fix: black-formatter-fix
 # --------------------------------------------------
-# 🔍 Linting (ruff, yaml, jinja2)
+# 🔍 Linting (ruff, toml, yaml, jinja2)
 # --------------------------------------------------
 ruff-lint-check:
 	$(AT)echo "🔍 Running ruff linting..."
@@ -258,7 +262,7 @@ jinja2-lint-check:
 		done
 	$(AT)echo "✅ Finished linting check of jinja2 files with jinja2!"
 
-lint-check: ruff-lint-check yaml-lint-check jinja2-lint-check
+lint-check: ruff-lint-check toml-lint-check yaml-lint-check jinja2-lint-check
 lint-fix: ruff-lint-fix
 # --------------------------------------------------
 # 🎓 Spellchecker (codespell)
@@ -306,26 +310,22 @@ bump-version-patch:
 	$(AT)$(BUMPVERSION) $(PATCH)
 	$(AT)echo "✅ $(PACKAGE_NAME) version update complete!"
 # --------------------------------------------------
-# 📜 Changelog generation (git-cliff)
+# 📜 Changelog generation (git-cliff) # TODO: Convert this to ansible-changelog
 # --------------------------------------------------
 changelog:
 	$(AT)echo "📜 $(PACKAGE_NAME) Changelog Generation..."
-# GIT_CLIFF_TEMPLATE=release_yaml
-	$(GITCLIFF) \
-	  --current --tag $(VERSION) \
-	  --output $(CHANGELOG_RELEASE_DIR)/$(VERSION).yml
-
-#	GIT_CLIFF_TEMPLATE=index_append $(GITCLIFF) \
-	  --tag $(VERSION) \
-	  --prepend $(CHANGELOG_DIR)/changelog.yml
+	$(AT)$(GITCLIFF) \
+	  --config github \
+	  --output $(CHANGELOG_FILE)
 	$(AT)echo "✅ Finished Changelog Update!"
 # --------------------------------------------------
 # 🐙 Github Commands (git)
 # --------------------------------------------------
 #NOTE: Not yet tested!!!
-git-release: changelog
+git-release:
 	$(AT)echo "📦 $(PACKAGE_NAME) Release Tag - $(VERSION)! 🎉"
 	$(AT)$(GIT) tag -a v$(VERSION) -m "Release v$(VERSION)"
+	$(AT)$(GITCLIFF) --config github --output "$(CHANGELOG_RELEASE_DIR)/v${VERSION}.md"
 	$(AT)$(GIT) push origin v$(VERSION)
 	$(AT)echo "✅ Finished uploading Release - $(VERSION)!"
 # --------------------------------------------------
@@ -347,7 +347,7 @@ version:
 	$(AT)echo "author: $(AUTHOR)"
 	$(AT)echo "version: $(VERSION)"
 # --------------------------------------------------
-# Help
+# ❓ Help
 # --------------------------------------------------
 help:
 	$(AT)echo "📦 ansible-galaxy-cookiecutter Makefile"

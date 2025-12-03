@@ -46,28 +46,14 @@ exclude = [
 "⚙️ Miscellaneous" = ["chore"]
 
 [changelog]
-# Do NOT auto-write a file — we manually direct output
-header = ""
-footer = ""
-body = """
----
-version: "{{ version }}"
-release_date: "{{ release.date | default(value='YYYY-MM-DD') }}"
-changes:
-{% for group, commits in release.commits | group_by(attribute="group") %}
-  {{ group }}:
-  {% for commit in commits %}
-    - message: "{{ commit.message }}"
-      scope: "{{ commit.scope }}"
-      breaking: {{ commit.breaking }}
-  {% endfor %}
-{% endfor %}
-"""
+# This tells git-cliff to manage the file persistently
+header = """
+# Changelog
 
-# [[changelog.templates]]
-# name = "index_append"
-# content = """
-#  "{{ version }}":
-#    file: "releases/{{ version }}.yml"
-#    date: "{{ date }}"
-# """
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](keepachangelog.com),
+and this project adheres to [Semantic Versioning](semver.org).
+"""
+# This setting controls how new entries are added
+prepend = true
