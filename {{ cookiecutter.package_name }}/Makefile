@@ -30,10 +30,35 @@ else
 CI := 0
 endif
 
+# Check if GITHUB_TOKEN is set
+ifndef GITHUB_TOKEN
+    ifeq ($(CI), 0)
+		$(error GITHUB_TOKEN is not set. Please set it using: export GITHUB_TOKEN=YOUR_TOKEN)
+    endif
+endif
+
+# --------------------------------------------------
+# 🏗️ CI/CD Functions
+# --------------------------------------------------
 # Define a reusable CI-safe runner
 define run_ci_safe =
 ( $1 || [ "$(CI)" != "1" ] )
 endef
+
+# Command to get the most recent previous version tag
+# 'git describe --tags --abbrev=0' gets the latest tag, so we use HEAD~1 to get the one before that
+# Use 'git describe --tags --abbrev=0' to get the latest tag for the current version
+define get_version
+	$(shell $(GIT) describe --tags --abbrev=0)
+endef
+
+define get_previous_version
+	$(shell $(GIT) describe --tags --abbrev=0 HEAD~1)
+endef
+
+# Variables to store the versions
+CURRENT_VERSION := $(call get_version)
+PREVIOUS_VERSION := $(call get_previous_version)
 # --------------------------------------------------
 # ⚙️ Build Settings
 # --------------------------------------------------
@@ -43,6 +68,11 @@ GALAXY_COLLECTION := {{ cookiecutter.project_name }}
 GALAXY_AUTHOR := {{ cookiecutter.author }}
 GALAXY_VERSION := {{ cookiecutter.version }}
 GALAXY_PATH := $(PROJECT_ROOT)
+# --------------------------------------------------
+# 🐙 Github Build Settings
+# --------------------------------------------------
+GITHUB_USER := "jcook3701"
+GITHUB_REPO = $(GITHUB_USER)/$(PACKAGE_NAME)
 # --------------------------------------------------
 # 📁 Build Directories
 # --------------------------------------------------
@@ -134,6 +164,7 @@ PATCH := patch
 # 📜 Changelog generation (git-clif)
 # --------------------------------------------------
 GITCLIFF := git cliff
+ANTSICHAUT := antsichaut
 ANTSIBULL_CHANGELOG := antsibull-changelog
 # --------------------------------------------------
 # 🐙 Github Tools (git)
@@ -337,17 +368,20 @@ bump-version-patch:
 # --------------------------------------------------
 # 📜 Changelog generation (git-cliff)
 # --------------------------------------------------
-changelog:
+update-changelog:
 	$(AT)echo "📜 $(GALAXY_PACKAGE_NAME) Changelog Generation..."
-# GIT_CLIFF_TEMPLATE=release_yaml
-	$(GITCLIFF) \
-	  --tag $(GALAXY_VERSION) \
-	  --output $(CHANGELOG_RELEASE_DIR)/$(GALAXY_VERSION).yml
-
-#	GIT_CLIFF_TEMPLATE=index_append $(GITCLIFF) \
-	  --tag $(GALAXY_VERSION) \
-	  --prepend $(CHANGELOG_DIR)/changelog.yml
+	# Run antsichaut, relying on the environment variable GITHUB_TOKEN being present
+	# when the shell command executes.
+	$(AT)$(ANTSICHAUT) \
+		--since_version $(PREVIOUS_VERSION) \
+		--to_version $(CURRENT_VERSION) \
+		--repository $(GITHUB_REPO)
 	$(AT)echo "✅ Finished Changelog Update!"
+
+changelog-release: update-changelog
+	$(AT)echo Finalize the release (e.g., generate the final RST/MD file)
+	$(AT)$(ANTSIBULL_CHANGELOG) generate
+	$(AT)echo "✅ Finished Changelog Update for Release"
 # --------------------------------------------------
 # 🐙 Github Commands (git)
 # --------------------------------------------------
@@ -363,7 +397,7 @@ git-release: changelog
 	$(AT)$(GIT) push origin v$(GALAXY_VERSION)
 	$(AT)echo "✅ Finished uploading Release - $(GALAXY_VERSION)!"
 # --------------------------------------------------
-# 🪐 Ansible Galaxy Commands
+# 🪐 Ansible Galaxy Commands (ansible-galaxy)
 # --------------------------------------------------
 galaxy-build:
 	$(AT)echo "🔨 Building Ansible Galaxy collection... 🪐"
@@ -379,6 +413,10 @@ galaxy-publish:
 	$(AT)echo "🚀 Publishing collection to Ansible Galaxy... 🪐"
 	$(AT)$(ANSIBLE_GALAXY) collection publish $(GALAXY_NAMESPACE)-$(GALAXY_COLLECTION)-*.tar.gz
 	$(AT)echo "✅ Published."
+# --------------------------------------------------
+# 📢 Release
+# --------------------------------------------------
+
 # --------------------------------------------------
 # 🧹 Clean artifacts
 # --------------------------------------------------

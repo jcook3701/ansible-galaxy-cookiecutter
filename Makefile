@@ -29,6 +29,9 @@ else
 CI := 0
 endif
 
+# --------------------------------------------------
+# 🏗️ CI/CD Functions
+# --------------------------------------------------
 # Define a reusable CI-safe runner
 define run_ci_safe =
 ( $1 || [ "$(CI)" != "1" ] )
@@ -38,7 +41,12 @@ endef
 # --------------------------------------------------
 PACKAGE_NAME := "ansible-galaxy-cookiecutter"
 AUTHOR := "Jared Cook"
-VERSION := "0.1.0"
+VERSION := "0.1.0
+# --------------------------------------------------
+# 🐙 Github Build Settings
+# --------------------------------------------------
+GITHUB_USER := "jcook3701"
+GITHUB_REPO := $(GITHUB_USER)/$(PACKAGE_NAME)
 # --------------------------------------------------
 # 📁 Build Directories
 # --------------------------------------------------
@@ -54,7 +62,7 @@ JEKYLL_DIR := $(DOCS_DIR)/jekyll
 JEKYLL_SPHINX_DIR := $(JEKYLL_DIR)/sphinx
 README_GEN_DIR := $(JEKYLL_DIR)/tmp_readme
 CHANGELOG_DIR := $(PROJECT_ROOT)
-CHANGELOG_RELEASE_DIR = $(CHANGELOG_DIR)/releases
+CHANGELOG_RELEASE_DIR = $(CHANGELOG_DIR)/changelogs/releases
 # --------------------------------------------------
 # 📄 Build Files
 # --------------------------------------------------
@@ -328,6 +336,12 @@ git-release:
 	$(AT)$(GITCLIFF) --config github --output "$(CHANGELOG_RELEASE_DIR)/v${VERSION}.md"
 	$(AT)$(GIT) push origin v$(VERSION)
 	$(AT)echo "✅ Finished uploading Release - $(VERSION)!"
+# --------------------------------------------------
+# 📢 Release
+# --------------------------------------------------
+release:
+	$(MAKE) bump-version-patch
+	$(MAKE) git-release
 # --------------------------------------------------
 # 🧹 Clean artifacts
 # --------------------------------------------------
