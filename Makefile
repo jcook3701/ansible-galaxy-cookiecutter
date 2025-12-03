@@ -71,9 +71,17 @@ ACTIVATE := source $(VENV_DIR)/bin/activate
 PYTHON := $(ACTIVATE) && $(PYTHON_CMD)
 PIP := $(PYTHON) -m pip
 # --------------------------------------------------
-# 🧠 Typing (mypy)
+# 🧬 Dependency Management (deptry)
 # --------------------------------------------------
-MYPY := $(PYTHON) -m mypy
+DEPTRY := $(ACTIVATE) && deptry
+# --------------------------------------------------
+# 🛡️ Security (pip-audit)
+# --------------------------------------------------
+PIPAUDIT :=	$(ACTIVATE) && pip-audit
+# --------------------------------------------------
+# 🎨 Formatting (black)
+# --------------------------------------------------
+BLACK := $(PYTHON) -m black
 # --------------------------------------------------
 # 🔍 Linting (ruff, yaml, jinja2)
 # --------------------------------------------------
@@ -81,9 +89,13 @@ RUFF := $(PYTHON) -m ruff
 YAMLLINT := $(PYTHON) -m yamllint
 JINJA := $(ACTIVATE) && jinja2 --strict
 # --------------------------------------------------
-# 🎨 Formatting (black)
+# 🎓 Spellchecker (codespell)
 # --------------------------------------------------
-BLACK := $(PYTHON) -m black
+CODESPELL := $(ACTIVATE) && codespell
+# --------------------------------------------------
+# 🧠 Typing (mypy)
+# --------------------------------------------------
+MYPY := $(PYTHON) -m mypy
 # --------------------------------------------------
 # 🧪 Testing (pytest)
 # --------------------------------------------------
@@ -98,7 +110,7 @@ JEKYLL_SERVE := bundle exec jekyll serve
 # --------------------------------------------------
 # 🔖 Version Bumping (bumpy-my-version)
 # --------------------------------------------------
-BUMPVERSION := bump-my-version bump --verbose
+BUMPVERSION := $(ACTIVATE) && bump-my-version bump --verbose
 # Patch types:
 MAJOR := major
 MINOR := minor
@@ -107,9 +119,6 @@ PATCH := patch
 # 🚨 Pre-Commit (pre-commit)
 # --------------------------------------------------
 PRECOMMIT := $(ACTIVATE) && pre-commit
-# pre-commit install --install-hooks
-# pre-commit install --hook-type pre-commit --hook-type commit-msg
-
 # --------------------------------------------------
 # 🏃‍♂️ Nutri-Matic command
 # --------------------------------------------------
@@ -139,13 +148,34 @@ venv:
 
 install: venv
 	$(AT)echo "📦 Installing project dependencies..."
-	$(AT)$(PIP) install --upgrade pip
+	$(AT)$(PIP) install --upgrade pip setuptools wheel
 	# $(AT)$(PIP) install -e $(DEPS)
 	$(AT)$(PIP) install -e $(DEV_DEPS)
 	$(AT)$(PIP) install -e $(DEV_DOCS)
 	$(AT)echo "✅ Dependencies installed."
 # --------------------------------------------------
-# 🎨 Formating (black)
+# 🚨 Pre-Commit (pre-commit)
+# --------------------------------------------------
+pre-commit:
+	$(AT)$(PRECOMMIT) install --install-hooks
+	$(AT)$(PRECOMMIT) install --hook-type pre-commit --hook-type commit-msg
+# --------------------------------------------------
+# 🛡️ Security (pip-audit)
+# --------------------------------------------------
+security:
+	$(AT)echo "🛡️ Running security audit..."
+	$(AT)$(PIPAUDIT)
+	$(AT)echo "✅ Finished security audit!"
+# --------------------------------------------------
+# 🧬 Dependency Management (deptry)
+# --------------------------------------------------
+dependency-check:
+	$(AT)echo "🧬 Checking dependency issues..."
+	$(AT)$(DEPTRY) --pep621-dev-dependency-groups dev,docs \
+		 $(SRC_DIR) $(HOOKS_DIR)
+	$(AT)echo "✅ Finished checking for dependency issues!"
+# --------------------------------------------------
+# 🎨 Formatting (black)
 # --------------------------------------------------
 black-formatter-check:
 	$(AT)echo "🔍 Running black formatter style check..."
@@ -201,6 +231,13 @@ jinja2-lint-check:
 lint-check: ruff-lint-check yaml-lint-check jinja2-lint-check
 lint-fix: ruff-lint-fix
 # --------------------------------------------------
+# 🎓 Spellchecker (codespell)
+# --------------------------------------------------
+spellcheck:
+	$(AT)echo "🎓 Checking Spelling (codespell)..."
+	$(AT)$(CODESPELL) $(SRC_DIR) $(TESTS_DIR) $(DOCS_DIR)
+	$(AT)echo "✅ Finished spellcheck!"
+# --------------------------------------------------
 # 🧠 Typechecking (MyPy)
 # --------------------------------------------------
 typecheck:
@@ -238,7 +275,6 @@ bump-version-patch:
 	$(AT)echo "🔖 Updating $(PACKAGE_NAME) version from $(VERSION)..."
 	$(AT)$(BUMPVERSION) $(PATCH)
 	$(AT)echo "✅ $(PACKAGE_NAME) version update complete!"
-
 # --------------------------------------------------
 # 🧹 Clean artifacts
 # --------------------------------------------------

@@ -1,22 +1,23 @@
+---
 default_install_hook_types:
   - pre-commit
   - commit-msg
 
 repos:
   - repo: https://github.com/compilerla/conventional-pre-commit
-    rev: <git sha or tag>
+    rev: v4.3.0
     hooks:
       - id: conventional-pre-commit
         stages: [commit-msg]
         args: []
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.3.0
+    rev: v6.0.0
     hooks:
-    -   id: check-yaml
-    -   id: end-of-file-fixer
-    -   id: trailing-whitespace
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
   - repo: https://github.com/psf/black
-    rev: 22.10.0
+    rev: 25.11.0
     hooks:
-    -   id: black
+      - id: black

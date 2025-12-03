@@ -1,0 +1,30 @@
+# spellcheck
+---
+name: Cookiecutter Template Spellcheck
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  spellcheck:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install codespell
+        run: |
+          make install
+
+      - name: Run Spellcheck
+        run: |
+          make spellcheck

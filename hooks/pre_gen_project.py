@@ -25,7 +25,6 @@ def main() -> None:
     # json_file = "cookiecutter.json"
 
     # json_path = Path(__file__).absolute() / "cookiecutter.json"
-
     # project_dir = Path.cwd()
     # print(f"FileName: {json_path}")
     # print(f"JSON File: {json_file}")

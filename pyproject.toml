@@ -3,7 +3,7 @@
 # Project: ansible-galaxy-cookiecutter
 # =========================================
 [build-system]
-requires = ["setuptools>=65.0.0", "wheel"]
+requires = ["setuptools>=80.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -17,7 +17,9 @@ readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+  "nutri-matic>=0.1",
+]
 keywords = [
   "ansible",
   "galaxy",
@@ -36,12 +38,14 @@ Documentation = "https://github.com/jcook3701/ansible-galaxy-cookiecutter/docs/j
 
 [project.optional-dependencies]
 dev = [
-  "bump-my-version>=1.2",
-  "coverage>=7.12",
   "black>=25.11",
+  "bump-my-version>=1.2",
+  "codespell>=2.4",
+  "coverage>=7.12",
+  "deptry>=0.24",
   "jinja2-cli>=0.8",
   "mypy==1.9",
-  "nutri-matic>=0.1",
+  "pip-audit>=2.10",
   "pre-commit>=4.5",
   "pytest>=9.0",
   "pytest-cookies>=0.7",
@@ -66,6 +70,29 @@ where = [
 ]
 include = [
   "hooks*",
+]
+# ====================================
+# Codespell Configuration:
+# ====================================
+[tool.codespell]
+# files/patterns to ignore
+skip = ["*.svg", "*.css", "*.html"]
+
+# words to ignore globally
+ignore-words-list = ["crate", "ba"]
+
+# extra options
+check-filenames = true
+quiet-level = 2
+# ====================================
+# Deptry Configuration:
+# ====================================
+[tool.deptry]
+ignore_notebooks = true
+exclude = [
+    "tests/*",
+    "build/*",
+    "docs/*",
 ]
 # ====================================
 # Ruff Configuration:
