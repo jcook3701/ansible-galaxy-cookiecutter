@@ -1,4 +1,5 @@
 ## What's Changed
+* feat(build): Makefile updates for template changelog. Added post-commit script.
 * feat(build): Fixed changelog gen with git-cliff.  Need to fix template changelog gen to use antsbull-changelog and antsichaut.
 * feat(build): Makefile updates to allow creation of changelogs.
 * feat(build): Updates to template Makefile & ci/cd (adding pre-commit-init, security, dependency-check, and spellcheck)

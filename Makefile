@@ -325,6 +325,7 @@ changelog:
 	$(AT)$(GITCLIFF) \
 	  --config github \
 	  --output $(CHANGELOG_FILE)
+	$(AT)$(GIT) add $(CHANGELOG_FILE)
 	$(AT)echo "✅ Finished Changelog Update!"
 # --------------------------------------------------
 # 🐙 Github Commands (git)
