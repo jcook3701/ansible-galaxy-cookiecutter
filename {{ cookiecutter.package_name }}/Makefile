@@ -126,6 +126,10 @@ GITCLIFF := git cliff
 # --------------------------------------------------
 GIT := git
 # --------------------------------------------------
+# 🚨 Pre-Commit (pre-commit)
+# --------------------------------------------------
+PRECOMMIT := $(ACTIVATE) && pre-commit
+# --------------------------------------------------
 # 🪐 Ansible Galaxy
 # --------------------------------------------------
 ANSIBLE_GALAXY := $(ACTIVATE) && ansible-galaxy
@@ -283,7 +287,7 @@ bump-version-patch:
 # 📜 Changelog generation (git-cliff)
 # --------------------------------------------------
 changelog:
-# GIT_CLIFF_TEMPLATE=release_yaml 
+# GIT_CLIFF_TEMPLATE=release_yaml
 	$(GITCLIFF) \
 	  --tag $(GALAXY_VERSION) \
 	  --output $(CHANGELOG_RELEASE_DIR)/$(GALAXY_VERSION).yml

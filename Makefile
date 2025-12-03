@@ -104,6 +104,13 @@ MAJOR := major
 MINOR := minor
 PATCH := patch
 # --------------------------------------------------
+# 🚨 Pre-Commit (pre-commit)
+# --------------------------------------------------
+PRECOMMIT := $(ACTIVATE) && pre-commit
+# pre-commit install --install-hooks
+# pre-commit install --hook-type pre-commit --hook-type commit-msg
+
+# --------------------------------------------------
 # 🏃‍♂️ Nutri-Matic command
 # --------------------------------------------------
 NUTRIMATIC := $(PYTHON) -m nutrimatic
@@ -144,7 +151,7 @@ black-formatter-check:
 	$(AT)echo "🔍 Running black formatter style check..."
 	$(AT)$(call run_ci_safe, $(BLACK) --check $(SRC_DIR) $(TESTS_DIR))
 	$(AT)echo "✅ Finished formatting check of Python code with Black!"
-	
+
 black-formatter-fix:
 	$(AT)echo "🎨 Running black formatter fixes..."
 	$(AT)$(BLACK) $(SRC_DIR) $(TESTS_DIR)
@@ -231,6 +238,7 @@ bump-version-patch:
 	$(AT)echo "🔖 Updating $(PACKAGE_NAME) version from $(VERSION)..."
 	$(AT)$(BUMPVERSION) $(PATCH)
 	$(AT)echo "✅ $(PACKAGE_NAME) version update complete!"
+
 # --------------------------------------------------
 # 🧹 Clean artifacts
 # --------------------------------------------------
