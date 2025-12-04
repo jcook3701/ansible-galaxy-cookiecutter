@@ -114,6 +114,12 @@ ACTIVATE := source $(VENV_DIR)/bin/activate
 PYTHON := $(ACTIVATE) && $(PYTHON_CMD)
 PIP := $(PYTHON) -m pip
 # --------------------------------------------------
+# 🍪 Project Updater (cookiecutter_project_upgrader)
+# --------------------------------------------------
+# NOTE: Git version 2.9 required to use this tool.
+# Example: $(PROJECT_UPGRADE) --context-file $(DOCS_DIR)/cookiecutter_inputs.json
+PROJECT_UPGRADE := $(ACTIVATE) && cookiecutter_project_upgrader
+# --------------------------------------------------
 # 🧬 Dependency Management (deptry)
 # --------------------------------------------------
 DEPTRY := $(ACTIVATE) && deptry

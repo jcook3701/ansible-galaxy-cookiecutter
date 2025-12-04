@@ -320,10 +320,10 @@ bump-version-patch:
 # --------------------------------------------------
 # 📜 Changelog generation (git-cliff) # TODO: Convert this to ansible-changelog
 # --------------------------------------------------
+# Note: Run as part of pre-commit.  No manual run needed.
 changelog:
 	$(AT)echo "📜 $(PACKAGE_NAME) Changelog Generation..."
 	$(AT)$(GITCLIFF) \
-	  --config github \
 	  --output $(CHANGELOG_FILE)
 	$(AT)$(GIT) add $(CHANGELOG_FILE)
 	$(AT)echo "✅ Finished Changelog Update!"

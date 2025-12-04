@@ -170,7 +170,7 @@ docstring-code-format = true
 # Mypy (type-checker) Configuration:
 # ====================================
 [tool.mypy]
-python_version = 3.11
+python_version = "3.11"
 mypy_path = [
   "hooks",
   "tests",

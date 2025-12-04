@@ -18,8 +18,8 @@ commit_parsers = [
     { message = "^deprecate", group = "⚠️ Deprecated", type = "deprecate" },
     { message = "^remove", group = "🚫 Removed", type = "remove" },
     { message = "^security", group = "🔒 Security", type = "security" },
-    { message = "^chore|^ci", group = "⚙️ Miscellaneous", type = "chore" },
-    { message = ".*", group = "⚙️ Miscellaneous", type = "chore" },
+    { message = "^chore|^ci", group = "⚙️  Miscellaneous", type = "chore" },
+    { message = ".*", group = "⚙️  Miscellaneous", type = "chore" },
 ]
 
 exclude = [
@@ -43,17 +43,29 @@ exclude = [
 "🔒 Security" = ["security"]
 "👷 CI" = ["ci"]
 "🔨 Build System" = ["build"]
-"⚙️ Miscellaneous" = ["chore"]
+"⚙️  Miscellaneous" = ["chore"]
 
 [changelog]
 # This tells git-cliff to manage the file persistently
 header = """
-# Changelog
+# --------------------------------------------------
+# Changelog:
+# --------------------------------------------------
 
-All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](keepachangelog.com),
-and this project adheres to [Semantic Versioning](semver.org).
 """
 # This setting controls how new entries are added
 prepend = true
+
+# Sorts commits from oldest to newest within each release section
+sort = "oldest"
+# Hides sections if they have no commits in that release
+filter_sections = true
+# Use a custom template to define the output format
+template = """
+{% for section, commits in sections %}
+## {{ section | striptags | trim }}
+{% for commit in commits %}
+* {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}]({{ commit.external_link }}))
+{% endfor %}
+{% endfor %}
+"""

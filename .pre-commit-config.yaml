@@ -13,6 +13,7 @@ repos:
         args: [--fix=lf]
       - id: check-yaml
       - id: check-json
+        exclude: '{{ cookiecutter.package_name }}/docs/cookiecutter_input.json'
       - id: check-toml
         exclude: '{{ cookiecutter.package_name }}/cliff.toml'
       - id: detect-private-key
