@@ -104,6 +104,7 @@
 - Fix ci/cd errors
 - Fixed git-clif config file name
 - *(changelog)* Changelogs have been fixed.  getting ready for initial release.  There have also been major updates to build and ci/cd.
+- *(ci/cd)* Changed name of security-check to security-audit.
 
 ### 🚀 Added
 

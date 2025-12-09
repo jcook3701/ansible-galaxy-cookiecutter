@@ -4,7 +4,7 @@ __Author:__ Jared Cook
 __Version:__ 0.1.0  
 
 ## Overview:
-Ansible Galaxy cookiecutter template project + Github docs template generation.
+Ansible Galaxy cookiecutter template project /w Ansible Auto Documentation + [Github docs](https://github.com/jcook3701/github-docs-cookiecutter) template generation + [Sphinx docs](https://github.com/jcook3701/sphinx-cookiecutter) template generation.  
 
 ![black-format](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/black-format.yml/badge.svg)
 ![dependency-check](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/dependency-check.yml/badge.svg)
@@ -36,7 +36,7 @@ $ cookiecutter git@github.com:jcook3701/ansible-galaxy-cookiecutter.git \
 	project_name="test-project" \
 	description="Ansible test project."
 ```
-__Note:__ replace ```test-project``` or any of the other variables with real context configuration variables:  
+__Note:__ replace ```test-project``` or any of the other variables with real context configuration variables.  
 
 ***
 
