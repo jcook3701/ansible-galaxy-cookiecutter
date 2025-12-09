@@ -372,7 +372,7 @@ bump-version-patch:
 	$(AT)$(BUMPVERSION) $(PATCH)
 	$(AT)echo "✅ $(GALAXY_PACKAGE_NAME) version update complete!"
 # --------------------------------------------------
-# 📜 Changelog generation (git-cliff)
+# 📜 Changelog generation (git-cliff) # TODO: Convert this to ansible-changelog
 # --------------------------------------------------
 update-changelog:
 	$(AT)echo "📜 $(GALAXY_PACKAGE_NAME) Changelog Generation..."

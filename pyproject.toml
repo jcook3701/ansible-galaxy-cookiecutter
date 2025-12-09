@@ -47,6 +47,7 @@ dev = [
   "json-lint-tools>=0.1",
   "jinja2-cli>=0.8",
   "mypy==1.9",
+  "nameisok>=0.1",
   "pip-audit>=2.10",
   "pre-commit>=4.5",
   "pytest>=9.0",
@@ -74,6 +75,22 @@ where = [
 include = [
   "hooks*",
 ]
+# ====================================
+# Version Bumping (bump-my-version):
+# ====================================
+[tool.bumpversion]
+current_version = "0.1.0"
+parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
+serialize = ["{major}.{minor}.{patch}"]
+search = "{current_version}"
+replace = "{new_version}"
+tag = false
+commit = false
+
+[[tool.bumpversion.files]]
+filename = "Makefile"
+[[tool.bumpversion.files]]
+filename = "README.md"
 # ====================================
 # Codespell Configuration:
 # ====================================

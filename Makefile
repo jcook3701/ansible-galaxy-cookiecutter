@@ -41,7 +41,8 @@ endef
 # --------------------------------------------------
 PACKAGE_NAME := "ansible-galaxy-cookiecutter"
 AUTHOR := "Jared Cook"
-VERSION := "0.1.0
+VERSION := 0.1.0
+RELEASE := v$(VERSION)
 # --------------------------------------------------
 # 🐙 Github Build Settings
 # --------------------------------------------------
@@ -61,13 +62,14 @@ SPHINX_DIR := $(DOCS_DIR)/sphinx
 JEKYLL_DIR := $(DOCS_DIR)/jekyll
 JEKYLL_SPHINX_DIR := $(JEKYLL_DIR)/sphinx
 README_GEN_DIR := $(JEKYLL_DIR)/tmp_readme
-CHANGELOG_DIR := $(PROJECT_ROOT)
-CHANGELOG_RELEASE_DIR = $(CHANGELOG_DIR)/changelogs/releases
+CHANGELOG_DIR := $(PROJECT_ROOT)/changelogs
+CHANGELOG_RELEASE_DIR := $(CHANGELOG_DIR)/releases
 # --------------------------------------------------
 # 📄 Build Files
 # --------------------------------------------------
-README_FILE = $(PROJECT_ROOT)/README.md
-CHANGELOG_FILE = $(CHANGELOG_DIR)/CHANGELOG.md
+README_FILE := $(PROJECT_ROOT)/README.md
+CHANGELOG_FILE := $(CHANGELOG_DIR)/CHANGELOG.md
+CHANGELOG_RELEASE_FILE := $(CHANGELOG_RELEASE_DIR)/$(RELEASE).md
 # --------------------------------------------------
 # 🐍 Python / Virtual Environment
 # --------------------------------------------------
@@ -136,10 +138,13 @@ PATCH := patch
 # 📜 Changelog generation (git-clif)
 # --------------------------------------------------
 GITCLIFF := git cliff
+GITCLIFF_CHANGELOG := $(GITCLIFF) --output $(CHANGELOG_FILE)
+GITCLIFF_CHANGELOG_RELEASE := $(GITCLIFF) --unreleased --tag $(RELEASE) --output $(CHANGELOG_RELEASE_FILE)
 # --------------------------------------------------
 # 🐙 Github Tools (git)
 # --------------------------------------------------
 GIT := git
+GITHUB := gh
 # --------------------------------------------------
 # 🚨 Pre-Commit (pre-commit)
 # --------------------------------------------------
@@ -222,8 +227,25 @@ black-formatter-fix:
 format-check: black-formatter-check
 format-fix: black-formatter-fix
 # --------------------------------------------------
-# 🔍 Linting (ruff, toml, yaml, jinja2)
+# 🔍 Linting (jinja2, ruff, toml, & yaml)
 # --------------------------------------------------
+jinja2-lint-check:
+	$(AT)echo "🔍 jinja2 linting all template files under $(COOKIE_DIR)..."
+	$(AT)jq '{cookiecutter: .}' cookiecutter.json > /tmp/_cc_wrapped.json
+	$(AT)find '$(COOKIE_DIR)' -type f \
+		! -path "$(COOKIE_DIR)/.github/*" \
+		! -name "*.png" \
+		! -name "*.jpg" \
+		! -name "*.ico" \
+		! -name "*.gif" \
+		-print0 | while IFS= read -r -d '' f; do \
+			if file "$$f" | grep -q text; then \
+				echo "Checking $$f"; \
+				$(JINJA) "$$f" /tmp/_cc_wrapped.json || exit 1; \
+			fi; \
+		done
+	$(AT)echo "✅ Finished linting check of jinja2 files with jinja2!"
+
 ruff-lint-check:
 	$(AT)echo "🔍 Running ruff linting..."
 	$(AT)$(MAKE) list-folders
@@ -253,24 +275,7 @@ yaml-lint-check:
 	$(AT)$(YAMLLINT) .
 	$(AT)echo "✅ Finished linting check of yaml files with yamllint!"
 
-jinja2-lint-check:
-	$(AT)echo "🔍 jinja2 linting all template files under $(COOKIE_DIR)..."
-	$(AT)jq '{cookiecutter: .}' cookiecutter.json > /tmp/_cc_wrapped.json
-	$(AT)find '$(COOKIE_DIR)' -type f \
-		! -path "$(COOKIE_DIR)/.github/*" \
-		! -name "*.png" \
-		! -name "*.jpg" \
-		! -name "*.ico" \
-		! -name "*.gif" \
-		-print0 | while IFS= read -r -d '' f; do \
-			if file "$$f" | grep -q text; then \
-				echo "Checking $$f"; \
-				$(JINJA) "$$f" /tmp/_cc_wrapped.json || exit 1; \
-			fi; \
-		done
-	$(AT)echo "✅ Finished linting check of jinja2 files with jinja2!"
-
-lint-check: ruff-lint-check toml-lint-check yaml-lint-check jinja2-lint-check
+lint-check: jinja2-lint-check ruff-lint-check toml-lint-check yaml-lint-check
 lint-fix: ruff-lint-fix
 # --------------------------------------------------
 # 🎓 Spellchecker (codespell)
@@ -318,31 +323,30 @@ bump-version-patch:
 	$(AT)$(BUMPVERSION) $(PATCH)
 	$(AT)echo "✅ $(PACKAGE_NAME) version update complete!"
 # --------------------------------------------------
-# 📜 Changelog generation (git-cliff) # TODO: Convert this to ansible-changelog
+# 📜 Changelog generation (git-cliff)
 # --------------------------------------------------
 # Note: Run as part of pre-commit.  No manual run needed.
 changelog:
 	$(AT)echo "📜 $(PACKAGE_NAME) Changelog Generation..."
-	$(AT)$(GITCLIFF) \
-	  --output $(CHANGELOG_FILE)
+	$(AT)$(GITCLIFF_CHANGELOG)
+	$(AT)$(GITCLIFF_CHANGELOG_RELEASE)
 	$(AT)$(GIT) add $(CHANGELOG_FILE)
+	$(AT)$(GIT) add $(CHANGELOG_RELEASE_FILE)
 	$(AT)echo "✅ Finished Changelog Update!"
 # --------------------------------------------------
 # 🐙 Github Commands (git)
 # --------------------------------------------------
 #NOTE: Not yet tested!!!
 git-release:
-	$(AT)echo "📦 $(PACKAGE_NAME) Release Tag - $(VERSION)! 🎉"
-	$(AT)$(GIT) tag -a v$(VERSION) -m "Release v$(VERSION)"
-	$(AT)$(GITCLIFF) --config github --output "$(CHANGELOG_RELEASE_DIR)/v${VERSION}.md"
-	$(AT)$(GIT) push origin v$(VERSION)
-	$(AT)echo "✅ Finished uploading Release - $(VERSION)!"
+	$(AT)echo "📦 $(PACKAGE_NAME) Release Tag - $(RELEASE)! 🎉"
+	$(AT)$(GIT) tag -a $(RELEASE) -m "Release $(RELEASE)"
+	$(AT)$(GIT) push origin $(RELEASE)
+	$(AT)$(GITHUB) release create $(RELEASE) --title $(PACKAGE_NAME) $(RELEASE) --generate-notes
+	$(AT)echo "✅ Finished uploading Release - $(RELEASE)! 🎉"
 # --------------------------------------------------
 # 📢 Release
 # --------------------------------------------------
-release:
-	$(MAKE) bump-version-patch
-	$(MAKE) git-release
+release: git-release bump-version-patch
 # --------------------------------------------------
 # 🧹 Clean artifacts
 # --------------------------------------------------

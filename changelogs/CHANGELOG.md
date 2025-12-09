@@ -113,6 +113,7 @@
 - *(build)* Fixed changelog gen with git-cliff.  Need to fix template changelog gen to use antsbull-changelog and antsichaut.
 - *(build)* Makefile updates for template changelog. Added post-commit script.
 - *(build)* Trying to see if adding git add to makefile will help changelog be auto updated after pre-commit hook.
+- *(build)* Added cookiecutter-project-upgrader and base setup needed to use this feature on future generated templates.
 
 ### 🚫 Removed
 

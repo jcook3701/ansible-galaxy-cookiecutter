@@ -9,7 +9,7 @@ on:
     branches: [main, develop]
 
 jobs:
-  Tomllint:
+  tomllint:
     runs-on: ubuntu-latest
 
     steps:
