@@ -1,9 +1,9 @@
 # Ansible Galaxy Cookiecutter
 
-__Author:__ Jared Cook
-__Version:__ 0.1.0
+__Author:__ Jared Cook  
+__Version:__ 0.1.0  
 
-## Overview
+## Overview:
 Ansible Galaxy cookiecutter template project + Github docs template generation.
 
 ![black-format](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/black-format.yml/badge.svg)
