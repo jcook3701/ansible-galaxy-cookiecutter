@@ -109,6 +109,7 @@
 - *(changelog)* Changelogs have been fixed.  getting ready for initial release.  There have also been major updates to build and ci/cd.
 - *(ci/cd)* Changed name of security-check to security-audit.
 - *(readme)* Updates to readme.
+- *(template)* Fixed error that was causing template to not pull correctly.
 
 ### 🚀 Added
 
