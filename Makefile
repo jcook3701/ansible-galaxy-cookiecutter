@@ -170,8 +170,8 @@ all: install lint-check typecheck spellcheck test build-docs
 # --------------------------------------------------
 list-folders:
 	$(AT)printf "\
-		🐍 src: $(SRC_DIR)\n\
-	    🧪 Test: $(TESTS_DIR)\n"
+	🐍 src: $(SRC_DIR)\n\
+	🧪 Test: $(TESTS_DIR)\n"
 # --------------------------------------------------
 # 🐍 Virtual Environment Setup
 # --------------------------------------------------
@@ -333,6 +333,10 @@ changelog:
 	$(AT)$(GIT) add $(CHANGELOG_FILE)
 	$(AT)$(GIT) add $(CHANGELOG_RELEASE_FILE)
 	$(AT)echo "✅ Finished Changelog Update!"
+
+changelog-test:
+	$(AT)echo $(GITCLIFF_CHANGELOG)
+	$(AT)echo $(GITCLIFF_CHANGELOG_RELEASE)
 # --------------------------------------------------
 # 🐙 Github Commands (git)
 # --------------------------------------------------
