@@ -53,9 +53,9 @@ def main() -> None:
 
     # Run make commands to get project seeded
     make_cmds = [
-        # "install",
-        # "git-init",
-        # "pre-commit-init",
+        "install",
+        "git-init",
+        "pre-commit-init",
         # "build-docs",
     ]
 

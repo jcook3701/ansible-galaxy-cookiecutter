@@ -30,13 +30,6 @@ else
 CI := 0
 endif
 
-# Check if GITHUB_TOKEN is set
-ifndef GITHUB_TOKEN
-    ifeq ($(CI), 0)
-		$(error GITHUB_TOKEN is not set. Please set it using: export GITHUB_TOKEN=YOUR_TOKEN)
-    endif
-endif
-
 # --------------------------------------------------
 # 🏗️ CI/CD Functions
 # --------------------------------------------------
