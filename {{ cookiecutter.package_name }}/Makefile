@@ -116,7 +116,7 @@ BLACK := $(PYTHON) -m black
 # --------------------------------------------------
 ANSIBLE_LINT := $(ACTIVATE) && ansible-lint
 RUFF := $(PYTHON) -m ruff
-TOMLLINT := $(ACTIVATE) && tomllint
+TOMLLINT := tomllint
 YAMLLINT := $(PYTHON) -m yamllint
 # --------------------------------------------------
 # 🎓 Spellchecker (codespell)
