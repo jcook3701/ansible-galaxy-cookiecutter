@@ -17,9 +17,7 @@ readme = "./README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">={{ cookiecutter.config.requires_python }}"
-dependencies = [
-  "typer>=0.20",
-]
+dependencies = []
 keywords = [
   "ansible",
   "galaxy",

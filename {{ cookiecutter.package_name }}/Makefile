@@ -37,21 +37,6 @@ endif
 define run_ci_safe =
 ( $1 || [ "$(CI)" != "1" ] )
 endef
-
-# Command to get the most recent previous version tag
-# 'git describe --tags --abbrev=0' gets the latest tag, so we use HEAD~1 to get the one before that
-# Use 'git describe --tags --abbrev=0' to get the latest tag for the current version
-define get_version
-	$(shell $(GIT) describe --tags --abbrev=0)
-endef
-
-define get_previous_version
-	$(shell $(GIT) describe --tags --abbrev=0 HEAD~1)
-endef
-
-# Variables to store the versions
-CURRENT_VERSION := $(call get_version)
-PREVIOUS_VERSION := $(call get_previous_version)
 # --------------------------------------------------
 # ⚙️ Build Settings
 # --------------------------------------------------
