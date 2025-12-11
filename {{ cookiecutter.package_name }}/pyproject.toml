@@ -77,11 +77,9 @@ docs = [
 # ====================================
 [tool.setuptools.packages.find]
 where = [
-  "build_utils",
   "plugins",
 ]
 include = [
-  "build_utils*",
   "plugins*",
 ]
 # ====================================
@@ -104,6 +102,29 @@ filename = "./docs/jekyll/Makefile"
 filename = "./docs/jekyll/_config.yml"
 [[tool.bumpversion.files]]
 filename = "./docs/sphinx/conf.py"
+# ====================================
+# Codespell Configuration:
+# ====================================
+[tool.codespell]
+# files/patterns to ignore
+skip = ["*.svg", "*.css", "*.html"]
+
+# words to ignore globally
+ignore-words-list = ["crate", "ba"]
+
+# extra options
+check-filenames = true
+quiet-level = 2
+# ====================================
+# Deptry Configuration:
+# ====================================
+[tool.deptry]
+ignore_notebooks = true
+exclude = [
+    "tests/*",
+    "build/*",
+    "docs/*",
+]
 # ====================================
 # Ruff Configuration: (Linting)
 # ====================================

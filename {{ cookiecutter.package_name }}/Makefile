@@ -60,6 +60,7 @@ GALAXY_NAMESPACE := {{ cookiecutter.namespace }}
 GALAXY_COLLECTION := {{ cookiecutter.project_name }}
 GALAXY_AUTHOR := {{ cookiecutter.author }}
 GALAXY_VERSION := {{ cookiecutter.version }}
+GALAXY_RELEASE := v$(GALAXY_VERSION)
 GALAXY_PATH := $(PROJECT_ROOT)
 # --------------------------------------------------
 # 🐙 Github Build Settings
@@ -82,12 +83,13 @@ JEKYLL_SPHINX_DIR := $(JEKYLL_DIR)/sphinx
 JEKYLL_AUTODOC_DIR := $(JEKYLL_DIR)/ansible-docs
 README_GEN_DIR := $(JEKYLL_DIR)/tmp_readme
 CHANGELOG_DIR := $(PROJECT_ROOT)/changelogs
-CHANGELOG_RELEASE_DIR = $(CHANGELOG_DIR)/releases
+CHANGELOG_RELEASE_DIR := $(CHANGELOG_DIR)/releases
 # --------------------------------------------------
 # 📄 Build Files
 # --------------------------------------------------
-README_FILE = $(PROJECT_ROOT)/README.md
-CHANGELOG_FILE = $(CHANGELOG_DIR)/changelog.yml
+README_FILE := $(PROJECT_ROOT)/README.md
+AUTODOC_README_FILE := $(JEKYLL_AUTODOC_DIR)/ansible-autodoc.md
+CHANGELOG_FILE := $(CHANGELOG_DIR)/changelog.yml
 # --------------------------------------------------
 # 🐍 Python / Virtual Environment
 # --------------------------------------------------
@@ -160,15 +162,15 @@ MAJOR := major
 MINOR := minor
 PATCH := patch
 # --------------------------------------------------
-# 📜 Changelog generation (git-clif)
+# 📜 Changelog generation (antsichaut + antsibull-changelog)
 # --------------------------------------------------
-GITCLIFF := git cliff
 ANTSICHAUT := antsichaut
 ANTSIBULL_CHANGELOG := antsibull-changelog
 # --------------------------------------------------
 # 🐙 Github Tools (git)
 # --------------------------------------------------
 GIT := git
+GITHUB := gh
 # --------------------------------------------------
 # 🚨 Pre-Commit (pre-commit)
 # --------------------------------------------------
@@ -341,6 +343,7 @@ autodocs-front-matter:
 autodoc:
 	$(AT)echo "🔨 Building Ansible autodoc documentation..."
 	$(AT)$(AUTODOC) $(GALAXY_PATH) -o $(JEKYLL_AUTODOC_DIR)
+	$(AT)mv $(JEKYLL_AUTODOC_DIR)/README.md $(AUTODOC_README_FILE)
 	$(AT)echo "✅ Ansible autodoc documentation generated at $(JEKYLL_AUTODOC_DIR)"
 	$(AT)$(MAKE) autodocs-front-matter
 
@@ -365,8 +368,9 @@ bump-version-patch:
 	$(AT)$(BUMPVERSION) $(PATCH)
 	$(AT)echo "✅ $(GALAXY_PACKAGE_NAME) version update complete!"
 # --------------------------------------------------
-# 📜 Changelog generation (git-cliff) # TODO: Convert this to ansible-changelog
+# 📜 Changelog generation (antsichaut + antsibull-changelog)
 # --------------------------------------------------
+# Note: Run as part of pre-commit.  No manual run needed.
 update-changelog:
 	$(AT)echo "📜 $(GALAXY_PACKAGE_NAME) Changelog Generation..."
 	# Run antsichaut, relying on the environment variable GITHUB_TOKEN being present
@@ -389,12 +393,14 @@ git-init:
 	$(AT)$(GIT) init
 	$(AT)echo "✅ Finished Git initialization!"
 
-#NOTE: Not yet tested!!!
+# NOTE: Not yet tested!!!
 git-release: changelog
-	$(AT)echo "📦 $(GALAXY_PACKAGE_NAME) Release Tag - $(GALAXY_VERSION)! 🎉"
-	$(AT)$(GIT) tag -a v$(GALAXY_VERSION) -m "Release v$(GALAXY_VERSION)"
-	$(AT)$(GIT) push origin v$(GALAXY_VERSION)
-	$(AT)echo "✅ Finished uploading Release - $(GALAXY_VERSION)!"
+	$(AT)echo "📦 $(GALAXY_PACKAGE_NAME) Release Tag - $(GALAXY_RELEASE)! 🎉"
+	$(AT)$(GIT) tag -a $(GALAXY_RELEASE) -m "Release $(GALAXY_RELEASE)"
+	$(AT)$(GIT) push origin $(GALAXY_RELEASE)
+	$(AT)$(GITHUB) release create $(REGALAXY_RELEASELEASE) \
+		--title $(GALAXY_PACKAGE_NAME) $(REGALAXY_RELEASELEASE) --generate-notes
+	$(AT)echo "✅ Finished uploading Release - $(GALAXY_RELEASE)!"
 # --------------------------------------------------
 # 🪐 Ansible Galaxy Commands (ansible-galaxy)
 # --------------------------------------------------
@@ -415,7 +421,9 @@ galaxy-publish:
 # --------------------------------------------------
 # 📢 Release
 # --------------------------------------------------
-
+pre-commit: test security dependency-check format-fix lint-check spellcheck typecheck
+pre-release: clean install pre-commit build-docs changelog galaxy-build
+release: git-release galaxy-publish bump-version-patch
 # --------------------------------------------------
 # 🧹 Clean artifacts
 # --------------------------------------------------
@@ -433,9 +441,9 @@ clean:
 # Version
 # --------------------------------------------------
 version:
-	$(AT)echo "$(PACKAGE_NAME)"
-	$(AT)echo "author: $(AUTHOR)"
-	$(AT)echo "version: $(VERSION)"
+	$(AT)echo "$(GALAXY_PACKAGE_NAME)"
+	$(AT)echo "author: $(GALAXY_AUTHOR)"
+	$(AT)echo "version: $(GALAXY_VERSION)"
 # --------------------------------------------------
 # ❓ Help
 # --------------------------------------------------

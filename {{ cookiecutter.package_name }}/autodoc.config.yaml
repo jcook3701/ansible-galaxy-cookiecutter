@@ -10,14 +10,42 @@ description: "{{ cookiecutter.description }}"
 roles_path: "roles"
 playbooks_path: "playbooks"
 
-# Output settings
-output_path: "docs/jekyll/ansible-docs"
-# templates_path: my_templates # Uncomment and specify a custom template directory if needed
+# base directory to scan, relative dir to configuration file
+# base_dir: "./"
 
-# Default template to use ('readme' or 'doc_and_readme')
-# The 'doc_and_readme' template generates a documentation subfolder 'doc'
-# with detailed information on tags, variables, todo, and a report.
+# Output settings
+output_dir: "docs/jekyll/ansible-docs"
+
+# directory containing templates, relative dir to configuration file,
+# comment to use default build in ones
+# template_dir: "./template"
+
+# template directory name within template_dir
+# build in "doc_and_readme" and "readme"
 template: "doc_and_readme"
+
+# Overwrite documentation pages if already exist
+# this is equal to -y
+# template_overwrite : False
+
+# set the debug level: trace | debug | info | warn
+# see -v | -vv | -vvv
+# debug_level: "warn"
+
+# when searching for yaml files in playbook projects,
+# excluded this paths (dir and files) from analysis
+# default values
+excluded_playbook_dirs:
+    - "host_vars"
+    - "group_vars"
+    - "host_secrets"
+    - "plugins"
+    - "autodoc.conf.yaml"
+
+# when searching for yaml files in roles projects,
+# excluded this paths (dir and files) from analysis
+# default values
+excluded_roles_dirs: []
 
 # Annotations (used in docstrings within your Ansible files)
 annotations:
