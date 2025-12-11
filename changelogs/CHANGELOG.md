@@ -110,6 +110,7 @@
 - *(ci/cd)* Changed name of security-check to security-audit.
 - *(readme)* Updates to readme.
 - *(template)* Fixed error that was causing template to not pull correctly.
+- *(libs)* Removed ansible-lint from tools install. I might pre-commit to mange ansible-linting to avoid package conflicts.
 
 ### 🚀 Added
 

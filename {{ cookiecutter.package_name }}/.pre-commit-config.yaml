@@ -30,7 +30,7 @@ repos:
       - id: black
 
   - repo: https://github.com/ansible/ansible-lint.git
-    rev: v25.12.1
+    rev: v24.12.2
     hooks:
       - id: ansible-lint
         pass_filenames: false
