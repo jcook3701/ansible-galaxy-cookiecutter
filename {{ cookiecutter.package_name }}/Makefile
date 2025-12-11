@@ -253,7 +253,7 @@ security:
 # --------------------------------------------------
 dependency-check:
 	$(AT)echo "🧬 Checking dependency issues..."
-	$(AT)$(DEPTRY) --pep621-dev-dependency-groups dev,docs \
+	$(AT)$(DEPTRY) --pep621-dev-dependency-groups dev,tools,docs \
 		 $(SRC_DIR)
 	$(AT)echo "✅ Finished checking for dependency issues!"
 # --------------------------------------------------
