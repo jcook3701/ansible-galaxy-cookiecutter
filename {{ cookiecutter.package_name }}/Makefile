@@ -190,10 +190,10 @@ all: install lint-check typecheck spellcheck test build-docs
 # --------------------------------------------------
 list-folders:
 	$(AT)printf "\
-	     🐍 Python Source Paths: 📁\n\
-	     🔌 Plugins: $(PLUGINS_DIR)\n\
-	     🏛️ Libraries: $(LIBRARY_DIR)\n\
-	     🧪 Test: $(TESTS_DIR)\n"
+	🐍 Python Source Paths: 📁\n\
+	🔌 Plugins: $(PLUGINS_DIR)\n\
+	🏛️ Libraries: $(LIBRARY_DIR)\n\
+	🧪 Test: $(TESTS_DIR)\n"
 # --------------------------------------------------
 # 🩹 Hacks (ansible-autodoc)
 # --------------------------------------------------
@@ -280,7 +280,6 @@ toml-lint-check:
 			-print0 | xargs -0 -n 1 $(TOMLLINT)
 	$(AT)echo "✅ Finished linting check of toml configuration files with Tomllint!"
 {% endraw %}
-
 yaml-lint-check:
 	$(AT)echo "🔍 Running yamllint..."
 	$(AT)$(YAMLLINT) .
@@ -355,11 +354,12 @@ bump-version-patch:
 # --------------------------------------------------
 # 📜 Changelog generation (antsichaut + antsibull-changelog)
 # --------------------------------------------------
+# Run antsichaut, relying on the environment variable GITHUB_TOKEN being present
+# when the shell command executes.
+# --------------------------------------------------
 # Note: Run as part of pre-commit.  No manual run needed.
 update-changelog:
 	$(AT)echo "📜 $(GALAXY_PACKAGE_NAME) Changelog Generation..."
-	# Run antsichaut, relying on the environment variable GITHUB_TOKEN being present
-	# when the shell command executes.
 	$(AT)$(ANTSICHAUT) \
 		--since_version $(PREVIOUS_VERSION) \
 		--to_version $(CURRENT_VERSION) \

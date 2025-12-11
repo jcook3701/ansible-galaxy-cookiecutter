@@ -93,6 +93,8 @@ tag = false
 commit = false
 
 [[tool.bumpversion.files]]
+filename = "galaxy.yml"
+[[tool.bumpversion.files]]
 filename = "Makefile"
 [[tool.bumpversion.files]]
 filename = "./docs/jekyll/Makefile"

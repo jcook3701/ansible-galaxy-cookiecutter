@@ -1,0 +1,3 @@
+---
+release_summary: |
+    This is the initial release of the `{{ cookiecutter.package_name }}` collection. {{ cookiecutter.description }}
