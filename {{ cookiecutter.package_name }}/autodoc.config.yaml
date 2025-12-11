@@ -49,31 +49,31 @@ excluded_roles_dirs: []
 
 # Annotations (used in docstrings within your Ansible files)
 annotations:
-  # General annotations
-  author: "@author"
-  description: "@description"
-  todo: "@todo"
-  action: "@action"
+    # General annotations
+    author: "@author"
+    description: "@description"
+    todo: "@todo"
+    action: "@action"
 
-  # Special annotations
-  tag: "@tag"
-  variables: "@var"
-  example: "@example"
+    # Special annotations
+    tag: "@tag"
+    variables: "@var"
+    example: "@example"
 
 # Options for the 'doc_and_readme' template (if used)
 doc_and_readme:
-  # Title for the variables section in the documentation
-  variables_title: "Role Variables"
-  # Title for the tags section
-  tags_title: "Role Tags"
-  # Title for the todo section
-  todo_title: "Todo List"
-  # Title for the actions section
-  actions_title: "Actions Performed"
-  # Title for the report file
-  report_title: "Project Report"
-  # Title for the project description
-  description_title: "Project Description"
+    # Title for the variables section in the documentation
+    variables_title: "Role Variables"
+    # Title for the tags section
+    tags_title: "Role Tags"
+    # Title for the todo section
+    todo_title: "Todo List"
+    # Title for the actions section
+    actions_title: "Actions Performed"
+    # Title for the report file
+    report_title: "Project Report"
+    # Title for the project description
+    description_title: "Project Description"
 
 # Other options
 # verbose: False # Enable verbose output for debugging
