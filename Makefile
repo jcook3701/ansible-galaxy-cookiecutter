@@ -106,7 +106,7 @@ BLACK := $(PYTHON) -m black
 RUFF := $(PYTHON) -m ruff
 TOMLLINT := tomllint
 YAMLLINT := $(PYTHON) -m yamllint
-JINJA := $(ACTIVATE) && jinja2 --strict
+JINJA := $(ACTIVATE) && jinja2 --strict --extension=cookiecutter.extensions.JsonifyExtension
 # --------------------------------------------------
 # 🎓 Spellchecker (codespell)
 # --------------------------------------------------
