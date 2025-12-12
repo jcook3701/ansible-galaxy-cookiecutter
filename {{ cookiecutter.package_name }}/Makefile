@@ -35,7 +35,8 @@ endif
 # --------------------------------------------------
 # Define a reusable CI-safe runner
 define run_ci_safe =
-( $1 || [ "$(CI)" != "1" ] )
+( $1 || [ "$(CI)" != "1" ] && $(AT)echo "❌ process finished with error continuing..."
+ )
 endef
 # --------------------------------------------------
 # ⚙️ Build Settings
@@ -262,7 +263,7 @@ format-fix: black-formatter-fix
 # --------------------------------------------------
 ansible-lint-check:
 	$(AT)echo "🔍 Running ansible-lint..."
-	$(AT)$(ANSIBLE_LINT)
+	$(AT)$(call run_ci_safe, $(ANSIBLE_LINT))
 	$(AT)echo "✅ Finished linting check with ansible-lint!"
 
 ruff-lint-check:

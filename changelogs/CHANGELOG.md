@@ -253,6 +253,7 @@ Co-authored-by: jcook3701 <jcook3701@gmail.com>
 
 - *(makefile)* Fixed sphinx build.
 - *(spelling)* Fixed codespell issue.  Also added cspell to pre-commit to ensure proper spelling in commit messages.
+- *(ansible-lint)* Fixed makefile ansible-lint command to now work with new pre-commit setup.
 
 ### 📚 Documentation
 
