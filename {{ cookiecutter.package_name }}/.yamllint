@@ -3,6 +3,7 @@
 extends: default
 ignore:
   - .venv
+  - ./changelogs/.plugin-cache.yaml
 
 rules:
   line-length:
@@ -17,6 +18,7 @@ rules:
   comments-indentation: false
   document-start:
     present: true
+    level: error
   key-duplicates:
     forbid-duplicated-merge-keys: true
   indentation:
@@ -26,7 +28,7 @@ rules:
     forbid-implicit-octal: true
     forbid-explicit-octal: true
   quoted-strings:
-    quote-type: single
+    quote-type: double
     required: false
     level: warning
   truthy:
