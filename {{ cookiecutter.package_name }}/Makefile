@@ -115,7 +115,7 @@ YAMLFIXER := yamlfixer
 # --------------------------------------------------
 # 🔍 Linting (ruff, yaml)
 # --------------------------------------------------
-ANSIBLE_LINT := $(ACTIVATE) && pre-commit run ansible-lint --all-files
+ANSIBLE_LINT := $(ACTIVATE) && pre-commit run ansible-lint --all-files --hook-stage manual
 RUFF := $(PYTHON) -m ruff
 TOMLLINT := tomllint
 YAMLLINT := $(PYTHON) -m yamllint
