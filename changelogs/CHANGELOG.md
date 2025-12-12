@@ -252,6 +252,7 @@ Co-authored-by: jcook3701 <jcook3701@gmail.com>
 ### 🐛 Fixed
 
 - *(makefile)* Fixed sphinx build.
+- *(spelling)* Fixed codespell issue.  Also added cspell to pre-commit to ensure proper spelling in commit messages.
 
 ### 📚 Documentation
 
