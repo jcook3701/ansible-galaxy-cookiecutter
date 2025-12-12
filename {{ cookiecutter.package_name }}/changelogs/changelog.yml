@@ -1,6 +1,3 @@
 # changelogs/changelog.yml
-# Index of all changelog files for the collection
 ---
-releases:
-  {{ cookiecutter.version }}:
-    file: "releases/{{ cookiecutter.version }}.yml"
+releases: {}
