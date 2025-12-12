@@ -1,3 +1,9 @@
 ---
 release_summary: |
     This is the initial release of the `{{ cookiecutter.package_name }}` collection. {{ cookiecutter.description }}
+major_changes:
+    - A major feature change description.
+minor_changes:
+    - A minor bug fix or improvement.
+breaking_changes:
+    - Detail any changes that break backward compatibility.
