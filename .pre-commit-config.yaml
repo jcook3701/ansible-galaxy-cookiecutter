@@ -14,6 +14,7 @@ repos:
       - id: mixed-line-ending
         args: [--fix=lf]
       - id: check-yaml
+        exclude: '{{ cookiecutter.package_name }}/changelogs/changelog.yml'
       - id: check-json
         exclude: '{{ cookiecutter.package_name }}/docs/cookiecutter_input.json'
       - id: check-toml

@@ -4,4 +4,3 @@
 releases:
   {{ cookiecutter.version }}:
     file: "releases/{{ cookiecutter.version }}.yml"
-
