@@ -1,3 +1,5 @@
+# .github/workflows/generate_changelog.yml
+---
 name: Auto-generate Changelog Fragments
 on:
   pull_request:
@@ -10,8 +12,8 @@ on:
   workflow_dispatch:
 
 permissions:
-    contents: write       # Allows writing files/commits back to the repo
-    pull-requests: read   # Allows reading PR data for antsichaut
+  contents: write       # Allows writing files/commits back to the repo
+  pull-requests: read   # Allows reading PR data for antsichaut
 
 jobs:
   generate-fragments:
@@ -26,7 +28,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install dependencies
         run: make install
