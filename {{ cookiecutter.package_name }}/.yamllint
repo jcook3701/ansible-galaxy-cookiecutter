@@ -26,7 +26,7 @@ rules:
     forbid-implicit-octal: true
     forbid-explicit-octal: true
   quoted-strings:
-    quote-type: double
+    quote-type: single
     required: false
     level: warning
   truthy:
