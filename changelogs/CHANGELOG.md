@@ -247,3 +247,7 @@ Co-authored-by: jcook3701 <jcook3701@gmail.com>
 ### 🌱 Init
 
 - Init commit ansible-galaxy-cookiecutter
+
+### 📚 Documentation
+
+- *(readme)* Dependency updates.

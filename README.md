@@ -20,7 +20,7 @@ __Note:__ Unless you are using a newer version of cookiecutter >= 2, ```--no-inp
 
 ## Usage Examples:
 __Example:__ Pull from main branch.  
-__Note:__ [Nutri-Matic](https://github.com/jcook3701/nutri-matic) is needed is active python environment.  
+__Note:__ [Nutri-Matic](https://github.com/jcook3701/nutri-matic) is needed in active python environment.  
 
 ```shell
 $ cookiecutter git@github.com:jcook3701/ansible-galaxy-cookiecutter.git \

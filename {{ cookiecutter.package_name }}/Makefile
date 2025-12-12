@@ -304,7 +304,7 @@ lint-fix: ruff-lint-fix
 # --------------------------------------------------
 spellcheck:
 	$(AT)echo "🎓 Checking Spelling (codespell)..."
-	$(AT)$(call run_ci_safe, $(CODESPELL) $(SRC_DIR) $(TESTS_DIR) $(DOCS_DIR))
+	$(AT)$(call run_ci_safe, $(CODESPELL))
 	$(AT)echo "✅ Finished spellcheck!"
 # --------------------------------------------------
 # 🧠 Typechecking (MyPy)
@@ -428,14 +428,14 @@ pre-release: clean install pre-commit build-docs changelog galaxy-build
 # 🧹 Clean artifacts
 # --------------------------------------------------
 clean-docs:
-	$(AT)echo "🧹 Clening documentation artifacts..."
+	$(AT)echo "🧹 Cleaning documentation artifacts..."
 	$(AT)rm -rf $(JEKYLL_SPHINX_DIR) $(JEKYLL_AUTODOC_DIR)
 	$(AT)$(MAKE) -C $(JEKYLL_DIR) clean
 	$(AT)$(MAKE) -C $(SPHINX_DIR) clean
 	$(AT)echo "✅ Cleaned documentation artifacts..."
 
 clean-build:
-	$(AT)echo "🧹 Clening build artifacts..."
+	$(AT)echo "🧹 Cleaning build artifacts..."
 	$(AT)rm -rf build dist *.egg-info
 	$(AT)find $(SRC_DIR) $(TESTS_DIR) -name "__pycache__" -type d -exec rm -rf {} +
 	$(AT)-[ -d "$(VENV_DIR)" ] && rm -r $(VENV_DIR)

@@ -282,7 +282,7 @@ lint-fix: ruff-lint-fix
 # --------------------------------------------------
 spellcheck:
 	$(AT)echo "🎓 Checking Spelling (codespell)..."
-	$(AT)$(CODESPELL) $(SRC_DIR) $(TESTS_DIR) $(DOCS_DIR)
+	$(AT)$(call run_ci_safe, $(CODESPELL))
 	$(AT)echo "✅ Finished spellcheck!"
 # --------------------------------------------------
 # 🧠 Typechecking (MyPy)
@@ -333,10 +333,6 @@ changelog:
 	$(AT)$(GIT) add $(CHANGELOG_FILE)
 	$(AT)$(GIT) add $(CHANGELOG_RELEASE_FILE)
 	$(AT)echo "✅ Finished Changelog Update!"
-
-changelog-test:
-	$(AT)echo $(GITCLIFF_CHANGELOG)
-	$(AT)echo $(GITCLIFF_CHANGELOG_RELEASE)
 # --------------------------------------------------
 # 🐙 Github Commands (git)
 # --------------------------------------------------
@@ -345,23 +341,31 @@ git-release:
 	$(AT)echo "📦 $(PACKAGE_NAME) Release Tag - $(RELEASE)! 🎉"
 	$(AT)$(GIT) tag -a $(RELEASE) -m "Release $(RELEASE)"
 	$(AT)$(GIT) push origin $(RELEASE)
-	$(AT)$(GITHUB) release create $(RELEASE) --title $(PACKAGE_NAME) $(RELEASE) --generate-notes
+	$(AT)$(GITHUB) release create $(RELEASE) --generate-notes
 	$(AT)echo "✅ Finished uploading Release - $(RELEASE)! 🎉"
 # --------------------------------------------------
 # 📢 Release
 # --------------------------------------------------
+pre-commit: test security dependency-check format-fix lint-check spellcheck typecheck
+pre-release: clean install pre-commit build-docs changelog build
 release: git-release bump-version-patch
 # --------------------------------------------------
 # 🧹 Clean artifacts
 # --------------------------------------------------
-clean:
-	$(AT)echo "🧹 Clening build artifacts..."
+clean-docs:
+	$(AT)echo "🧹 Cleaning documentation artifacts..."
 	$(AT)rm -rf $(SPHINX_DIR)/_build $(JEKYLL_SPHINX_DIR)
 	$(AT)$(call run_ci_safe, cd $(JEKYLL_DIR) && $(JEKYLL_CLEAN))
+	$(AT)echo "✅ Cleaned documentation artifacts..."
+
+clean-build:
+	$(AT)echo "🧹 Cleaning build artifacts..."
 	$(AT)rm -rf build dist *.egg-info
 	$(AT)find $(SRC_DIR) $(TESTS_DIR) -name "__pycache__" -type d -exec rm -rf {} +
 	$(AT)-[ -d "$(VENV_DIR)" ] && rm -r $(VENV_DIR)
 	$(AT)echo "🧹 Cleaned build artifacts."
+
+clean: clean-docs clean-build
 # --------------------------------------------------
 # Version
 # --------------------------------------------------
