@@ -15,12 +15,10 @@ repos:
       - id: mixed-line-ending
         args: [--fix=lf]
       - id: check-yaml
-        exclude: '{{ cookiecutter.package_name }}/changelogs/changelog.yml'
       - id: check-json
-        exclude: '{{ cookiecutter.package_name }}/docs/cookiecutter_input.json'
+        exclude: "{{ cookiecutter.package_name }}/docs/cookiecutter_input.json"
       - id: check-toml
-        exclude: '{{ cookiecutter.package_name }}/cliff.toml'
-      - id: detect-private-key
+        exclude: "{{ cookiecutter.package_name }}/cliff.toml"
       - id: check-case-conflict
       - id: check-added-large-files
       - id: check-symlinks

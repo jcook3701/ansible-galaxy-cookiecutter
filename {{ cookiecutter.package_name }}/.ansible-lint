@@ -39,7 +39,7 @@ skip_list:
   - no-changed-when  # Skip warning if "changed_when" is missing
   - name[template]   # Disables enforced naming conventions
   - name[prefix]     # Disables enforced naming conventions
-  - '403'            # Disables enforcing of “Package installs should not use latest”
+  - "403"            # Disables enforcing of “Package installs should not use latest”
 
 
 # Ansible-lint does not automatically load rules that have the 'opt-in' tag.
