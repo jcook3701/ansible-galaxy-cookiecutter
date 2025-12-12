@@ -1,6 +1,6 @@
-# jinja2 lint
+# tomllint
 ---
-name: Cookiecutter Template Jinja2 Lint
+name: Cookiecutter Template Tomllint Lint
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
     branches: [main, develop]
 
 jobs:
-  jinja2-lint:
+  tomllint:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,10 +21,10 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install Jinja2 CLI
+      - name: Install Tomllint
         run: |
           make install
 
-      - name: Lint Jinja templates
+      - name: Lint YAML files
         run: |
-          make jinja2-lint-check
+          make toml-lint-check

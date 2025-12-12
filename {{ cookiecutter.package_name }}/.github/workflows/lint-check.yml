@@ -1,6 +1,7 @@
-# .github/workflows/lint.yml
+# .github/workflows/lint-check.yml
 ---
 name: lint-check
+
 on:
   push:
     branches: ["main", "develop"]
@@ -8,11 +9,12 @@ on:
     branches: ["main", "develop"]
 
 jobs:
-  build:
-    name: Lint Check # Naming the build is important to use it as a status check
+  lint-check:
+    name: Lint Check
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -21,16 +23,21 @@ jobs:
 
       - name: Install Project Dependencies
         run: |
-          make install  # create .venv and install dependencies
+          make install
 
       - name: Run Ruff Lint Check
         run: |
           make ruff-lint-check  # Check formatting with ruff
 
+      - name: Run Toml Lint Check
+        run: |
+          make toml-lint-check # Check formatting with tomllint
+
       - name: Run YAML Lint Check
         run: |
           make yaml-lint-check  # Check formatting with yamllint
 
-      - name: Run Ansible Lint Check
-        run: |
-          make ansible-lint-check  # Check formatting with ansible-lint
+      # TODO: Figure out if I want to keep this with lint-check being run by pre-commit
+      # - name: Run Ansible Lint Check
+      #  run: |
+      #    make ansible-lint-check  # Check formatting with ansible-lint

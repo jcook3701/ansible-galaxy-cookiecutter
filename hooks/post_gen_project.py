@@ -5,22 +5,29 @@
 See the LICENSE file for more details.
 
 Author: Jared Cook
-Discription: Post project generation Scripts.
+Description: Post project generation Scripts.
 """
 
+import datetime
 import json
 import os
-import sys
-from pathlib import Path
+from typing import Any
+
+from nutrimatic.core import make
+from nutrimatic.hooks.post_gen_logic import (
+    generate_ansible_dirs,
+    generate_docs_templates,
+    replace_placeholders_in_dir,
+)
 
 # Add the generated package to sys.path so Python can find it
-PROJECT_DIR = Path.cwd()
-HOOKS_DIR = PROJECT_DIR / "_shared_hooks" / "post_gen_logic"
-sys.path.insert(0, str(HOOKS_DIR))
+# PROJECT_DIR = Path.cwd()
+# HOOKS_DIR = PROJECT_DIR / "_shared_hooks" / "post_gen_logic"
+# sys.path.insert(0, str(HOOKS_DIR))
 
-from ansible import generate_ansible_dirs  # noqa: E402
-from docs import generate_docs_templates  # noqa: E402
-from utils import clean, make  # noqa: E402
+# from ansible import generate_ansible_dirs
+# from docs import generate_docs_templates
+# from utils import clean, make
 
 
 def main() -> None:
@@ -30,8 +37,16 @@ def main() -> None:
         print("⚙️  Detected CI environment — skipping GitHub Docs generation.")
         return
 
+    timestamp = datetime.datetime.now(datetime.UTC).strftime("%Y-%m-%d %H:%M:%S %Z")
+
     # Access cookiecutter context safely
     context = json.loads("""{{ cookiecutter | jsonify }}""")
+
+    autovars: dict[str, Any] = {
+        context["timestamp_placeholder"]: timestamp,
+    }
+
+    replace_placeholders_in_dir(autovars)
 
     generate_docs_templates(context)
     generate_ansible_dirs()
@@ -39,13 +54,14 @@ def main() -> None:
     # Run make commands to get project seeded
     make_cmds = [
         "install",
-        "build-docs",
+        "git-init",
+        "pre-commit-init",
+        # "changelog",
+        # "build-docs",
     ]
 
     for cmd in make_cmds:
         make(cmd)
-
-    clean()
 
 
 if __name__ == "__main__":

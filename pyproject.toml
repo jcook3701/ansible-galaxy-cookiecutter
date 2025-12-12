@@ -3,7 +3,7 @@
 # Project: ansible-galaxy-cookiecutter
 # =========================================
 [build-system]
-requires = ["setuptools>=65.0.0", "wheel"]
+requires = ["setuptools>=80.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -17,7 +17,9 @@ readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+  "nutri-matic>=0.1",
+]
 keywords = [
   "ansible",
   "galaxy",
@@ -34,14 +36,27 @@ Homepage = "https://github.com/jcook3701/ansible-galaxy-cookiecutter"
 Repository = "https://github.com/jcook3701/ansible-galaxy-cookiecutter"
 Documentation = "https://github.com/jcook3701/ansible-galaxy-cookiecutter/docs/jekyll"
 
+# Maybe upgrade to python 3.12 in future: "pyproject>=1!0.1.2",
 [project.optional-dependencies]
 dev = [
-  "ruff>=0.14.0",
+  "bump-my-version>=1.2",
+  "black>=25.11",
+  "codespell>=2.4",
+  "coverage>=7.12",
+  "deptry>=0.24",
+  "json-lint-tools>=0.1",
+  "jinja2-cli>=0.8",
   "mypy==1.9",
+  "nameisok>=0.1",
+  "pip-audit>=2.10",
+  "pre-commit>=4.5",
   "pytest>=9.0",
   "pytest-cookies>=0.7",
+  "pytest-cov>=7.0",
+  "ruff>=0.14.0",
+  "tomllint>=0.3",
+  "typer>=0.20",
   "yamllint>=1.0",
-  "jinja2-cli>=0.8",
 ]
 docs = [
   "sphinx>=8.0",
@@ -49,15 +64,55 @@ docs = [
   "sphinx-markdown-builder>=0.6",
   "sphinx-autodoc-typehints>=3.5",
 ]
+
 # ====================================
 # Setuptools Configuration:
 # ====================================
 [tool.setuptools.packages.find]
 where = [
-  "hooks"
+  "hooks",
 ]
 include = [
   "hooks*",
+]
+# ====================================
+# Version Bumping (bump-my-version):
+# ====================================
+[tool.bumpversion]
+current_version = "0.1.0"
+parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
+serialize = ["{major}.{minor}.{patch}"]
+search = "{current_version}"
+replace = "{new_version}"
+tag = false
+commit = false
+
+[[tool.bumpversion.files]]
+filename = "Makefile"
+[[tool.bumpversion.files]]
+filename = "README.md"
+# ====================================
+# Codespell Configuration:
+# ====================================
+[tool.codespell]
+# files/patterns to ignore
+skip = ["*.svg", "*.css", "*.html"]
+
+# words to ignore globally
+ignore-words-list = ["crate", "ba"]
+
+# extra options
+check-filenames = true
+quiet-level = 2
+# ====================================
+# Deptry Configuration:
+# ====================================
+[tool.deptry]
+ignore_notebooks = true
+exclude = [
+    "tests/*",
+    "build/*",
+    "docs/*",
 ]
 # ====================================
 # Ruff Configuration:
@@ -67,9 +122,9 @@ include = [
 target-version = "py311"
 # Directories to lint and format
 src = [
-  "{{ cookiecutter.package_name }}",
   "hooks",
-  "tests"
+  "tests",
+  "{{ cookiecutter.package_name }}/tests",
 ]
 # Exclude these paths
 exclude = [
@@ -81,6 +136,7 @@ exclude = [
   "*.egg-info",
   ".git",
   ".github",
+  "{{ cookiecutter.package_name }}/pyproject.toml",
 ]
 # Maximum line length
 line-length = 120
@@ -109,6 +165,7 @@ ignore = [
   "E501",  # line too long (handled by formatter)
   "PLR2004",  # magic value comparison
   "B008",  # function call in default argument
+  "RUF200", # invalid pyproject.toml file that does not conform to the relevant specifications (PEPs)
 ]
 # ====================================
 # Import Sorting Configuration: (Python helper scripts)
@@ -130,8 +187,11 @@ docstring-code-format = true
 # Mypy (type-checker) Configuration:
 # ====================================
 [tool.mypy]
-python_version = 3.11
-mypy_path = "hooks"
+python_version = "3.11"
+mypy_path = [
+  "hooks",
+  "tests",
+]
 strict = true
 warn_unused_ignores = true
 warn_unused_configs = true
@@ -143,5 +203,11 @@ ignore_missing_imports = true
 [tool.pytest.ini_options]
 minversion = "7.0"
 addopts = ["-v", "--maxfail=1", "-W always", "-rw", "--strict-markers"]
-testpaths = ["tests"]
-pythonpath = ["hooks"]
+testpaths = [
+  "tests",
+]
+pythonpath = [
+  ".",
+  "{{ cookiecutter.package_name }}",
+  "hooks",
+]

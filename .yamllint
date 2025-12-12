@@ -18,6 +18,7 @@ rules:
   comments-indentation: false
   document-start:
     present: true
+    level: error
   key-duplicates:
     forbid-duplicated-merge-keys: true
   indentation:

@@ -1,0 +1,45 @@
+# ./pre-commit-config.yaml
+---
+default_install_hook_types:
+  - pre-commit
+  - commit-msg
+
+repos:
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md, --markdown-linebreak-ext=mdx]
+      - id: mixed-line-ending
+        args: [--fix=lf]
+      - id: check-yaml
+      - id: check-json
+        exclude: "{{ cookiecutter.package_name }}/docs/cookiecutter_input.json"
+      - id: check-toml
+        exclude: "{{ cookiecutter.package_name }}/cliff.toml"
+      - id: check-case-conflict
+      - id: check-added-large-files
+      - id: check-symlinks
+
+  - repo: https://github.com/psf/black
+    rev: 25.11.0
+    hooks:
+      - id: black
+
+  - repo: https://github.com/ansible/ansible-lint.git
+    rev: v24.5.0
+    hooks:
+      - id: ansible-lint
+        pass_filenames: true
+        always_run: true
+        additional_dependencies:
+          - ansible-core<2.16
+          - ansible
+
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v4.3.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]

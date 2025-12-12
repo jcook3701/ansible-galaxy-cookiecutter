@@ -1,0 +1,82 @@
+---
+# General project information
+name: "{{ cookiecutter.package_name }}"
+license: "MIT"
+author: "{{ cookiecutter.author }}"
+email: "{{ cookiecutter.email }}"
+description: "{{ cookiecutter.description }}"
+
+# Source paths for roles and playbooks (can be relative or absolute)
+roles_path: "roles"
+playbooks_path: "playbooks"
+
+# base directory to scan, relative dir to configuration file
+# base_dir: "./"
+
+# Output settings
+output_dir: "docs/jekyll/ansible-docs"
+
+# directory containing templates, relative dir to configuration file,
+# comment to use default build in ones
+# template_dir: "./template"
+
+# template directory name within template_dir
+# build in "doc_and_readme" and "readme"
+template: "doc_and_readme"
+
+# Overwrite documentation pages if already exist
+# this is equal to -y
+# template_overwrite : False
+
+# set the debug level: trace | debug | info | warn
+# see -v | -vv | -vvv
+# debug_level: "warn"
+
+# when searching for yaml files in playbook projects,
+# excluded this paths (dir and files) from analysis
+# default values
+excluded_playbook_dirs:
+    - "host_vars"
+    - "group_vars"
+    - "host_secrets"
+    - "plugins"
+    - "autodoc.conf.yaml"
+
+# when searching for yaml files in roles projects,
+# excluded this paths (dir and files) from analysis
+# default values
+excluded_roles_dirs: []
+
+# Annotations (used in docstrings within your Ansible files)
+annotations:
+    # General annotations
+    author: "@author"
+    description: "@description"
+    todo: "@todo"
+    action: "@action"
+
+    # Special annotations
+    tag: "@tag"
+    variables: "@var"
+    example: "@example"
+
+# Options for the 'doc_and_readme' template (if used)
+doc_and_readme:
+    # Title for the variables section in the documentation
+    variables_title: "Role Variables"
+    # Title for the tags section
+    tags_title: "Role Tags"
+    # Title for the todo section
+    todo_title: "Todo List"
+    # Title for the actions section
+    actions_title: "Actions Performed"
+    # Title for the report file
+    report_title: "Project Report"
+    # Title for the project description
+    description_title: "Project Description"
+
+# Other options
+# verbose: False # Enable verbose output for debugging
+# force: False # Force overwrite of existing files without prompt
+# remove: False # Remove output folder before generating new documentation
+# sort_roles_by_name: True # Sort roles by name in generated documentation

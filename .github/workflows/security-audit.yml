@@ -1,6 +1,6 @@
-# jinja2 lint
+# security-check
 ---
-name: Cookiecutter Template Jinja2 Lint
+name: Cookiecutter Template Security Check
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
     branches: [main, develop]
 
 jobs:
-  jinja2-lint:
+  security-audit:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,10 +21,10 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install Jinja2 CLI
+      - name: Install pip-audit
         run: |
           make install
 
-      - name: Lint Jinja templates
+      - name: Run Security Check
         run: |
-          make jinja2-lint-check
+          make security

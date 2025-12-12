@@ -1,0 +1,53 @@
+# .github/workflows/generate_changelog.yml
+---
+name: Auto-generate Changelog Fragments
+on:
+  pull_request:
+    types:
+      - closed
+    # Limit this workflow ONLY to PRs targeting the 'develop' branch
+    branches:
+      - develop
+  # This can be triggered manually too for the initial setup
+  workflow_dispatch:
+
+permissions:
+  contents: write       # Allows writing files/commits back to the repo
+  pull-requests: read   # Allows reading PR data for antsichaut
+
+jobs:
+  generate-fragments:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          # Fetch all history so antsichaut can find the last release
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: make install
+
+      - name: Generate changelog fragments
+        # Uses GITHUB_TOKEN to authenticate with GitHub API
+        env:
+          # Ensure you have default labels set up in your repo (bug, feature, etc.)
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPO: ${{ github.repository }}
+        run: >-
+          antsichaut --github_token $GITHUB_TOKEN \
+                     --repository $GITHUB_REPO
+
+      - name: Lint changelog fragments
+        run: antsibull-changelog lint
+
+      - name: Commit and Push new fragments (if any were created)
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "CI: Auto-generate changelog fragments"
+          branch: develop
