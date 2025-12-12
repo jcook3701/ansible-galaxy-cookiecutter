@@ -44,7 +44,6 @@ skip_list:
   - name[template]   # Disables enforced naming conventions
   - name[prefix]     # Disables enforced naming conventions
   - package-latest   # Disables enforcing of “Package installs should not use latest”
-  - yaml[quoted-strings]
 
 # Ansible-lint does not automatically load rules that have the 'opt-in' tag.
 # You must enable opt-in rules by listing each rule 'id' below.
@@ -67,6 +66,7 @@ enable_list:
 warn_list:
   - skip_this_tag
   - experimental # experimental is included in the implicit list
+  - yaml[quoted-strings]
   # - role-name
   # - yaml[document-start]  # you can also use sub-rule matches
 

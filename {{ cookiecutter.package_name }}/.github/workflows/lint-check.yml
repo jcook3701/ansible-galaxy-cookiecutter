@@ -37,6 +37,7 @@ jobs:
         run: |
           make yaml-lint-check  # Check formatting with yamllint
 
-      - name: Run Ansible Lint Check
-        run: |
-          make ansible-lint-check  # Check formatting with ansible-lint
+      # TODO: Figure out if I want to keep this with lint-check being run by pre-commit
+      # - name: Run Ansible Lint Check
+      #  run: |
+      #    make ansible-lint-check  # Check formatting with ansible-lint

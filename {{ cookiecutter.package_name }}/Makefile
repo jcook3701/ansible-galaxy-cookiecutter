@@ -366,16 +366,19 @@ bump-version-patch:
 # when the shell command executes.
 # --------------------------------------------------
 # Note: Run as part of pre-commit.  No manual run needed.
-
-
+changelog:
+	$(AT)echo "📜 $(GALAXY_PACKAGE_NAME) Changelog Generation..."
+	$(AT)$(ANTSIBULL_CHANGELOG) release
+	$(AT)echo "✅ Finished Changelog Release!"
 
 update-changelog:
-	$(AT)echo "📜 $(GALAXY_PACKAGE_NAME) Changelog Generation..."
+	$(AT)echo "📜 $(GALAXY_PACKAGE_NAME) Changelog Fragment Generation..."
 	$(AT)$(ANTSICHAUT) \
+  		--github_token $(GITHUB_TOKEN) \
+  		--repository $(GITHUB_REPO) \
 		--since_version $(PREVIOUS_VERSION) \
 		--to_version $(CURRENT_VERSION) \
-		--repository $(GITHUB_REPO)
-	$(AT)echo "✅ Finished Changelog Update!"
+	$(AT)echo "✅ Finished Changelog Fragment Generation..."
 
 changelog-release: update-changelog
 	$(AT)echo Finalize the release (e.g., generate the final RST/MD file)
@@ -390,7 +393,7 @@ git-init:
 	$(AT)echo "✅ Finished Git initialization!"
 
 # NOTE: Not yet tested!!!
-git-release: changelog
+git-release:
 	$(AT)echo "📦 $(GALAXY_PACKAGE_NAME) Release Tag - $(GALAXY_RELEASE)! 🎉"
 	$(AT)$(GIT) tag -a $(GALAXY_RELEASE) -m "Release $(GALAXY_RELEASE)"
 	$(AT)$(GIT) push origin $(GALAXY_RELEASE)
@@ -419,20 +422,26 @@ galaxy-publish:
 # --------------------------------------------------
 pre-commit: test security dependency-check format-fix lint-check spellcheck typecheck
 pre-release: clean install pre-commit build-docs changelog galaxy-build
-release: git-release galaxy-publish bump-version-patch
+# release: git-release galaxy-publish bump-version-patch
 # --------------------------------------------------
 # 🧹 Clean artifacts
 # --------------------------------------------------
-clean:
-	$(AT)echo "🧹 Clening build artifacts..."
-	$(AT)rm -rf $(SPHINX_DIR)/_build $(JEKYLL_SPHINX_DIR) $(JEKYLL_AUTODOC_DIR)
+clean-docs:
+	$(AT)echo "🧹 Clening documentation artifacts..."
+	$(AT)rm -rf $(JEKYLL_SPHINX_DIR) $(JEKYLL_AUTODOC_DIR)
 	$(AT)$(MAKE) -C $(JEKYLL_DIR) clean
 	$(AT)$(MAKE) -C $(SPHINX_DIR) clean
+	$(AT)echo "✅ Cleaned documentation artifacts..."
+
+clean-build:
+	$(AT)echo "🧹 Clening build artifacts..."
 	$(AT)rm -rf build dist *.egg-info
 	$(AT)find $(SRC_DIR) $(TESTS_DIR) -name "__pycache__" -type d -exec rm -rf {} +
 	$(AT)-[ -d "$(VENV_DIR)" ] && rm -r $(VENV_DIR)
 	$(AT)rm -f $(GALAXY_NAMESPACE)-$(GALAXY_COLLECTION)-*.tar.gz
-	$(AT)@echo "🧹 Cleaned build artifacts."
+	$(AT)@echo "✅ Cleaned build artifacts."
+
+clean: clean-docs clean-build
 # --------------------------------------------------
 # Version
 # --------------------------------------------------

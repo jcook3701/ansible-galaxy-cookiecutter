@@ -10,15 +10,13 @@
 name: Deploy Jekyll site to Pages
 
 on:
-  push:
-    branches: ["main", "develop"]
-    paths:
-      - "docs/**"
   pull_request:
-    branches: ["main", "develop"]
+    types:
+      - closed
+    branches:
+      - main
     paths:
       - "docs/**"
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
