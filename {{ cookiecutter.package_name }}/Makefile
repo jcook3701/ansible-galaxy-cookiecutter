@@ -287,9 +287,10 @@ yaml-lint-check:
 yaml-formatter-fix:
 	$(AT)echo "🎨 Running yamlfixer lint fixes..."
 	$(AT)$(ACTIVATE) && \
-		find $(PROJECT_ROOT) -name "*.yaml|*.yml" \
-			! -path "$(VENV_DIR)/*" \
-			-print0 | xargs -0 -n 1 $(YAMLFIXER) --nochange --summary
+		find $(PROJECT_ROOT) -type f \
+			\( -name "*.yaml" -o -name "*.yml" \) \
+			! -path "*$(VENV_DIR)/*" \
+			-print0 | xargs -0 $(YAMLFIXER) --config-file .yamllint --nochange --summary
 	$(AT)echo "✅ Finished linting fix of yaml files with yamllint!"
 
 ansible-lint-check:
