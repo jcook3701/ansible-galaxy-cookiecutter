@@ -108,7 +108,15 @@ filename = "./docs/sphinx/conf.py"
 # ====================================
 [tool.codespell]
 # files/patterns to ignore
-skip = "./changelogs/*,./docs/jekyll/_site,*.svg,*.css,*.html,*.lock"
+skip = [
+  "./changelogs/*",
+  "cspell.json",
+  "./docs/jekyll/_site",
+  "*.svg",
+  "*.css",
+  "*.html",
+  "*.lock",
+]
 
 # words to ignore globally
 ignore-words-list = ["crate", "ba"]
@@ -133,7 +141,6 @@ exclude = [
 target-version = "py311"
 # Directories to lint and format
 src = [
-  "build_utils",
   "plugins",
   "library",
   "roles",
@@ -185,7 +192,6 @@ ignore = [
 [tool.ruff.lint.isort]
 combine-as-imports = true
 known-first-party = [
-  "build_utils",
   "plugins",
   "library",
 ]
@@ -226,7 +232,6 @@ exclude = '''
 [tool.mypy]
 python_version = "{{ cookiecutter.config.requires_python }}"
 mypy_path = [
-  "build_utils",
   "plugins",
   "library",
 ]

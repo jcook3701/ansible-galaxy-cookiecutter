@@ -32,10 +32,17 @@ endif
 # --------------------------------------------------
 # 🏗️ CI/CD Functions
 # --------------------------------------------------
-# Define a reusable CI-safe runner
+# Returns true when CI is off and gracefully moves through failed checks.
 define run_ci_safe =
-( $1 || [ "$(CI)" != "1" ] && \
-	echo "❌ process finished with error; continuing..." )
+( $1 || \
+	if [ "$(CI)" != "1" ]; then \
+		echo "❌ process finished with error; continuing..."; \
+		true; \
+	else \
+		echo "❌ process finished with error"; \
+		exit 1; \
+	fi \
+)
 endef
 # --------------------------------------------------
 # ⚙️ Build Settings
