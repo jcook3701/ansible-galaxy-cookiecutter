@@ -61,6 +61,7 @@ tools = [
   "ruff>=0.14.0",
   "tomllint>=0.3",
   "yamllint>=1.0",
+  "yamlfixer-opt-nc>=0.9",
 ]
 docs = [
   "sphinx>=8.0",

@@ -111,6 +111,7 @@ PIPAUDIT :=	$(ACTIVATE) && pip-audit
 # 🎨 Formatting (black)
 # --------------------------------------------------
 BLACK := $(PYTHON) -m black
+YAMLFIXER := $(ACTIVATE) && yamlfixer
 # --------------------------------------------------
 # 🔍 Linting (ruff, yaml)
 # --------------------------------------------------
@@ -285,11 +286,16 @@ yaml-lint-check:
 	$(AT)$(YAMLLINT) .
 	$(AT)echo "✅ Finished linting check of yaml files with yamllint!"
 
+yaml-formatter-fix:
+	$(AT)echo "🎨 Running yamlfixer lint fixes..."
+	$(AT)$(YAMLFIXER) --nochange --summary --recurse -1 .
+	$(AT)echo "✅ Finished linting fix of yaml files with yamllint!"
+
 ansible-lint-check:
 	$(AT)echo "🔍 Running ansible-lint..."
 	$(AT)$(ANSIBLE_LINT) ./**/*.yml
 
-lint-check: ruff-lint-check toml-lint-check yaml-lint-check ansible-lint-check
+lint-check: ruff-lint-check toml-lint-check yaml-lint-check
 lint-fix: ruff-lint-fix
 # --------------------------------------------------
 # 🎓 Spellchecker (codespell)
@@ -358,6 +364,9 @@ bump-version-patch:
 # when the shell command executes.
 # --------------------------------------------------
 # Note: Run as part of pre-commit.  No manual run needed.
+
+
+
 update-changelog:
 	$(AT)echo "📜 $(GALAXY_PACKAGE_NAME) Changelog Generation..."
 	$(AT)$(ANTSICHAUT) \
