@@ -11,7 +11,7 @@ repos:
     hooks:
       - id: ansible-lint
         pass_filenames: true
-        always_run: true
+        stages: [manual]
         additional_dependencies:
           - ansible-core<2.16
           - ansible

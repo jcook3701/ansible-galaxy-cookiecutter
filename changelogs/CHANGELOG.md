@@ -257,3 +257,7 @@ Co-authored-by: jcook3701 <jcook3701@gmail.com>
 ### 📚 Documentation
 
 - *(readme)* Dependency updates.
+
+### 🚀 Added
+
+- *(template)* Added spellcheck cspell for template pre-commit commit-msg.

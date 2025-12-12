@@ -115,7 +115,7 @@ YAMLFIXER := yamlfixer
 # --------------------------------------------------
 # 🔍 Linting (ruff, yaml)
 # --------------------------------------------------
-ANSIBLE_LINT := $(ACTIVATE) && ansible-lint
+ANSIBLE_LINT := $(ACTIVATE) && pre-commit run ansible-lint --all-files
 RUFF := $(PYTHON) -m ruff
 TOMLLINT := tomllint
 YAMLLINT := $(PYTHON) -m yamllint
@@ -258,8 +258,13 @@ black-formatter-fix:
 format-check: black-formatter-check
 format-fix: black-formatter-fix
 # --------------------------------------------------
-# 🔍 Linting (ruff, toml, yaml, ansible)
+# 🔍 Linting (ansible, ruff, toml, yaml)
 # --------------------------------------------------
+ansible-lint-check:
+	$(AT)echo "🔍 Running ansible-lint..."
+	$(AT)$(ANSIBLE_LINT)
+	$(AT)echo "✅ Finished linting check with ansible-lint!"
+
 ruff-lint-check:
 	$(AT)echo "🔍 Running ruff linting..."
 	$(AT)$(MAKE) list-folders
@@ -293,11 +298,7 @@ yaml-formatter-fix:
 			-print0 | xargs -0 $(YAMLFIXER) --config-file .yamllint --nochange --summary
 	$(AT)echo "✅ Finished linting fix of yaml files with yamllint!"
 
-ansible-lint-check:
-	$(AT)echo "🔍 Running ansible-lint..."
-	$(AT)$(ANSIBLE_LINT) ./**/*.yml
-
-lint-check: ruff-lint-check toml-lint-check yaml-lint-check
+lint-check: ansible-lint-check ruff-lint-check toml-lint-check yaml-lint-check
 lint-fix: ruff-lint-fix
 # --------------------------------------------------
 # 🎓 Spellchecker (codespell)
