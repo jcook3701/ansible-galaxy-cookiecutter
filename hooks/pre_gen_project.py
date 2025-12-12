@@ -5,13 +5,11 @@
 See the LICENSE file for more details.
 
 Author: Jared Cook
-Description: Pre project generation Scripts.
+Description: Pre project generation Scripts.  This is for cookiecutter.json checks.
 """
 
 import json
 import os
-
-# from nutrimatic.hooks.pre_gen_logic import release_date
 
 
 def main() -> None:

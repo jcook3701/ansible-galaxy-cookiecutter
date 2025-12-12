@@ -243,6 +243,7 @@
 ---------
 
 Co-authored-by: jcook3701 <jcook3701@gmail.com>
+- *(shared_hooks)* Removed shared hooks that are replaced by nutri-matic.
 
 ### 🌱 Init
 

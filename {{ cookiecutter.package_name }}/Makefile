@@ -325,7 +325,7 @@ test:
 # 📚 Documentation (Sphinx + Ansible Autodoc + Jekyll)
 # --------------------------------------------------
 sphinx:
-	$(MAKE) -C $(SPHINX_DIR) all PUBLISHDIR=$(JEKYLL_SPHINX_DIR)
+	$(ACTIVATE) && $(MAKE) -C $(SPHINX_DIR) all PUBLISHDIR=$(JEKYLL_SPHINX_DIR)
 
 autodocs-front-matter:
 	$(AT)echo "📝 Adding YAML front matter to generated files in $(JEKYLL_AUTODOC_DIR)..."
