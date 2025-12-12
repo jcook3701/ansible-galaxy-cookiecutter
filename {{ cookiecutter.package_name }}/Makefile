@@ -35,8 +35,8 @@ endif
 # --------------------------------------------------
 # Define a reusable CI-safe runner
 define run_ci_safe =
-( $1 || [ "$(CI)" != "1" ] && $(AT)echo "❌ process finished with error continuing..."
- )
+( $1 || [ "$(CI)" != "1" ] && \
+	echo "❌ process finished with error; continuing..." )
 endef
 # --------------------------------------------------
 # ⚙️ Build Settings
@@ -176,7 +176,7 @@ NUTRIMATIC := $(PYTHON) -m nutrimatic
 AUTODOC_FIX := sed -i 's|yaml.load(yaml_file)|yaml.load(yaml_file, Loader=yaml.SafeLoader)|' \
 	$(VENV_DIR)/lib/$(PYTHON_CMD)/site-packages/ansibleautodoc/Annotation.py
 # --------------------------------------------------
-.PHONY: all list-folders autodoc-hack venv install pre-commit-init security \
+.PHONY: all list-python-folders autodoc-hack venv install pre-commit-init security \
 	dependency-check black-formatter-check black-formatter-fix format-check \
 	format-fix ruff-lint-check ruff-lint-fix toml-lint-check yaml-lint-check \
 	ansible-lint-check lint-check lint-fix spellcheck typecheck test sphinx \
@@ -190,7 +190,7 @@ all: install lint-check typecheck spellcheck test build-docs
 # --------------------------------------------------
 # Utilities
 # --------------------------------------------------
-list-folders:
+list-python-folders:
 	$(AT)printf "\
 	🐍 Python Source Paths: 📁\n\
 	🔌 Plugins: $(PLUGINS_DIR)\n\
@@ -203,6 +203,16 @@ autodoc-hack:
 	$(AT)echo "🩹 Applying YAML loader hack for ansible-autodoc..."
 	$(AT)$(AUTODOC_FIX)
 	$(AT)echo "✅ YAML loader hack for ansible-autodoc complete!"
+# --------------------------------------------------
+# Dependency Checks
+# --------------------------------------------------
+git-check:
+	$(AT)which $(GIT) >/dev/null || \
+		{ echo "Git is required: sudo apt install git"; exit 1; }
+
+gh-check:
+	$(AT)which $(GITHUB) >/dev/null || \
+		{ echo "GitHub is required: sudo apt install gh"; exit 1; }
 # --------------------------------------------------
 # 🐍 Virtual Environment Setup
 # --------------------------------------------------
@@ -222,9 +232,8 @@ install: venv
 # --------------------------------------------------
 # 🚨 Pre-Commit (pre-commit)
 # --------------------------------------------------
-pre-commit-init:
+pre-commit-init: git-check
 	$(AT)echo "📦 Installing pre-commit hooks and hook-types..."
-	$(AT)which $(GIT) >/dev/null || { $(AT)echo "Git is required"; exit 1; }
 	$(AT)$(PRECOMMIT) install --install-hooks
 	$(AT)$(PRECOMMIT) install --hook-type pre-commit --hook-type commit-msg
 	$(AT)echo "✅ pre-commit dependencies installed!"
@@ -268,7 +277,7 @@ ansible-lint-check:
 
 ruff-lint-check:
 	$(AT)echo "🔍 Running ruff linting..."
-	$(AT)$(MAKE) list-folders
+	$(AT)$(MAKE) list-python-folders
 	$(AT)$(RUFF) check $(SRC_DIR) $(TESTS_DIR)
 	$(AT)echo "✅ Finished linting check of Python code with Ruff!"
 
@@ -313,7 +322,7 @@ spellcheck:
 # --------------------------------------------------
 typecheck:
 	$(AT)echo "🧠 Checking types (MyPy)..."
-	$(AT)$(MAKE) list-folders
+	$(AT)$(MAKE) list-python-folders
 	$(AT)$(call run_ci_safe, $(MYPY) $(SRC_DIR) $(TESTS_DIR))
 	$(AT)echo "✅ Python typecheck complete!"
 # --------------------------------------------------
@@ -356,7 +365,6 @@ run-docs: jekyll-serve
 # --------------------------------------------------
 # 🔖 Version Bumping (bumpy-my-version)
 # --------------------------------------------------
-# TODO: Also create a git tag of current version.
 bump-version-patch:
 	$(AT)echo "🔖 Updating $(GALAXY_PACKAGE_NAME) version from $(GALAXY_VERSION)..."
 	$(AT)$(BUMPVERSION) $(PATCH)
@@ -389,19 +397,19 @@ changelog-release: update-changelog
 # --------------------------------------------------
 # 🐙 Github Commands (git)
 # --------------------------------------------------
-git-init:
+git-init: git-check
 	$(AT)echo "🌱 $(GALAXY_PACKAGE_NAME) Git initialization! 🎉"
 	$(AT)$(GIT) init
 	$(AT)$(GIT) add --all
+	$(AT)$(GIT) commit -m "chore(init): Init commit. \
+		Project $(GALAXY_PACKAGE_NAME) template generation complete."
 	$(AT)echo "✅ Finished Git initialization!"
 
-# NOTE: Not yet tested!!!
-git-release:
+git-release: git-check github-check
 	$(AT)echo "📦 $(GALAXY_PACKAGE_NAME) Release Tag - $(GALAXY_RELEASE)! 🎉"
 	$(AT)$(GIT) tag -a $(GALAXY_RELEASE) -m "Release $(GALAXY_RELEASE)"
 	$(AT)$(GIT) push origin $(GALAXY_RELEASE)
-	$(AT)$(GITHUB) release create $(REGALAXY_RELEASELEASE) \
-		--title $(GALAXY_PACKAGE_NAME) $(REGALAXY_RELEASELEASE) --generate-notes
+	$(AT)$(GITHUB) release create $(REGALAXY_RELEASELEASE) --generate-notes
 	$(AT)echo "✅ Finished uploading Release - $(GALAXY_RELEASE)!"
 # --------------------------------------------------
 # 🪐 Ansible Galaxy Commands (ansible-galaxy)

@@ -34,7 +34,8 @@ endif
 # --------------------------------------------------
 # Define a reusable CI-safe runner
 define run_ci_safe =
-( $1 || [ "$(CI)" != "1" ] )
+( $1 || [ "$(CI)" != "1" ] && \
+	echo "❌ process finished with error; continuing..." )
 endef
 # --------------------------------------------------
 # ⚙️ Build Settings
