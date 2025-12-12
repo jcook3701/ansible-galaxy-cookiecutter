@@ -1,5 +1,5 @@
 ---
-release_summary: |
+release_summary: >-
     This is the initial release of the {{ cookiecutter.package_name }} collection. {{ cookiecutter.description }}
 major_changes:
     - A major feature change description.

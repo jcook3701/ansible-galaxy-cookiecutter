@@ -8,6 +8,8 @@ exclude_paths:
   - roles/common/tests  # Example: Exclude test roles if needed
   - .git
   - .venv
+  - 'changelogs/.plugin-cache.yaml'
+
 
 # parseable: true
 # quiet: true
