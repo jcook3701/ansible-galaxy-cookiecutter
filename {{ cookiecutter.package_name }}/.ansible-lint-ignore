@@ -1,7 +1,1 @@
 # See https://ansible.readthedocs.io/projects/lint/configuring/#ignoring-rules-for-entire-files
-
-.pre-commit-config.yaml
-.yamllint
-
-docs/jekyll/_config.yml
-.github/workflows/*
