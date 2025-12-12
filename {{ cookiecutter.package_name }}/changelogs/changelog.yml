@@ -2,7 +2,6 @@
 ---
 releases:
   {{ cookiecutter.version }}-alpha:
-    file: "releases/{{ cookiecutter.version }}.yml"
     release_date: "{{ cookiecutter.timestamp_placeholder }}"
     changes:
       release_summary: |
