@@ -390,6 +390,7 @@ changelog-release: update-changelog
 git-init:
 	$(AT)echo "🌱 $(GALAXY_PACKAGE_NAME) Git initialization! 🎉"
 	$(AT)$(GIT) init
+	$(AT)$(GIT) add --all
 	$(AT)echo "✅ Finished Git initialization!"
 
 # NOTE: Not yet tested!!!
