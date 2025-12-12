@@ -5,11 +5,13 @@
 # and not relative to the CWD of execution. CLI arguments passed to the --exclude
 # option are parsed relative to the CWD of execution.
 exclude_paths:
-  - roles/common/tests  # Example: Exclude test roles if needed
   - .git
+  - .github/workflows
   - .venv
-  - 'changelogs/.plugin-cache.yaml'
-
+  - .pre-commit-config.yaml
+  - .yamllint
+  - changelogs/.plugin-cache.yaml
+  - docs/jekyll/_config.yml
 
 # parseable: true
 # quiet: true

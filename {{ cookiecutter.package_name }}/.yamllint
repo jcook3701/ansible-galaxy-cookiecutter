@@ -3,7 +3,7 @@
 extends: default
 ignore:
   - .venv
-  - ./changelogs/.plugin-cache.yaml
+  - changelogs/.plugin-cache.yaml
 
 rules:
   line-length:
