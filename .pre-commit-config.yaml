@@ -29,6 +29,13 @@ repos:
     hooks:
       - id: black
 
+  - repo: https://github.com/streetsidesoftware/cspell-cli
+    rev: v9.3.3
+    hooks:
+      - id: cspell
+        stages: [commit-msg]
+        args: ["--config", "./cspell.json"]
+
   - repo: local
     hooks:
       - id: generate-changelog

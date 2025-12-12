@@ -108,7 +108,7 @@ filename = "./docs/sphinx/conf.py"
 # ====================================
 [tool.codespell]
 # files/patterns to ignore
-skip = ["*.svg", "*.css", "*.html"]
+skip = "./changelogs/*,./docs/jekyll/_site,*.svg,*.css,*.html,*.lock"
 
 # words to ignore globally
 ignore-words-list = ["crate", "ba"]
@@ -123,7 +123,6 @@ quiet-level = 2
 ignore_notebooks = true
 exclude = [
     "tests/*",
-    "build/*",
     "docs/*",
 ]
 # ====================================
@@ -244,4 +243,4 @@ ignore_missing_imports = true
 minversion = "7.0"
 addopts = ["-v", "--maxfail=1", "-W always", "-rw", "--strict-markers"]
 testpaths = ["tests"]
-pythonpath = ["build_utils", "plugins", "library"]
+pythonpath = ["plugins", "library"]

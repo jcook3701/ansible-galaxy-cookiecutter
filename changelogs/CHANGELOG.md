@@ -249,6 +249,10 @@ Co-authored-by: jcook3701 <jcook3701@gmail.com>
 
 - Init commit ansible-galaxy-cookiecutter
 
+### 🐛 Fixed
+
+- *(makefile)* Fixed sphinx build.
+
 ### 📚 Documentation
 
 - *(readme)* Dependency updates.

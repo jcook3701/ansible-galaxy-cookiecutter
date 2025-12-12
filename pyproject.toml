@@ -110,7 +110,6 @@ quiet-level = 2
 ignore_notebooks = true
 exclude = [
     "tests/*",
-    "build/*",
     "docs/*",
 ]
 # ====================================
