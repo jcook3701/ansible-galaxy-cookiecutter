@@ -1,27 +1,28 @@
 ---
+namespace: "{{ cookiecutter.namespace }}"
+name: "{{ cookiecutter.project_name }}"
+version: "{{ cookiecutter.version }}"
 authors:
   - "{{ cookiecutter.author }} @{{ cookiecutter.github_username }}"
-# Optional dependencies on other collections
-dependencies:
-  jcook3701.pkgs: "*"
-  jcook3701.utils: "*"
-  ansible.builtin: "*"
-  community.general: ">=8.0.0"
-description: >
-  {{ cookiecutter.description }}
-namespace: {{ cookiecutter.namespace }}
-name: {{ cookiecutter.project_name }}
-version: {{ cookiecutter.version }}
 license:
   - MIT
 license_file: LICENSE
 readme: ./README.md
+description: >
+  {{ cookiecutter.description }}
+
 tags:
   - lab
   - homelab
   - automation
   - infrastructure
-# Optional — minimum Ansible version required
+
+dependencies:
+  jcook3701.pkgs: "*"
+  jcook3701.utils: "*"
+  ansible.builtin: "*"
+  community.general: ">=8.0.0"
+
 build_ignore:
   - .gitignore
   - .github/
@@ -29,6 +30,7 @@ build_ignore:
   - docs/
   - scripts/
   - .venv/
+
 repository: >-
   https://github.com/{{ cookiecutter.github_username }}/\
   {{ cookiecutter.github_username }}.{{ cookiecutter.package_name }}
