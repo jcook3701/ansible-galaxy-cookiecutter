@@ -1,6 +1,6 @@
 ---
 add_plugin_period: true
-changelog_nice_yaml: false
+changelog_nice_yaml: true
 changelog_sort: alphanumerical
 changes_file: changelog.yml
 changes_format: combined
