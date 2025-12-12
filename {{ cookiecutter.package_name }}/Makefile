@@ -111,7 +111,7 @@ PIPAUDIT :=	$(ACTIVATE) && pip-audit
 # 🎨 Formatting (black)
 # --------------------------------------------------
 BLACK := $(PYTHON) -m black
-YAMLFIXER := $(ACTIVATE) && yamlfixer
+YAMLFIXER := yamlfixer
 # --------------------------------------------------
 # 🔍 Linting (ruff, yaml)
 # --------------------------------------------------
@@ -276,8 +276,6 @@ toml-lint-check:
 	$(AT)$(ACTIVATE) && \
 		find $(PROJECT_ROOT) -name "*.toml" \
 			! -path "$(VENV_DIR)/*" \
-			! -path "*{{*" \
-			! -path "*}}*" \
 			-print0 | xargs -0 -n 1 $(TOMLLINT)
 	$(AT)echo "✅ Finished linting check of toml configuration files with Tomllint!"
 {% endraw %}
@@ -288,7 +286,10 @@ yaml-lint-check:
 
 yaml-formatter-fix:
 	$(AT)echo "🎨 Running yamlfixer lint fixes..."
-	$(AT)$(YAMLFIXER) --nochange --summary --recurse -1 .
+	$(AT)$(ACTIVATE) && \
+		find $(PROJECT_ROOT) -name "*.yaml|*.yml" \
+			! -path "$(VENV_DIR)/*" \
+			-print0 | xargs -0 -n 1 $(YAMLFIXER) --nochange --summary
 	$(AT)echo "✅ Finished linting fix of yaml files with yamllint!"
 
 ansible-lint-check:
