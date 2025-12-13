@@ -40,8 +40,6 @@ dev = [
   "ansible-core>=2.0",
   "ansible-runner>=2.4",
 ]
-# TODO: Figure out what to do about package conflict with
-#       "ansible-lint>=25.0",
 tools = [
   "antsibull-changelog>=0.34",
   "antsichaut>=0.4",

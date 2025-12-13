@@ -244,6 +244,13 @@ pre-commit-init: git-check
 	$(AT)$(PRECOMMIT) install --hook-type pre-commit --hook-type commit-msg
 	$(AT)echo "✅ pre-commit dependencies installed!"
 # --------------------------------------------------
+# 🍪 Project Updater (cookiecutter_project_upgrader)
+# --------------------------------------------------
+project-upgrade:
+	$(AT)echo "🍪 Upgrading project from initial cookiecutter template..."
+	$(AT)$(PROJECT_UPGRADE)
+	$(AT)echo "✅ Finished project upgrade!"
+# --------------------------------------------------
 # 🛡️ Security (pip-audit)
 # --------------------------------------------------
 security:
