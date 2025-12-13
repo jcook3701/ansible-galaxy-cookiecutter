@@ -1,0 +1,18 @@
+{
+    "version": "0.2",
+    "language": "en",
+    "words": [
+        "codespell",
+        "cookiecutter",
+        "cookiecutter_project_upgrader",
+        "mkdirp",
+        "tsmerge",
+        "githubusercontent",
+        "streetsidesoftware",
+        "vsmarketplacebadge",
+        "visualstudio"
+    ],
+    "flagWords": [
+        "hte"
+    ]
+}

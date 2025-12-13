@@ -20,78 +20,107 @@ __Note:__ Unless you are using a newer version of cookiecutter >= 2, ```--no-inp
 
 ## Usage Examples:
 __Example:__ Pull from main branch.  
-``` shell
+__Note:__ [Nutri-Matic](https://github.com/jcook3701/nutri-matic) is needed in active python environment.  
+
+```shell
 $ cookiecutter git@github.com:jcook3701/ansible-galaxy-cookiecutter.git \
-	--no-input \
-	namespace="jcook3701" \
-	project_name="test-project" \
-	description="Ansible test project."
+    --no-input \
+    namespace="jcook3701" \
+    project_name="test-project" \
+    description="Ansible test project."
 ```
+
 __Example:__ Pull from develop branch.  
-``` shell
+
+```shell
 $ cookiecutter git@github.com:jcook3701/ansible-galaxy-cookiecutter.git \
-	 --checkout develop \
-	  --no-input \
-	namespace="jcook3701" \
-	project_name="test-project" \
-	description="Ansible test project."
+    --checkout develop \
+     --no-input \
+    namespace="jcook3701" \
+    project_name="test-project" \
+    description="Ansible test project."
 ```
+
 __Note:__ replace ```test-project``` or any of the other variables with real context configuration variables.  
 
 ***
 
 ## Development Strategy:
+
 __Note:__ All Makefile commands are used in ci/cd to ensure that if they pass locally they should also pass once pushed to github.  
 ### 🐍️ Build environment (.venv)
+
 ``` shell
 $ make install
 ```
+
 ### 🧬 Dependency Management (deptry)
+
 ```shell
 $ make dependency-check
 ```
+
 ### 🛡️ Security Audit (pip-audit)
+
 ```shell
 $ make security
 ```
+
 ### 🎨 Formatting (black)
+
 ```shell
 $ make format-check
 ```
+
 ```shell
 $ make format-fix
 ```
+
 ### 🔍 Linting (jinja2-cli, ruff, tomllint, & yaml-lint)
+
 ``` shell
 $ make lint-check
 ```
+
 ``` shell
 $ make lint-fix
 ```
+
 ### 🎓 Spellchecking (codespell)
+
 ```shell
 $ make spellcheck
 ```
+
 ### 🧠 Typechecking (mypy)
+
 ``` shell
 $ make typecheck
 ```
+
 ### 🧪 Testing (pytest)
+
 ``` shell
 $ make test
 ```
+
 ### 🚀 Release (git tag)
+
 ```shell
 $ make release
 ```
+
 ### ❓ Build Help
+
 ``` shell
 $ make help
 ```
 
 ## Commit Help:
+
 __Note:__ Commits are required to be conventional git commit message.  This helps with the auto-generation of the changelog files and is enforced by pre-commit.  
 __example:__  
+
 ```shell
 <type>[optional scope]: <description>
 
@@ -99,6 +128,7 @@ __example:__
 
 [optional footer(s)]
 ```
+
 * ```<type>```: A required noun that describes the nature of the change.  
 * ```[optional scope]```: An optional phrase within parentheses that specifies the part of the codebase being affected (e.g., fix(parser):).  
 * ```<description>```: A required short, imperative-mood summary of the changes.  
@@ -108,19 +138,31 @@ __example:__
 ***
 
 ## Requirements:
-1. Python 3.11  
+
+__Python 3.11__  
+
 ```shell
 $ sudo apt install python3.11
 ```
-2. [rustup](https://rust-lang.org/tools/install/)  
+
+__[Nutri-Matic](https://github.com/jcook3701/nutri-matic)__  
+__Note:__ This is needed for the cookiecutter hooks to run correctly.  Without this package installed in active python environment cookiecutter pull will fail.  
+
+```shell
+$ pip install nutri-matic
+```
+
+__[rustup](https://rust-lang.org/tools/install/)__  
 __Note:__ I found that it is easiest to use rustup to manage rustc and cargo but this is not required.  
 __Example:__ Install rustup with the following:  
+
 ```shell
 $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
-3. [git-cliff](https://git-cliff.org/)  
+__[git-cliff](https://git-cliff.org/)__  
 __Note:__ git-cliff can generate changelog files from the Git history by utilizing conventional commits as well as regex-powered custom parsers.  
+
 ```shell
 $ cargo install git-cliff
 ```

@@ -20,15 +20,6 @@ from nutrimatic.hooks.post_gen_logic import (
     replace_placeholders_in_dir,
 )
 
-# Add the generated package to sys.path so Python can find it
-# PROJECT_DIR = Path.cwd()
-# HOOKS_DIR = PROJECT_DIR / "_shared_hooks" / "post_gen_logic"
-# sys.path.insert(0, str(HOOKS_DIR))
-
-# from ansible import generate_ansible_dirs
-# from docs import generate_docs_templates
-# from utils import clean, make
-
 
 def main() -> None:
     """Cookiecutter Post Generation Scripts"""
@@ -43,7 +34,7 @@ def main() -> None:
     context = json.loads("""{{ cookiecutter | jsonify }}""")
 
     autovars: dict[str, Any] = {
-        context["timestamp_placeholder"]: timestamp,
+        context["_timestamp_placeholder"]: timestamp,
     }
 
     replace_placeholders_in_dir(autovars)
@@ -56,7 +47,7 @@ def main() -> None:
         "install",
         "git-init",
         "pre-commit-init",
-        # "changelog",
+        "changelog",
         # "build-docs",
     ]
 
