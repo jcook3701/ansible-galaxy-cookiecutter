@@ -2,7 +2,7 @@
 # Changelog:
 # --------------------------------------------------
 
-## [unreleased]
+## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous
 
@@ -243,31 +243,47 @@
 ---------
 
 Co-authored-by: jcook3701 <jcook3701@gmail.com>
-- *(shared_hooks)* Removed shared hooks that are replaced by nutri-matic.
-- *(testing)* Test.
-- *(test)* Testing.
-- *(changelog)* Added changelog back to the post-gen-hooks.
+- Feat 001 (#4)
+
+* docs(readme): dependency updates.
+
+* chore(shared_hooks): removed shared hooks that are replaced by nutri-matic.
+
+* fix(makefile): Fixed sphinx build.
+
+* fix(spelling): Fixed codespell issue.  Also added cspell to pre-commit to ensure proper spelling in commit messages.
+
+* feat(template): added spellcheck cspell for template pre-commit commit-msg.
+
+* feat(pre-commit): Updated makefile to use pre-commit version of ansible-lint and turned ansible-lint to manual mode on pre-commit as it takes a bit to run.  Hopefully this works as expected and user can just use ci/cd to ensure ansible-lint passes at the end of working on a feature.
+
+* fix(ansible-lint): fixed makefile ansible-lint command to now work with new pre-commit setup.
+
+* chore(testing): test.
+
+* feat(build): template makefile updates to add dependency checks for git and gh commands.
+
+* fix(codespell): fixed code spell config to ignore cspell.json file.
+
+* feat(upgrade): Added cookiecutter_project_upgrader to makefile.  Need to test.
+
+* fix(gh-check): Fixed the call to the check that makes sure gh (github) package is installed.
+
+* chore(test): testing.
+
+* fix(makefile): fixes for ansible changelog generation.
+
+* chore(changelog): added changelog back to the post-gen-hooks.
+
+* fix(timestamp): seeing if setting timestamp to hidden var fixes cookiecutter_project_upgrader issues.  Also fixes to cookiecutter_project_upgrader command in makefile.
+
+---------
+
+Co-authored-by: jcook3701 <jcook3701@gmail.com>
+- Merge pull request #5 from jcook3701/develop
+
+Feat 001 (#4)
 
 ### 🌱 Init
 
 - Init commit ansible-galaxy-cookiecutter
-
-### 🐛 Fixed
-
-- *(makefile)* Fixed sphinx build.
-- *(spelling)* Fixed codespell issue.  Also added cspell to pre-commit to ensure proper spelling in commit messages.
-- *(ansible-lint)* Fixed makefile ansible-lint command to now work with new pre-commit setup.
-- *(codespell)* Fixed code spell config to ignore cspell.json file.
-- *(gh-check)* Fixed the call to the check that makes sure gh (github) package is installed.
-- *(makefile)* Fixes for ansible changelog generation.
-
-### 📚 Documentation
-
-- *(readme)* Dependency updates.
-
-### 🚀 Added
-
-- *(template)* Added spellcheck cspell for template pre-commit commit-msg.
-- *(pre-commit)* Updated makefile to use pre-commit version of ansible-lint and turned ansible-lint to manual mode on pre-commit as it takes a bit to run.  Hopefully this works as expected and user can just use ci/cd to ensure ansible-lint passes at the end of working on a feature.
-- *(build)* Template makefile updates to add dependency checks for git and gh commands.
-- *(upgrade)* Added cookiecutter_project_upgrader to makefile.  Need to test.
