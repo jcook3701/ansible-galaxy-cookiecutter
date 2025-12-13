@@ -40,8 +40,6 @@ dev = [
   "ansible-core>=2.0",
   "ansible-runner>=2.4",
 ]
-# TODO: Figure out what to do about package conflict with
-#       "ansible-lint>=25.0",
 tools = [
   "antsibull-changelog>=0.34",
   "antsichaut>=0.4",
@@ -108,7 +106,15 @@ filename = "./docs/sphinx/conf.py"
 # ====================================
 [tool.codespell]
 # files/patterns to ignore
-skip = ["*.svg", "*.css", "*.html"]
+skip = [
+  "./changelogs/*",
+  "cspell.json",
+  "./docs/jekyll/_site",
+  "*.svg",
+  "*.css",
+  "*.html",
+  "*.lock",
+]
 
 # words to ignore globally
 ignore-words-list = ["crate", "ba"]
@@ -123,7 +129,6 @@ quiet-level = 2
 ignore_notebooks = true
 exclude = [
     "tests/*",
-    "build/*",
     "docs/*",
 ]
 # ====================================
@@ -134,7 +139,6 @@ exclude = [
 target-version = "py311"
 # Directories to lint and format
 src = [
-  "build_utils",
   "plugins",
   "library",
   "roles",
@@ -186,7 +190,6 @@ ignore = [
 [tool.ruff.lint.isort]
 combine-as-imports = true
 known-first-party = [
-  "build_utils",
   "plugins",
   "library",
 ]
@@ -227,7 +230,6 @@ exclude = '''
 [tool.mypy]
 python_version = "{{ cookiecutter.config.requires_python }}"
 mypy_path = [
-  "build_utils",
   "plugins",
   "library",
 ]
@@ -244,4 +246,4 @@ ignore_missing_imports = true
 minversion = "7.0"
 addopts = ["-v", "--maxfail=1", "-W always", "-rw", "--strict-markers"]
 testpaths = ["tests"]
-pythonpath = ["build_utils", "plugins", "library"]
+pythonpath = ["plugins", "library"]

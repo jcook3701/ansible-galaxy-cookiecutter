@@ -39,6 +39,13 @@ repos:
         always_run: true
         pass_filenames: false
 
+  - repo: https://github.com/streetsidesoftware/cspell-cli
+    rev: v9.3.3
+    hooks:
+      - id: cspell
+        stages: [commit-msg]
+        args: ["--config", "./cspell.json"]
+
   - repo: https://github.com/compilerla/conventional-pre-commit
     rev: v4.3.0
     hooks:

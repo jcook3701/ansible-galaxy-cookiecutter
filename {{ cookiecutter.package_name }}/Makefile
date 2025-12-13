@@ -29,13 +29,20 @@ CI := 1
 else
 CI := 0
 endif
-
 # --------------------------------------------------
 # 🏗️ CI/CD Functions
 # --------------------------------------------------
-# Define a reusable CI-safe runner
+# Returns true when CI is off and gracefully moves through failed checks.
 define run_ci_safe =
-( $1 || [ "$(CI)" != "1" ] )
+( $1 || \
+	if [ "$(CI)" != "1" ]; then \
+		echo "❌ process finished with error; continuing..."; \
+		true; \
+	else \
+		echo "❌ process finished with error"; \
+		exit 1; \
+	fi \
+)
 endef
 # --------------------------------------------------
 # ⚙️ Build Settings
@@ -115,7 +122,7 @@ YAMLFIXER := yamlfixer
 # --------------------------------------------------
 # 🔍 Linting (ruff, yaml)
 # --------------------------------------------------
-ANSIBLE_LINT := $(ACTIVATE) && ansible-lint
+ANSIBLE_LINT := $(ACTIVATE) && pre-commit run ansible-lint --all-files --hook-stage manual
 RUFF := $(PYTHON) -m ruff
 TOMLLINT := tomllint
 YAMLLINT := $(PYTHON) -m yamllint
@@ -150,8 +157,8 @@ PATCH := patch
 # --------------------------------------------------
 # 📜 Changelog generation (antsichaut + antsibull-changelog)
 # --------------------------------------------------
-ANTSICHAUT := antsichaut
-ANTSIBULL_CHANGELOG := antsibull-changelog
+ANTSICHAUT := $(ACTIVATE) && antsichaut
+ANTSIBULL_CHANGELOG := $(ACTIVATE) && antsibull-changelog
 # --------------------------------------------------
 # 🐙 Github Tools (git)
 # --------------------------------------------------
@@ -175,7 +182,7 @@ NUTRIMATIC := $(PYTHON) -m nutrimatic
 AUTODOC_FIX := sed -i 's|yaml.load(yaml_file)|yaml.load(yaml_file, Loader=yaml.SafeLoader)|' \
 	$(VENV_DIR)/lib/$(PYTHON_CMD)/site-packages/ansibleautodoc/Annotation.py
 # --------------------------------------------------
-.PHONY: all list-folders autodoc-hack venv install pre-commit-init security \
+.PHONY: all list-python-folders autodoc-hack venv install pre-commit-init security \
 	dependency-check black-formatter-check black-formatter-fix format-check \
 	format-fix ruff-lint-check ruff-lint-fix toml-lint-check yaml-lint-check \
 	ansible-lint-check lint-check lint-fix spellcheck typecheck test sphinx \
@@ -189,7 +196,7 @@ all: install lint-check typecheck spellcheck test build-docs
 # --------------------------------------------------
 # Utilities
 # --------------------------------------------------
-list-folders:
+list-python-folders:
 	$(AT)printf "\
 	🐍 Python Source Paths: 📁\n\
 	🔌 Plugins: $(PLUGINS_DIR)\n\
@@ -202,6 +209,16 @@ autodoc-hack:
 	$(AT)echo "🩹 Applying YAML loader hack for ansible-autodoc..."
 	$(AT)$(AUTODOC_FIX)
 	$(AT)echo "✅ YAML loader hack for ansible-autodoc complete!"
+# --------------------------------------------------
+# Dependency Checks
+# --------------------------------------------------
+git-check:
+	$(AT)which $(GIT) >/dev/null || \
+		{ echo "Git is required: sudo apt install git"; exit 1; }
+
+gh-check:
+	$(AT)which $(GITHUB) >/dev/null || \
+		{ echo "GitHub is required: sudo apt install gh"; exit 1; }
 # --------------------------------------------------
 # 🐍 Virtual Environment Setup
 # --------------------------------------------------
@@ -221,12 +238,18 @@ install: venv
 # --------------------------------------------------
 # 🚨 Pre-Commit (pre-commit)
 # --------------------------------------------------
-pre-commit-init:
+pre-commit-init: git-check
 	$(AT)echo "📦 Installing pre-commit hooks and hook-types..."
-	$(AT)which $(GIT) >/dev/null || { $(AT)echo "Git is required"; exit 1; }
 	$(AT)$(PRECOMMIT) install --install-hooks
 	$(AT)$(PRECOMMIT) install --hook-type pre-commit --hook-type commit-msg
 	$(AT)echo "✅ pre-commit dependencies installed!"
+# --------------------------------------------------
+# 🍪 Project Updater (cookiecutter_project_upgrader)
+# --------------------------------------------------
+project-upgrade:
+	$(AT)echo "🍪 Upgrading project from initial cookiecutter template..."
+	$(AT)$(PROJECT_UPGRADE) --context-file ./docs/cookiecutter_input.json --upgrade-branch main
+	$(AT)echo "✅ Finished project upgrade!"
 # --------------------------------------------------
 # 🛡️ Security (pip-audit)
 # --------------------------------------------------
@@ -258,11 +281,16 @@ black-formatter-fix:
 format-check: black-formatter-check
 format-fix: black-formatter-fix
 # --------------------------------------------------
-# 🔍 Linting (ruff, toml, yaml, ansible)
+# 🔍 Linting (ansible, ruff, toml, yaml)
 # --------------------------------------------------
+ansible-lint-check:
+	$(AT)echo "🔍 Running ansible-lint..."
+	$(AT)$(call run_ci_safe, $(ANSIBLE_LINT))
+	$(AT)echo "✅ Finished linting check with ansible-lint!"
+
 ruff-lint-check:
 	$(AT)echo "🔍 Running ruff linting..."
-	$(AT)$(MAKE) list-folders
+	$(AT)$(MAKE) list-python-folders
 	$(AT)$(RUFF) check $(SRC_DIR) $(TESTS_DIR)
 	$(AT)echo "✅ Finished linting check of Python code with Ruff!"
 
@@ -293,25 +321,21 @@ yaml-formatter-fix:
 			-print0 | xargs -0 $(YAMLFIXER) --config-file .yamllint --nochange --summary
 	$(AT)echo "✅ Finished linting fix of yaml files with yamllint!"
 
-ansible-lint-check:
-	$(AT)echo "🔍 Running ansible-lint..."
-	$(AT)$(ANSIBLE_LINT) ./**/*.yml
-
-lint-check: ruff-lint-check toml-lint-check yaml-lint-check
+lint-check: ansible-lint-check ruff-lint-check toml-lint-check yaml-lint-check
 lint-fix: ruff-lint-fix
 # --------------------------------------------------
 # 🎓 Spellchecker (codespell)
 # --------------------------------------------------
 spellcheck:
 	$(AT)echo "🎓 Checking Spelling (codespell)..."
-	$(AT)$(call run_ci_safe, $(CODESPELL) $(SRC_DIR) $(TESTS_DIR) $(DOCS_DIR))
+	$(AT)$(call run_ci_safe, $(CODESPELL))
 	$(AT)echo "✅ Finished spellcheck!"
 # --------------------------------------------------
 # 🧠 Typechecking (MyPy)
 # --------------------------------------------------
 typecheck:
 	$(AT)echo "🧠 Checking types (MyPy)..."
-	$(AT)$(MAKE) list-folders
+	$(AT)$(MAKE) list-python-folders
 	$(AT)$(call run_ci_safe, $(MYPY) $(SRC_DIR) $(TESTS_DIR))
 	$(AT)echo "✅ Python typecheck complete!"
 # --------------------------------------------------
@@ -325,7 +349,7 @@ test:
 # 📚 Documentation (Sphinx + Ansible Autodoc + Jekyll)
 # --------------------------------------------------
 sphinx:
-	$(MAKE) -C $(SPHINX_DIR) all PUBLISHDIR=$(JEKYLL_SPHINX_DIR)
+	$(ACTIVATE) && $(MAKE) -C $(SPHINX_DIR) all PUBLISHDIR=$(JEKYLL_SPHINX_DIR)
 
 autodocs-front-matter:
 	$(AT)echo "📝 Adding YAML front matter to generated files in $(JEKYLL_AUTODOC_DIR)..."
@@ -354,7 +378,6 @@ run-docs: jekyll-serve
 # --------------------------------------------------
 # 🔖 Version Bumping (bumpy-my-version)
 # --------------------------------------------------
-# TODO: Also create a git tag of current version.
 bump-version-patch:
 	$(AT)echo "🔖 Updating $(GALAXY_PACKAGE_NAME) version from $(GALAXY_VERSION)..."
 	$(AT)$(BUMPVERSION) $(PATCH)
@@ -387,19 +410,19 @@ changelog-release: update-changelog
 # --------------------------------------------------
 # 🐙 Github Commands (git)
 # --------------------------------------------------
-git-init:
+git-init: git-check
 	$(AT)echo "🌱 $(GALAXY_PACKAGE_NAME) Git initialization! 🎉"
 	$(AT)$(GIT) init
 	$(AT)$(GIT) add --all
+	$(AT)$(GIT) commit -m "chore(init): Init commit. \
+		Project $(GALAXY_PACKAGE_NAME) template generation complete."
 	$(AT)echo "✅ Finished Git initialization!"
 
-# NOTE: Not yet tested!!!
-git-release:
+git-release: git-check gh-check
 	$(AT)echo "📦 $(GALAXY_PACKAGE_NAME) Release Tag - $(GALAXY_RELEASE)! 🎉"
 	$(AT)$(GIT) tag -a $(GALAXY_RELEASE) -m "Release $(GALAXY_RELEASE)"
 	$(AT)$(GIT) push origin $(GALAXY_RELEASE)
-	$(AT)$(GITHUB) release create $(REGALAXY_RELEASELEASE) \
-		--title $(GALAXY_PACKAGE_NAME) $(REGALAXY_RELEASELEASE) --generate-notes
+	$(AT)$(GITHUB) release create $(REGALAXY_RELEASELEASE) --generate-notes
 	$(AT)echo "✅ Finished uploading Release - $(GALAXY_RELEASE)!"
 # --------------------------------------------------
 # 🪐 Ansible Galaxy Commands (ansible-galaxy)
@@ -428,14 +451,14 @@ pre-release: clean install pre-commit build-docs changelog galaxy-build
 # 🧹 Clean artifacts
 # --------------------------------------------------
 clean-docs:
-	$(AT)echo "🧹 Clening documentation artifacts..."
+	$(AT)echo "🧹 Cleaning documentation artifacts..."
 	$(AT)rm -rf $(JEKYLL_SPHINX_DIR) $(JEKYLL_AUTODOC_DIR)
 	$(AT)$(MAKE) -C $(JEKYLL_DIR) clean
 	$(AT)$(MAKE) -C $(SPHINX_DIR) clean
 	$(AT)echo "✅ Cleaned documentation artifacts..."
 
 clean-build:
-	$(AT)echo "🧹 Clening build artifacts..."
+	$(AT)echo "🧹 Cleaning build artifacts..."
 	$(AT)rm -rf build dist *.egg-info
 	$(AT)find $(SRC_DIR) $(TESTS_DIR) -name "__pycache__" -type d -exec rm -rf {} +
 	$(AT)-[ -d "$(VENV_DIR)" ] && rm -r $(VENV_DIR)
