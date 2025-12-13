@@ -157,8 +157,8 @@ PATCH := patch
 # --------------------------------------------------
 # 📜 Changelog generation (antsichaut + antsibull-changelog)
 # --------------------------------------------------
-ANTSICHAUT := antsichaut
-ANTSIBULL_CHANGELOG := antsibull-changelog
+ANTSICHAUT := $(ACTIVATE) && antsichaut
+ANTSIBULL_CHANGELOG := $(ACTIVATE) && antsibull-changelog
 # --------------------------------------------------
 # 🐙 Github Tools (git)
 # --------------------------------------------------
