@@ -34,7 +34,7 @@ def main() -> None:
     context = json.loads("""{{ cookiecutter | jsonify }}""")
 
     autovars: dict[str, Any] = {
-        context["timestamp_placeholder"]: timestamp,
+        context["_timestamp_placeholder"]: timestamp,
     }
 
     replace_placeholders_in_dir(autovars)
