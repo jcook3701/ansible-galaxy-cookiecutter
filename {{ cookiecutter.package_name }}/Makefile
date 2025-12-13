@@ -418,7 +418,7 @@ git-init: git-check
 		Project $(GALAXY_PACKAGE_NAME) template generation complete."
 	$(AT)echo "✅ Finished Git initialization!"
 
-git-release: git-check github-check
+git-release: git-check gh-check
 	$(AT)echo "📦 $(GALAXY_PACKAGE_NAME) Release Tag - $(GALAXY_RELEASE)! 🎉"
 	$(AT)$(GIT) tag -a $(GALAXY_RELEASE) -m "Release $(GALAXY_RELEASE)"
 	$(AT)$(GIT) push origin $(GALAXY_RELEASE)

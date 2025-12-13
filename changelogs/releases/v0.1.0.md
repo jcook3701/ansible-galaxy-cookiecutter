@@ -266,3 +266,4 @@ Co-authored-by: jcook3701 <jcook3701@gmail.com>
 - *(template)* Added spellcheck cspell for template pre-commit commit-msg.
 - *(pre-commit)* Updated makefile to use pre-commit version of ansible-lint and turned ansible-lint to manual mode on pre-commit as it takes a bit to run.  Hopefully this works as expected and user can just use ci/cd to ensure ansible-lint passes at the end of working on a feature.
 - *(build)* Template makefile updates to add dependency checks for git and gh commands.
+- *(upgrade)* Added cookiecutter_project_upgrader to makefile.  Need to test.
