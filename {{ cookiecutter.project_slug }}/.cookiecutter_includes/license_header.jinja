@@ -110,7 +110,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {%- else -%}
     {# For hash comments, prefix every line with '#' #}
     {% set commented_text = license_text | trim | replace('\n', '\n# ') %}
-    {%- if commented_text == '' -%}
+    {%- if commented_text == '\n# ' -%}
 #
     {%- else -%}
 # {{ commented_text }}
