@@ -105,14 +105,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {{ start_comment -}}
 {{ license_text | trim }}
 {{- end_comment }}
- {# For hash comments, we iterate over lines to handle blank lines correctly #}
+{%- else -%}
+{# For hash comments, we manually prefix each line, handling blank lines #}
     {% set lines = license_text | trim | split('\n') %}
     {% for line in lines -%}
-        {% if line | trim | length > 0 -%}
-        {{ start_comment }} {{ line | trim }}
-        {% else -%}
-        {{ start_comment }}
-        {% endif -%}
+        {%- if line | trim | length > 0 -%}
+        # {{ line | trim }}
+        {%- else -%}
+        #
+        {%- endif -%}
     {% endfor -%}
 {%- endif -%}
 
