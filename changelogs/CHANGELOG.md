@@ -40,6 +40,10 @@ This reverts commit 560ce6be59543a2e24cd7e670e65bf6662bc4d50.
 - Merge pull request #8 from jcook3701/develop
 
 Feat 002 (#7)
+
+### 🐛 Fixed
+
+- *(build)* Removed library as it was replaced by plugins.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous

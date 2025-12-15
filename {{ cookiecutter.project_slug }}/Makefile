@@ -1,7 +1,8 @@
 # Makefile for {{ cookiecutter.project_slug }}
-# =========================================
-# Project: {{ cookiecutter.__project_name }}
-# =========================================
+
+{% import '.cookiecutter_includes/license_header.jinja' as license_macros with context %}
+
+{{ license_macros.license_header(cookiecutter.license, cookiecutter.author, cookiecutter.__project_name, comment_style='hash') }}
 
 # --------------------------------------------------
 # ⚙️ Environment Settings
