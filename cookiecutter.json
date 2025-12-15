@@ -15,7 +15,7 @@
     "Apache-2.0",
     "BSD-3"
   ],
-  "_copyright": "Copyright (c) {{ cookiecutter._year }} {{ cookiecutter.author }}",
+  "_copyright": "Copyright (c) {% now 'utc', '%Y' %} {{ cookiecutter.author }}",
   "description": "Description of Ansible Galaxy project",
   "release_summary": "Initial Release of {{ cookiecutter.project_slug }}",
   "python_version": [
@@ -28,13 +28,10 @@
   "twitter_username": "",
   "linkedin_usercode": "jared-cook-b3585a114",
   "buymeacoffee_username": "jcook3701",
-  "theme": "pmarsceill/just-the-docs",
+  "theme": ["pmarsceill/just-the-docs", "carlosperate/jekyll-theme-rtd"],
   "_copy_without_render": [
     ".github/workflows/*"
   ],
-  "_date": "__DATE__",
-  "_timestamp": "__TIMESTAMP__",
-  "_year": "__YEAR__",
   "add_github_docs": true,
   "add_sphinx_docs": true
 }
