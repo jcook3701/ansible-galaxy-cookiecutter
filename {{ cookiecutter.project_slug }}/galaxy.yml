@@ -1,6 +1,6 @@
 ---
-namespace: "{{ cookiecutter.namespace }}"
-name: "{{ cookiecutter.project_name }}"
+namespace: "{{ cookiecutter._namespace }}"
+name: "{{ cookiecutter._project_name }}"
 version: "{{ cookiecutter.version }}"
 authors:
   - "{{ cookiecutter.author }} @{{ cookiecutter.github_username }}"
@@ -33,14 +33,14 @@ build_ignore:
 
 repository: >-
   https://github.com/{{ cookiecutter.github_username }}/\
-  {{ cookiecutter.github_username }}.{{ cookiecutter.package_name }}
+  {{ cookiecutter.github_username }}.{{ cookiecutter.project_slug }}
 documentation: >-
   https://github.com/{{ cookiecutter.github_username }}/\
-  {{ cookiecutter.github_username }}.{{ cookiecutter.package_name }}/blob/main/README.md
+  {{ cookiecutter.github_username }}.{{ cookiecutter.project_slug }}/blob/main/README.md
 homepage: >-
   https://github.com/{{ cookiecutter.github_username }}/\
-  {{ cookiecutter.github_username }}.{{ cookiecutter.package_name }}
+  {{ cookiecutter.github_username }}.{{ cookiecutter.project_slug }}
 issues: >-
   https://github.com/{{ cookiecutter.github_username }}/\
-  {{ cookiecutter.github_username }}.{{ cookiecutter.package_name }}/issues
+  {{ cookiecutter.github_username }}.{{ cookiecutter.project_slug }}/issues
 ...

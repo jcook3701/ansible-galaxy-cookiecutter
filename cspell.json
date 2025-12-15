@@ -1,10 +1,12 @@
 {
     "version": "0.2",
     "language": "en",
+    "useGitignore": true,
     "words": [
         "codespell",
         "cookiecutter",
         "cookiecutter_project_upgrader",
+        "cli",
         "mkdirp",
         "tsmerge",
         "githubusercontent",
