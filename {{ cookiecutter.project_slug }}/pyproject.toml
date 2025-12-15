@@ -146,7 +146,6 @@ target-version = "{{ cookiecutter.__python_target_version }}"
 # Directories to lint and format
 src = [
   "plugins",
-  "library",
   "roles",
   "tests",
 ]
@@ -197,7 +196,6 @@ ignore = [
 combine-as-imports = true
 known-first-party = [
   "plugins",
-  "library",
 ]
 # ====================================
 # Formatter Configuration:
@@ -237,7 +235,6 @@ exclude = '''
 python_version = "{{ cookiecutter.python_version }}"
 mypy_path = [
   "plugins",
-  "library",
 ]
 namespace_packages = true
 strict = true
@@ -252,4 +249,4 @@ ignore_missing_imports = true
 minversion = "7.0"
 addopts = ["-v", "--maxfail=1", "-W always", "-rw", "--strict-markers"]
 testpaths = ["tests"]
-pythonpath = ["plugins", "library"]
+pythonpath = ["plugins"]

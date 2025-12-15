@@ -6,21 +6,40 @@
 
 ### ⚙️  Miscellaneous
 
-- *(version)* Version bump.
+- Feat 002 (#6)
 
-### 🐛 Fixed
+* chore(version): version bump.
 
-- *(cspell)* Fixed cspell to include project name and namespace as words to avoid them causing the commit spellcheck from failing.
-- *(funding)* Removed .github/FUNDING.yml from _copy_without_render.
-- *(cookiecutter)* Cleaned up the cookiecutter.json file.
+* fix(cspell): fixed cspell to include project name and namespace as words to avoid them causing the commit spellcheck from failing.
 
-### 🚀 Added
+* feat(timestamps): Updates to add both date and year timestamps.
 
-- *(timestamps)* Updates to add both date and year timestamps.
+* refactor(template): Template was refactored to use project_slug rather than package_name.  Hopefully this helps improve cookiecutter_project_upgrader.  Also added updates for license file and jinja2-cli extensions.
 
-### 🚜 Refactoring
+* fix(funding): removed .github/FUNDING.yml from _copy_without_render.
 
-- *(template)* Template was refactored to use project_slug rather than package_name.  Hopefully this helps improve cookiecutter_project_upgrader.  Also added updates for license file and jinja2-cli extensions.
+* fix(cookiecutter): cleaned up the cookiecutter.json file.
+- Revert "Feat 002 (#6)"
+
+This reverts commit 560ce6be59543a2e24cd7e670e65bf6662bc4d50.
+- Feat 002 (#7)
+
+* chore(version): version bump.
+
+* fix(cspell): fixed cspell to include project name and namespace as words to avoid them causing the commit spellcheck from failing.
+
+* feat(timestamps): Updates to add both date and year timestamps.
+
+* refactor(template): Template was refactored to use project_slug rather than package_name.  Hopefully this helps improve cookiecutter_project_upgrader.  Also added updates for license file and jinja2-cli extensions.
+
+* fix(funding): removed .github/FUNDING.yml from _copy_without_render.
+
+* fix(cookiecutter): cleaned up the cookiecutter.json file.
+
+* fix(cookiecutter): turned hidden vars to dynamic hidden vars by changing '_' with '__'.
+- Merge pull request #8 from jcook3701/develop
+
+Feat 002 (#7)
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous
