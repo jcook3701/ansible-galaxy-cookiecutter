@@ -28,13 +28,18 @@ def main() -> None:
         print("⚙️  Detected CI environment — skipping GitHub Docs generation.")
         return
 
-    timestamp = datetime.datetime.now(datetime.UTC).strftime("%Y-%m-%d %H:%M:%S %Z")
+    current_date = datetime.datetime.now(datetime.UTC)
+    date = current_date.strftime("%Y-%m-%d")
+    timestamp = current_date.strftime("%Y-%m-%d %H:%M:%S %Z")
+    year = current_date.strftime("%Y")
 
     # Access cookiecutter context safely
     context = json.loads("""{{ cookiecutter | jsonify }}""")
 
     autovars: dict[str, Any] = {
-        context["_timestamp_placeholder"]: timestamp,
+        context["_date"]: date,
+        context["_timestamp"]: timestamp,
+        context["_year"]: year,
     }
 
     replace_placeholders_in_dir(autovars)

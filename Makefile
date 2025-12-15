@@ -344,7 +344,6 @@ changelog:
 # --------------------------------------------------
 # 🐙 Github Commands (git)
 # --------------------------------------------------
-#NOTE: Not yet tested!!!
 git-release:
 	$(AT)echo "📦 $(PACKAGE_NAME) Release Tag - $(RELEASE)! 🎉"
 	$(AT)$(GIT) tag -a $(RELEASE) -m "Release $(RELEASE)"

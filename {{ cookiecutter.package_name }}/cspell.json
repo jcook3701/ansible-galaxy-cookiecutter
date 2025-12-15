@@ -1,13 +1,17 @@
 {
     "version": "0.2",
     "language": "en",
+    "useGitignore": true,
     "words": [
+        "ansible",
+        "apt",
         "{{ cookiecutter.namespace }}",
         "{{ cookiecutter.project_name }}",
         "{{ cookiecutter.github_username }}",
         "codespell",
         "mkdirp",
         "tsmerge",
+        "git",
         "githubusercontent",
         "streetsidesoftware",
         "vsmarketplacebadge",

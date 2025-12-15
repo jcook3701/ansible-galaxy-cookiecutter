@@ -3,6 +3,7 @@
 extends: default
 ignore:
   - .venv
+  - .git
   - changelogs/.plugin-cache.yaml
 
 rules:

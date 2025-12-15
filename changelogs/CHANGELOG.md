@@ -7,6 +7,10 @@
 ### ⚙️  Miscellaneous
 
 - *(version)* Version bump.
+
+### 🐛 Fixed
+
+- *(cspell)* Fixed cspell to include project name and namespace as words to avoid them causing the commit spellcheck from failing.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous
