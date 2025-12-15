@@ -60,7 +60,7 @@ GITHUB_REPO := $(GITHUB_USER)/$(PACKAGE_NAME)
 # 📁 Build Directories
 # --------------------------------------------------
 PROJECT_ROOT := $(PWD)
-COOKIE_DIR := $(PROJECT_ROOT)/{{ cookiecutter.package_name }}
+COOKIE_DIR := $(PROJECT_ROOT)/{{ cookiecutter.project_slug }}
 HOOKS_DIR := $(PROJECT_ROOT)/hooks
 SRC_DIR := $(HOOKS_DIR)
 TEST_DIR := $(PROJECT_ROOT)/tests
@@ -114,7 +114,12 @@ BLACK := $(PYTHON) -m black
 RUFF := $(PYTHON) -m ruff
 TOMLLINT := tomllint
 YAMLLINT := $(PYTHON) -m yamllint
-JINJA := $(ACTIVATE) && jinja2 --strict --extension=cookiecutter.extensions.JsonifyExtension
+JINJA := $(ACTIVATE) && jinja2 --strict \
+	--extension=cookiecutter.extensions.JsonifyExtension \
+	--extension=cookiecutter.extensions.RandomStringExtension \
+	--extension=cookiecutter.extensions.SlugifyExtension \
+	--extension=cookiecutter.extensions.TimeExtension \
+	--extension=cookiecutter.extensions.UUIDExtension
 # --------------------------------------------------
 # 🎓 Spellchecker (codespell)
 # --------------------------------------------------

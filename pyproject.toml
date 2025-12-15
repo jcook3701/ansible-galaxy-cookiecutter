@@ -130,7 +130,7 @@ target-version = "py311"
 src = [
   "hooks",
   "tests",
-  "{{ cookiecutter.package_name }}/tests",
+  "{{ cookiecutter.project_slug }}/tests",
 ]
 # Exclude these paths
 exclude = [
@@ -142,7 +142,7 @@ exclude = [
   "*.egg-info",
   ".git",
   ".github",
-  "{{ cookiecutter.package_name }}/pyproject.toml",
+  "{{ cookiecutter.project_slug }}/pyproject.toml",
 ]
 # Maximum line length
 line-length = 120
@@ -214,6 +214,6 @@ testpaths = [
 ]
 pythonpath = [
   ".",
-  "{{ cookiecutter.package_name }}",
+  "{{ cookiecutter.project_slug }}",
   "hooks",
 ]

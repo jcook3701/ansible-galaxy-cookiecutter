@@ -11,6 +11,10 @@
 ### 🐛 Fixed
 
 - *(cspell)* Fixed cspell to include project name and namespace as words to avoid them causing the commit spellcheck from failing.
+
+### 🚀 Added
+
+- *(timestamps)* Updates to add both date and year timestamps.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous
