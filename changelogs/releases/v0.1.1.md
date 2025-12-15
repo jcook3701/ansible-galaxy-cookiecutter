@@ -44,6 +44,7 @@ Feat 002 (#7)
 ### 🐛 Fixed
 
 - *(build)* Removed library as it was replaced by plugins.
+- *(header)* Trying to fix too many newlines being added above header.
 
 ### 🚀 Added
 

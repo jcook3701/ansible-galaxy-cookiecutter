@@ -1,29 +1,29 @@
-{% macro license_header(license_type, author, project_name, comment_style='hash') -%}
+{%- macro license_header(license_type, author, project_name, comment_style='hash') -%}
 {# This macro generates the correct license header based on input #}
 {# Define variables for start/end comment delimiters #}
-{% set start_comment = "" %}
-{% set end_comment = "" %}
-{% set newline = "\n" %}
+{%- set start_comment = "" -%}
+{%- set end_comment = "" -%}
+{%- set newline = "\n" -%}
 
 {# Determine the correct comment style #}
-{% if comment_style == 'python' %}
-    {% set start_comment = '"""' + newline %}
-    {% set end_comment = newline + '"""' %}
-{% elif comment_style == 'html' %}
-    {% set start_comment = '<!-- ' + newline %}
-    {% set end_comment = newline + '-->' %}
-{% else %}
+{%- if comment_style == 'python' -%}
+    {%- set start_comment = '"""' + newline -%}
+    {%- set end_comment = newline + '"""' -%}
+{%- elif comment_style == 'html' -%}
+    {%- set start_comment = '<!-- ' + newline -%}
+    {%- set end_comment = newline + '-->' -%}
+{%- else -%}
     {# Default to hash/pound symbol for yaml, toml, shell scripts, etc. #}
-    {% set start_comment = '# ' %}
-    {% set end_comment = newline %}
-{% endif %}
+    {%- set start_comment = '# ' -%}
+    {%- set end_comment = newline -%}
+{%- endif -%}
 
 {# Generate the core license text #}
-{% set license_text -%}
+{%- set license_text -%}
 {{ project_name }}
 Copyright (c) {% now 'utc', '%Y' %}, {{ author }}
 
-{% if license_type == "MIT" %}
+{%- if license_type == "MIT" -%}
 SPDX-License-Identifier: MIT
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -43,7 +43,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-{% elif license_type == "GPL-3.0" %}
+{%- elif license_type == "GPL-3.0" -%}
 SPDX-License-Identifier: GPL-3.0-or-later
 
 This program is free software: you can redistribute it and/or modify
@@ -59,7 +59,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <www.gnu.org>.
 
-{% elif license_type == "Apache-2.0" %}
+{%- elif license_type == "Apache-2.0" -%}
 SPDX-License-Identifier: Apache-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -73,7 +73,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-{% elif license_type == "BSD-3" %}
+{%- elif license_type == "BSD-3" -%}
 SPDX-License-Identifier: BSD-3-Clause
 
 Redistribution and use in source and binary forms, with or without
@@ -100,18 +100,18 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-{% endif %}
-{%- endset %}
+{%- endif -%}
+{%- endset -%}
 
 {# Wrap the generated text with the appropriate start and end delimiters #}
-{% if comment_style == 'python' or comment_style == 'html' %}
+{%- if comment_style == 'python' or comment_style == 'html' -%}
 {{ start_comment -}}
 {{ license_text | trim }}
 {{- end_comment }}
-{% else %}
+{%- else -%}
     {# For hash comments, prefix every line with '#' #}
     {% set commented_text = license_text | trim | replace('\n', '\n# ') %}
 # {{ commented_text }}
-{% endif %}
+{%- endif -%}
 
-{%- endmacro %}
+{%- endmacro -%}
