@@ -1,20 +1,27 @@
 {%- macro license_header(license_type, author, project_name, comment_style='hash') -%}
 {# This macro generates the correct license header based on input #}
-{%- set start_delimiter = "" -%}
-{%- set end_delimiter = "" -%}
+{# Define variables for start/end comment delimiters #}
+{%- set start_comment = "" -%}
+{%- set end_comment = "" -%}
+{%- set newline = "\n" -%}
 
 {# Determine the correct comment style #}
 {%- if comment_style == 'python' -%}
-    {%- set start_delimiter = '"""\n' -%}
-    {%- set end_delimiter = '\n"""' -%}
+    {%- set start_comment = '"""' + newline -%}
+    {%- set end_comment = newline + '"""' -%}
 {%- elif comment_style == 'html' -%}
-    {%- set start_delimiter = '<!-- \n' -%}
-    {%- set end_delimiter = '\n-->' -%}
+    {%- set start_comment = '<!-- ' + newline -%}
+    {%- set end_comment = newline + '-->' -%}
+{%- else -%}
+    {# Default to hash/pound symbol for yaml, toml, shell scripts, etc. #}
+    {%- set start_comment = '# ' -%}
+    {%- set end_comment = newline -%}
 {%- endif -%}
+
 {# Generate the core license text #}
 {%- set license_text -%}
-
-Copyright (c) {%- now 'utc', '%Y' -%}, {{ author }}
+{{ project_name }}
+Copyright (c) {% now 'utc', '%Y' %}, {{ author }}
 
 {%- if license_type == "MIT" -%}
 SPDX-License-Identifier: MIT
@@ -96,18 +103,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {%- endif -%}
 {%- endset -%}
 {# Wrap the generated text with the appropriate start and end delimiters #}
-{{- start_delimiter -}}
 {%- if comment_style == 'python' or comment_style == 'html' -%}
-    {# No prefix needed for python/html block comments #}
-    {{- license_text | trim -}}
+{{ start_comment -}}
+{{ license_text | trim }}
+{{- end_comment }}
 {%- else -%}
-  {# Hash comments: use replace to add '# ' to the start of all lines #}
-    {%- set commented_text = license_text | trim | replace('\n', '\n# ') -%}
-    {# Then use replace again to remove the space specifically from blank lines #}
-    {%- set commented_text = commented_text | replace('\n# ', '\n#') -%}
-    {# Output the first line with '#' prepended #}
-    #{{ commented_text }}
+    {# For hash comments, prefix every line with '#' #}
+    {% set commented_text = license_text | trim | replace('\n', '\n# ') %}
+    {%- if commented_text == '' -%}
+#
+    {%- else -%}
+# {{ commented_text }}
+    {%- endif -%}
 {%- endif -%}
-{{- end_delimiter -}}
 
 {%- endmacro -%}
