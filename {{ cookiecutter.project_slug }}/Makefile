@@ -1,6 +1,6 @@
-# Makefile for {{ cookiecutter.package_name }}
+# Makefile for {{ cookiecutter.project_slug }}
 # =========================================
-# Project: {{ cookiecutter.project_name }}
+# Project: {{ cookiecutter.__project_name }}
 # =========================================
 
 # --------------------------------------------------
@@ -47,9 +47,9 @@ endef
 # --------------------------------------------------
 # ⚙️ Build Settings
 # --------------------------------------------------
-GALAXY_PACKAGE_NAME = {{ cookiecutter.package_name }}
-GALAXY_NAMESPACE := {{ cookiecutter.namespace }}
-GALAXY_COLLECTION := {{ cookiecutter.project_name }}
+GALAXY_NAMESPACE := {{ cookiecutter.__namespace }}
+GALAXY_COLLECTION := {{ cookiecutter.__project_name }}
+GALAXY_PACKAGE_NAME = $(GALAXY_NAMESPACE).$(GALAXY_COLLECTION)
 GALAXY_AUTHOR := {{ cookiecutter.author }}
 GALAXY_VERSION := {{ cookiecutter.version }}
 GALAXY_RELEASE := v$(GALAXY_VERSION)
@@ -57,7 +57,7 @@ GALAXY_PATH := $(PROJECT_ROOT)
 # --------------------------------------------------
 # 🐙 Github Build Settings
 # --------------------------------------------------
-GITHUB_USER := "jcook3701"
+GITHUB_USER := "{{ cookiecutter.github_username }}"
 GITHUB_REPO = $(GITHUB_USER)/$(PACKAGE_NAME)
 # --------------------------------------------------
 # 📁 Build Directories
