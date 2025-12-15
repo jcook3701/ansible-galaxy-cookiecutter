@@ -1,20 +1,15 @@
 {%- macro license_header(license_type, author, project_name, comment_style='hash') -%}
 {# This macro generates the correct license header based on input #}
-{# Define variables for start/end comment delimiters #}
-{%- set start_comment = "" -%}
-{%- set end_comment = "" -%}
-{%- set newline = "\n" -%}
+{%- set start_delimiter = "" -%}
+{%- set end_delimiter = "" -%}
+
 {# Determine the correct comment style #}
 {%- if comment_style == 'python' -%}
-    {%- set start_comment = '"""' + newline -%}
-    {%- set end_comment = newline + '"""' -%}
+    {%- set start_delimiter = '"""\n' -%}
+    {%- set end_delimiter = '\n"""' -%}
 {%- elif comment_style == 'html' -%}
-    {%- set start_comment = '<!-- ' + newline -%}
-    {%- set end_comment = newline + '-->' -%}
-{%- else -%}
-    {# Default to hash/pound symbol for yaml, toml, shell scripts, etc. #}
-    {%- set start_comment = '# ' -%}
-    {%- set end_comment = newline -%}
+    {%- set start_delimiter = '<!-- \n' -%}
+    {%- set end_delimiter = '\n-->' -%}
 {%- endif -%}
 {# Generate the core license text #}
 {%- set license_text -%}
@@ -101,20 +96,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {%- endif -%}
 {%- endset -%}
 {# Wrap the generated text with the appropriate start and end delimiters #}
+{{- start_delimiter -}}
 {%- if comment_style == 'python' or comment_style == 'html' -%}
-{{ start_comment -}}
-{{ license_text | trim }}
-{{- end_comment }}
+    {# No prefix needed for python/html block comments #}
+    {{- license_text | trim -}}
 {%- else -%}
-{# For hash comments, we manually prefix each line, handling blank lines #}
-    {% set lines = license_text | trim | split('\n') %}
-    {% for line in lines -%}
-        {%- if line | trim | length > 0 -%}
-        # {{ line | trim }}
-        {%- else -%}
-        #
-        {%- endif -%}
-    {% endfor -%}
+    {# For hash comments, prefix every line using a multi-replace hack #}
+    {%- set commented_text = license_text | trim -%}
+    {# 1. Add # to the start of every line with content #}
+    {%- set commented_text = commented_text | replace('\n', '\n# ') -%}
+    {# 2. Remove the space specifically from blank lines #}
+    {%- set commented_text = commented_text | replace('\n# ', '\n#') -%}
+    {# 3. Correct lines that were previously blank but now have content because of step 1 #}
+    {%- set commented_text = commented_text | replace('\n# #', '\n# # ') -%}
+
+    # {{ commented_text }}
 {%- endif -%}
+{{- end_delimiter -}}
 
 {%- endmacro -%}
