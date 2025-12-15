@@ -18,7 +18,7 @@
 {%- endif -%}
 {# Generate the core license text #}
 {%- set license_text -%}
-{{ project_name }}
+
 Copyright (c) {%- now 'utc', '%Y' -%}, {{ author }}
 
 {%- if license_type == "MIT" -%}
@@ -105,10 +105,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {{ start_comment -}}
 {{ license_text | trim }}
 {{- end_comment }}
-{%- else -%}
-    {# For hash comments, prefix every line with '#' #}
-    {%- set commented_text = license_text | trim | replace('\n', '\n# ') -%}
-# {{ commented_text }}
+ {# For hash comments, we iterate over lines to handle blank lines correctly #}
+    {% set lines = license_text | trim | split('\n') %}
+    {% for line in lines -%}
+        {% if line | trim | length > 0 -%}
+        {{ start_comment }} {{ line | trim }}
+        {% else -%}
+        {{ start_comment }}
+        {% endif -%}
+    {% endfor -%}
 {%- endif -%}
 
 {%- endmacro -%}
