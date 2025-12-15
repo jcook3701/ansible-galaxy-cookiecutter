@@ -32,7 +32,7 @@ sections:
   - Bugfixes
 - - known_issues
   - Known Issues
-title: '{{ cookiecutter.package_name }}'
+title: '{{ cookiecutter.__title }}'
 trivial_section_name: trivial
 use_fqcn: true
 vcs: auto

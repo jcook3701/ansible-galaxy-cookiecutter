@@ -1,31 +1,37 @@
 {
   "namespace": "jcook3701",
+  "__namespace": "{{ cookiecutter.namespace|lower|replace('-', '_')|replace(' ', '_') }}",
   "project_name": "ansible-galaxy-collection",
-  "project_slug": "{{ cookiecutter.project_name|lower|replace('-', '_') }}",
-  "package_name": "{{ cookiecutter.namespace }}.{{ cookiecutter.project_slug }}",
+  "__project_name": "{{ cookiecutter.project_name|lower|replace('-', '_')|replace(' ', '_') }}",
+  "project_slug": "{{ cookiecutter.__namespace }}.{{ cookiecutter.__project_name }}",
+  "__py_package_name": "{{ cookiecutter.__namespace }}_{{ cookiecutter.__project_name }}",
+  "__title": "{{ cookiecutter.namespace }} {{ cookiecutter.project_name }}",
   "author": "Jared Cook",
   "email": "jcook3701+github@gmail.com",
   "version": "1.0.0",
+  "license": [
+    "MIT",
+    "GPL-3.0",
+    "Apache-2.0",
+    "BSD-3"
+  ],
+  "__copyright": "Copyright (c) {% now 'utc', '%Y' %} {{ cookiecutter.author }}",
   "description": "Description of Ansible Galaxy project",
-  "release_summary": "Initial Release of {{ cookiecutter.package_name }}",
+  "release_summary": "Initial Release of {{ cookiecutter.project_slug }}",
+  "python_version": [
+    "3.10",
+    "3.11"
+  ],
+  "__python_target_version": "py{{ cookiecutter.python_version|replace('.', '') }}",
   "ga_tracking": "G-C7PWLWSHB9",
   "github_username": "jcook3701",
   "twitter_username": "",
   "linkedin_usercode": "jared-cook-b3585a114",
   "buymeacoffee_username": "jcook3701",
-  "theme": "pmarsceill/just-the-docs",
-  "config": {
-    "keywords": ["python3"],
-    "classifiers": [
-      "Programming Language :: Python :: 3",
-      "Operating System :: OS Independent"
-    ],
-    "requires_python": "3.11"
-  },
+  "theme": ["pmarsceill/just-the-docs", "carlosperate/jekyll-theme-rtd"],
   "_copy_without_render": [
-    ".github/*"
+    ".github/workflows/*"
   ],
-  "_timestamp_placeholder": "__TIMESTAMP_GOES_HERE__",
   "add_github_docs": true,
   "add_sphinx_docs": true
 }

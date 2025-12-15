@@ -26,9 +26,9 @@ repos:
         args: [--fix=lf]
       - id: check-yaml
       - id: check-json
-        exclude: "{{ cookiecutter.package_name }}/docs/cookiecutter_input.json"
+        exclude: "{{ cookiecutter.project_slug }}/docs/cookiecutter_input.json"
       - id: check-toml
-        exclude: "{{ cookiecutter.package_name }}/cliff.toml"
+        exclude: "{{ cookiecutter.project_slug }}/cliff.toml"
       - id: check-case-conflict
       - id: check-added-large-files
       - id: check-symlinks
