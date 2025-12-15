@@ -1,13 +1,13 @@
 # pyproject.toml
 # =========================================
-# Project: {{ cookiecutter._py_package_name }}
+# Project: {{ cookiecutter.package_name }}
 # =========================================
 [build-system]
 requires = ["setuptools>=65.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "{{ cookiecutter._py_package_name }}"
+name = "{{ cookiecutter.package_name }}"
 version = "{{ cookiecutter.version }}"
 description = "{{ cookiecutter.description }}"
 authors = [
@@ -16,12 +16,11 @@ authors = [
 readme = "./README.md"
 license = "MIT"
 license-files = ["LICENSE"]
-requires-python = ">={{ cookiecutter.python_version }}"
+requires-python = ">={{ cookiecutter.config.requires_python }}"
 dependencies = []
 keywords = [
   "ansible",
   "galaxy",
-  "python3",
   "scripts",
   "automation",
 ]
@@ -31,9 +30,9 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/{{ cookiecutter.project_slug }}"
-Repository = "https://github.com/{{ cookiecutter.project_slug }}"
-Documentation = "https://github.com/{{ cookiecutter.project_slug }}/docs/jekyll"
+Homepage = "https://github.com/{{ cookiecutter.package_name }}"
+Repository = "https://github.com/{{ cookiecutter.package_name }}"
+Documentation = "https://github.com/{{ cookiecutter.package_name }}/docs/jekyll"
 
 [project.optional-dependencies]
 dev = [
@@ -78,12 +77,7 @@ where = [
   "plugins",
 ]
 include = [
-  "action*",
-  "filter*",
-  "inventory*",
-  "lookup*",
-  "module_utils*",
-  "modules*",
+  "plugins*",
 ]
 # ====================================
 # Version Bumping (bump-my-version):
@@ -142,7 +136,7 @@ exclude = [
 # ====================================
 [tool.ruff]
 # Target Python version
-target-version = "{{ cookiecutter._python_target_version }}"
+target-version = "py311"
 # Directories to lint and format
 src = [
   "plugins",
@@ -214,7 +208,7 @@ docstring-code-format = true
 # ====================================
 [tool.black]
 line-length = 88          # Maximum line length (default is 88)
-target-version = ["{{ cookiecutter._python_target_version }}"] # Target Python version(s)
+target-version = ["py310"] # Target Python version(s)
 skip-string-normalization = false  # Whether to skip normalizing string quotes
 include = '\.pyi?$'       # Which files to include (regex)
 exclude = '''
@@ -234,7 +228,7 @@ exclude = '''
 # Mypy (type-checker) Configuration:
 # ====================================
 [tool.mypy]
-python_version = "{{ cookiecutter.python_version }}"
+python_version = "{{ cookiecutter.config.requires_python }}"
 mypy_path = [
   "plugins",
   "library",

@@ -49,7 +49,7 @@ endef
 # --------------------------------------------------
 PACKAGE_NAME := "ansible-galaxy-cookiecutter"
 AUTHOR := "Jared Cook"
-VERSION := 0.1.1
+VERSION := 0.1.0
 RELEASE := v$(VERSION)
 # --------------------------------------------------
 # 🐙 Github Build Settings
@@ -60,7 +60,7 @@ GITHUB_REPO := $(GITHUB_USER)/$(PACKAGE_NAME)
 # 📁 Build Directories
 # --------------------------------------------------
 PROJECT_ROOT := $(PWD)
-COOKIE_DIR := $(PROJECT_ROOT)/{{ cookiecutter.project_slug }}
+COOKIE_DIR := $(PROJECT_ROOT)/{{ cookiecutter.package_name }}
 HOOKS_DIR := $(PROJECT_ROOT)/hooks
 SRC_DIR := $(HOOKS_DIR)
 TEST_DIR := $(PROJECT_ROOT)/tests
@@ -114,12 +114,7 @@ BLACK := $(PYTHON) -m black
 RUFF := $(PYTHON) -m ruff
 TOMLLINT := tomllint
 YAMLLINT := $(PYTHON) -m yamllint
-JINJA := $(ACTIVATE) && jinja2 --strict \
-	--extension=cookiecutter.extensions.JsonifyExtension \
-	--extension=cookiecutter.extensions.RandomStringExtension \
-	--extension=cookiecutter.extensions.SlugifyExtension \
-	--extension=cookiecutter.extensions.TimeExtension \
-	--extension=cookiecutter.extensions.UUIDExtension
+JINJA := $(ACTIVATE) && jinja2 --strict --extension=cookiecutter.extensions.JsonifyExtension
 # --------------------------------------------------
 # 🎓 Spellchecker (codespell)
 # --------------------------------------------------
@@ -349,6 +344,7 @@ changelog:
 # --------------------------------------------------
 # 🐙 Github Commands (git)
 # --------------------------------------------------
+#NOTE: Not yet tested!!!
 git-release:
 	$(AT)echo "📦 $(PACKAGE_NAME) Release Tag - $(RELEASE)! 🎉"
 	$(AT)$(GIT) tag -a $(RELEASE) -m "Release $(RELEASE)"

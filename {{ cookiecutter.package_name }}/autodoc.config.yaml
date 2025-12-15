@@ -1,6 +1,6 @@
 ---
 # General project information
-name: "{{ cookiecutter.project_slug }}"
+name: "{{ cookiecutter.package_name }}"
 license: "MIT"
 author: "{{ cookiecutter.author }}"
 email: "{{ cookiecutter.email }}"

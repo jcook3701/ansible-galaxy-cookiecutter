@@ -1,7 +1,7 @@
 # Ansible Galaxy Cookiecutter
 
 __Author:__ Jared Cook  
-__Version:__ 0.1.1  
+__Version:__ 0.1.0  
 
 ## Overview:
 Ansible Galaxy cookiecutter template project /w Ansible Auto Documentation + [Github docs](https://github.com/jcook3701/github-docs-cookiecutter) template generation + [Sphinx docs](https://github.com/jcook3701/sphinx-cookiecutter) template generation.  

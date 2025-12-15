@@ -8,13 +8,16 @@ Author: Jared Cook
 Description: Post project generation Scripts.
 """
 
+import datetime
 import json
 import os
+from typing import Any
 
 from nutrimatic.core import make
 from nutrimatic.hooks.post_gen_logic import (
     generate_ansible_dirs,
     generate_docs_templates,
+    replace_placeholders_in_dir,
 )
 
 
@@ -25,8 +28,16 @@ def main() -> None:
         print("⚙️  Detected CI environment — skipping GitHub Docs generation.")
         return
 
+    timestamp = datetime.datetime.now(datetime.UTC).strftime("%Y-%m-%d %H:%M:%S %Z")
+
     # Access cookiecutter context safely
     context = json.loads("""{{ cookiecutter | jsonify }}""")
+
+    autovars: dict[str, Any] = {
+        context["_timestamp_placeholder"]: timestamp,
+    }
+
+    replace_placeholders_in_dir(autovars)
 
     generate_docs_templates(context)
     generate_ansible_dirs()

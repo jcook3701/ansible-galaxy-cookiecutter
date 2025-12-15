@@ -1,6 +1,6 @@
 # .gitignore
 # =========================================
-# Project: {{ cookiecutter.project_slug }}
+# Project: {{ cookiecutter.package_name }}
 # =========================================
 
 # =========================================

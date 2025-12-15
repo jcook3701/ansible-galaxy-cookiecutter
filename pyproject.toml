@@ -8,7 +8,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ansible_galaxy_cookiecutter"
-version = "0.1.1"
+version = "0.1.0"
 description = "Ansible Galaxy cookiecutter template + integration with (github-docs-cookiecutter) Github docs template generation."
 authors = [
     { name="Jared Cook", email="jcook3701+github@gmail.com" }
@@ -79,7 +79,7 @@ include = [
 # Version Bumping (bump-my-version):
 # ====================================
 [tool.bumpversion]
-current_version = "0.1.1"
+current_version = "0.1.0"
 parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
 serialize = ["{major}.{minor}.{patch}"]
 search = "{current_version}"
@@ -130,7 +130,7 @@ target-version = "py311"
 src = [
   "hooks",
   "tests",
-  "{{ cookiecutter.project_slug }}/tests",
+  "{{ cookiecutter.package_name }}/tests",
 ]
 # Exclude these paths
 exclude = [
@@ -142,7 +142,7 @@ exclude = [
   "*.egg-info",
   ".git",
   ".github",
-  "{{ cookiecutter.project_slug }}/pyproject.toml",
+  "{{ cookiecutter.package_name }}/pyproject.toml",
 ]
 # Maximum line length
 line-length = 120
@@ -214,6 +214,6 @@ testpaths = [
 ]
 pythonpath = [
   ".",
-  "{{ cookiecutter.project_slug }}",
+  "{{ cookiecutter.package_name }}",
   "hooks",
 ]

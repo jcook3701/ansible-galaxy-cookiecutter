@@ -1,0 +1,7 @@
+---
+version: {{ cookiecutter.version }}
+date: 2025-10-24
+changes:
+  - Initial release of the collection
+  - Added example playbooks
+  - Added basic documentation
