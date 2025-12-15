@@ -44,6 +44,10 @@ Feat 002 (#7)
 ### 🐛 Fixed
 
 - *(build)* Removed library as it was replaced by plugins.
+
+### 🚀 Added
+
+- *(license)* Updates to license headers.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous

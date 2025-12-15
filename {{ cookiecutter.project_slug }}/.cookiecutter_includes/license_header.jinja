@@ -1,8 +1,27 @@
-{% macro license_header(license_type, author, project_name) -%}
+{% macro license_header(license_type, author, project_name, comment_style='hash') -%}
 {# This macro generates the correct license header based on input #}
+{# Define variables for start/end comment delimiters #}
+{% set start_comment = "" %}
+{% set end_comment = "" %}
+{% set newline = "\n" %}
+
+{# Determine the correct comment style #}
+{% if comment_style == 'python' %}
+    {% set start_comment = '"""' + newline %}
+    {% set end_comment = newline + '"""' %}
+{% elif comment_style == 'html' %}
+    {% set start_comment = '<!-- ' + newline %}
+    {% set end_comment = newline + '-->' %}
+{% else %}
+    {# Default to hash/pound symbol for yaml, toml, shell scripts, etc. #}
+    {% set start_comment = '# ' %}
+    {% set end_comment = newline %}
+{% endif %}
+
+{# Generate the core license text #}
+{% set license_text -%}
 {{ project_name }}
 Copyright (c) {% now 'utc', '%Y' %}, {{ author }}
-All rights reserved.
 
 {% if license_type == "MIT" %}
 SPDX-License-Identifier: MIT
@@ -83,6 +102,18 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+{% endif %}
+{%- endset %}
+
+{# Wrap the generated text with the appropriate start and end delimiters #}
+{% if comment_style == 'python' or comment_style == 'html' %}
+{{ start_comment -}}
+{{ license_text | trim }}
+{{- end_comment }}
+{% else %}
+    {# For hash comments, prefix every line with '#' #}
+    {% set commented_text = license_text | trim | replace('\n', '\n# ') %}
+# {{ commented_text }}
 {% endif %}
 
 {%- endmacro %}
