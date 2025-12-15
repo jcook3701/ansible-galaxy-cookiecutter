@@ -1,6 +1,6 @@
 ---
-namespace: "{{ cookiecutter._namespace }}"
-name: "{{ cookiecutter._project_name }}"
+namespace: "{{ cookiecutter.__namespace }}"
+name: "{{ cookiecutter.__project_name }}"
 version: "{{ cookiecutter.version }}"
 authors:
   - "{{ cookiecutter.author }} @{{ cookiecutter.github_username }}"

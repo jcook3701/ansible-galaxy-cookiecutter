@@ -1,6 +1,6 @@
 # Makefile for {{ cookiecutter.project_slug }}
 # =========================================
-# Project: {{ cookiecutter._project_name }}
+# Project: {{ cookiecutter.__project_name }}
 # =========================================
 
 # --------------------------------------------------
@@ -47,8 +47,8 @@ endef
 # --------------------------------------------------
 # ⚙️ Build Settings
 # --------------------------------------------------
-GALAXY_NAMESPACE := {{ cookiecutter._namespace }}
-GALAXY_COLLECTION := {{ cookiecutter._project_name }}
+GALAXY_NAMESPACE := {{ cookiecutter.__namespace }}
+GALAXY_COLLECTION := {{ cookiecutter.__project_name }}
 GALAXY_PACKAGE_NAME = $(GALAXY_NAMESPACE).$(GALAXY_COLLECTION)
 GALAXY_AUTHOR := {{ cookiecutter.author }}
 GALAXY_VERSION := {{ cookiecutter.version }}

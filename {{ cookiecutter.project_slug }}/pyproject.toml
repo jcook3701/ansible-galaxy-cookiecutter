@@ -1,13 +1,13 @@
 # pyproject.toml
 # =========================================
-# Project: {{ cookiecutter._py_package_name }}
+# Project: {{ cookiecutter.__py_package_name }}
 # =========================================
 [build-system]
 requires = ["setuptools>=65.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "{{ cookiecutter._py_package_name }}"
+name = "{{ cookiecutter.__py_package_name }}"
 version = "{{ cookiecutter.version }}"
 description = "{{ cookiecutter.description }}"
 authors = [
@@ -142,7 +142,7 @@ exclude = [
 # ====================================
 [tool.ruff]
 # Target Python version
-target-version = "{{ cookiecutter._python_target_version }}"
+target-version = "{{ cookiecutter.__python_target_version }}"
 # Directories to lint and format
 src = [
   "plugins",
@@ -214,7 +214,7 @@ docstring-code-format = true
 # ====================================
 [tool.black]
 line-length = 88          # Maximum line length (default is 88)
-target-version = ["{{ cookiecutter._python_target_version }}"] # Target Python version(s)
+target-version = ["{{ cookiecutter.__python_target_version }}"] # Target Python version(s)
 skip-string-normalization = false  # Whether to skip normalizing string quotes
 include = '\.pyi?$'       # Which files to include (regex)
 exclude = '''

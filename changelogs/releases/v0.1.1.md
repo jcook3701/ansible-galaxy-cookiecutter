@@ -12,6 +12,7 @@
 
 - *(cspell)* Fixed cspell to include project name and namespace as words to avoid them causing the commit spellcheck from failing.
 - *(funding)* Removed .github/FUNDING.yml from _copy_without_render.
+- *(cookiecutter)* Cleaned up the cookiecutter.json file.
 
 ### 🚀 Added
 

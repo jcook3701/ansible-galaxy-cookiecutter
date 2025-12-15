@@ -5,8 +5,8 @@
     "words": [
         "ansible",
         "apt",
-        "{{ cookiecutter._namespace }}",
-        "{{ cookiecutter._project_name }}",
+        "{{ cookiecutter.__namespace }}",
+        "{{ cookiecutter.__project_name }}",
         "{{ cookiecutter.project_slug }}",
         "{{ cookiecutter.github_username }}",
         "codespell",
