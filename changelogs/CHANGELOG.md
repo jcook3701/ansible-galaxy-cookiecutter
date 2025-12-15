@@ -15,6 +15,10 @@
 ### 🚀 Added
 
 - *(timestamps)* Updates to add both date and year timestamps.
+
+### 🚜 Refactoring
+
+- *(template)* Template was refactored to use project_slug rather than package_name.  Hopefully this helps improve cookiecutter_project_upgrader.  Also added updates for license file and jinja2-cli extensions.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous

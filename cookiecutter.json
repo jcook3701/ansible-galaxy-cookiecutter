@@ -30,7 +30,7 @@
   "buymeacoffee_username": "jcook3701",
   "theme": "pmarsceill/just-the-docs",
   "_copy_without_render": [
-    ".github/*"
+    ".github/workflows/*"
   ],
   "_date": "__DATE__",
   "_timestamp": "__TIMESTAMP__",
