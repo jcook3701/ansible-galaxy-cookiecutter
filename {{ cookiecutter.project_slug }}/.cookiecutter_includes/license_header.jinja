@@ -109,8 +109,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {{- end_comment }}
 {%- else -%}
     {# For hash comments, filter each line cleanly #}
-    {%- for line in license_text | trim | split('\n') -%}
-# {{ line | trim }}
+    {%- for line in license_text | trim -%}
+# {{ line.split('\n') | trim }}
     {%- endfor -%}
 {%- endif -%}
 
