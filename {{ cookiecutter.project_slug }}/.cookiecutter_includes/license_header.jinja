@@ -101,16 +101,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     {# No prefix needed for python/html block comments #}
     {{- license_text | trim -}}
 {%- else -%}
-    {# For hash comments, prefix every line using a multi-replace hack #}
-    {%- set commented_text = license_text | trim -%}
-    {# 1. Add # to the start of every line with content #}
-    {%- set commented_text = commented_text | replace('\n', '\n# ') -%}
-    {# 2. Remove the space specifically from blank lines #}
+  {# Hash comments: use replace to add '# ' to the start of all lines #}
+    {%- set commented_text = license_text | trim | replace('\n', '\n# ') -%}
+    {# Then use replace again to remove the space specifically from blank lines #}
     {%- set commented_text = commented_text | replace('\n# ', '\n#') -%}
-    {# 3. Correct lines that were previously blank but now have content because of step 1 #}
-    {%- set commented_text = commented_text | replace('\n# #', '\n# # ') -%}
-
-    # {{ commented_text }}
+    {# Output the first line with '#' prepended #}
+    #{{ commented_text }}
 {%- endif -%}
 {{- end_delimiter -}}
 
