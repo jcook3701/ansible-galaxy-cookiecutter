@@ -23,7 +23,7 @@
     {%- set end_comment = newline -%}
 {%- endif -%}
 {# Generate the core license text #}
-{%- set license_text %}
+{% set license_text %}
 {{ file_name }} for {{ project_name }}
 Copyright (c) {% now 'utc', '%Y' %}, {{ author }}
 
