@@ -122,6 +122,7 @@ Feat 002 (#7)
 - *(license)* Updates to license headers.
 - *(license)* Updates to license headers.
 - *(header)* Got license headers working.
+- *(header)* Got license headers working.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous

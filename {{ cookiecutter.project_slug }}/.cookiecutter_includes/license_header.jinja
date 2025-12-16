@@ -5,6 +5,11 @@
     file_name='none',
     comment_style='hash'
 ) -%}
+    {#
+       A comment inside the macro definition.
+       This renders an HTML input tag.
+       Args: license_type, author, file_name, comment_style.
+    #}
 {# This macro generates the correct license header based on input #}
 {# Define variables for start/end comment delimiters #}
 {%- set start_comment = "" -%}
@@ -62,7 +67,6 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <www.gnu.org>.
-
 {% elif license_type == "Apache-2.0" -%}
 SPDX-License-Identifier: Apache-2.0
 
