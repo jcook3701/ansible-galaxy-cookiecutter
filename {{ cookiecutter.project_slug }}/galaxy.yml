@@ -3,7 +3,7 @@
 {{ license_macros.license_header(
   cookiecutter.license,
   cookiecutter.author,
-  galaxy.yml,
+  'galaxy.yml',
   cookiecutter.project_slug,
   comment_style='hash') }}
 ---
