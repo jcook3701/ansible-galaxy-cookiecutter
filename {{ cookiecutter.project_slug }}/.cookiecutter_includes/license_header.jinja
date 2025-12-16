@@ -1,4 +1,9 @@
-{%- macro license_header(license_type, author, project_name, comment_style='hash') -%}
+{%- macro license_header(
+    license_type,
+    author,
+    project_name,
+    comment_style='hash'
+) -%}
 {# This macro generates the correct license header based on input #}
 {# Define variables for start/end comment delimiters #}
 {%- set start_comment = "" -%}
@@ -106,15 +111,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {{ license_text | trim }}
 {{- end_comment }}
 {%- else -%}
-{%- set text = license_text.split('\n') -%}
-{# For hash comments, prefix every line with '#' #}
-{%- for line in text -%}
-{%- if line == '' or line == '\n' -%}
-{%- set commented_line = line -%}
-{%- else -%}
-{%- set commented_line = " " + line -%}
-{%- endif -%}
+    {%- set text = license_text.split('\n') -%}
+    {# For hash comments, prefix every line with '#' #}
+    {%- for line in text -%}
+        {%- if line == '' or line == '\n' -%}
+            {%- set commented_line = line -%}
+        {%- else -%}
+            {%- set commented_line = " " + line -%}
+        {%- endif -%}
 #{{ commented_line }}
-{% endfor -%}
+    {% endfor -%}
 {%- endif -%}
 {%- endmacro -%}
