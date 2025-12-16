@@ -106,7 +106,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {{ license_text | trim }}
 {{- end_comment }}
 {%- else -%}
-
 {%- set text = license_text.split('\n') -%}
 {# For hash comments, prefix every line with '#' #}
 {%- for line in text -%}
@@ -118,5 +117,4 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #{{ commented_line }}
 {% endfor %}
 {%- endif -%}
-
 {%- endmacro -%}
