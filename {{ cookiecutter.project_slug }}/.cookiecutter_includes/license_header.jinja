@@ -106,15 +106,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {{ license_text | trim }}
 {{- end_comment }}
 {%- else -%}
-{% set lines = license_text.split('\n') %}
-{% for line in lines %}
-{% if loop.first and line | trim == '' -%}
-{# Skip the very first empty line if there is one #}
-{%- elif line | trim == '' -%}
+{%- set lines = license_text.split('\n') -%}
+{%- for line in lines -%}
+{%- set trimmed_line = line | trim -%}
+{%- if loop.first and trimmed_line == "" -%}
+{%- elif trimmed_line == "" -%}
 #
 {%- else -%}
-# {{ line | trim }}
-{% endif -%}
-{% endfor %}
+# {{ trimmed_line }}
+{%- endif -%}
+{%- endfor -%}
 {%- endif -%}
 {%- endmacro -%}
