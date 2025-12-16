@@ -23,7 +23,7 @@
 {%- endif -%}
 {# Generate the core license text #}
 {%- set license_text -%}
-{{- project_name }}
+{{ project_name }}
 Copyright (c) {% now 'utc', '%Y' %}, {{ author }}
 
 {% if license_type == "MIT" -%}
@@ -46,7 +46,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-{%- elif license_type == "GPL-3.0" -%}
+{% elif license_type == "GPL-3.0" -%}
 SPDX-License-Identifier: GPL-3.0-or-later
 
 This program is free software: you can redistribute it and/or modify
@@ -62,7 +62,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <www.gnu.org>.
 
-{%- elif license_type == "Apache-2.0" -%}
+{% elif license_type == "Apache-2.0" -%}
 SPDX-License-Identifier: Apache-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -76,7 +76,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-{%- elif license_type == "BSD-3" -%}
+{% elif license_type == "BSD-3" -%}
 SPDX-License-Identifier: BSD-3-Clause
 
 Redistribution and use in source and binary forms, with or without
