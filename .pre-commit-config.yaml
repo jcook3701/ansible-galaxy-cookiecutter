@@ -28,6 +28,7 @@ repos:
     rev: 25.11.0
     hooks:
       - id: black
+        exclude: '{{ cookiecutter.project_slug }}/.*'
 
   - repo: local
     hooks:

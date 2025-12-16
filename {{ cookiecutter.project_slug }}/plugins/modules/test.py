@@ -3,10 +3,5 @@
   cookiecutter.license,
   cookiecutter.author,
   cookiecutter.project_slug,
-  file_name='./meta/runtime.yml',
+  file_name='test.py',
   comment_style='hash') -}}
----
-requires_ansible: ">=2.15.0"
-plugin_routing:
-  modules: {}
-...
