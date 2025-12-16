@@ -4,6 +4,7 @@ extends: default
 ignore:
   - .venv
   - changelogs
+  - '{{ cookiecutter.project_slug }}'
 
 rules:
   line-length:

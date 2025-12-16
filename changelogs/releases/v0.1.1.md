@@ -125,6 +125,7 @@ Feat 002 (#7)
 - *(header)* Got license headers working.
 - *(header)* Got license headers working.
 - *(header)* Got license headers working.
+- *(header)* Got license headers working.
 
 ### 🚜 Refactoring
 

@@ -25,6 +25,9 @@ jobs:
         run: |
           make install
 
-      - name: Lint YAML files
+      - name: Render Cookiecutter Template
+        run: |
+          make render-cookiecutter
+      - name: Lint Toml files in rendered template.
         run: |
           make toml-lint-check

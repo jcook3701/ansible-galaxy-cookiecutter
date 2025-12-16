@@ -28,7 +28,6 @@ CI := 1
 else
 CI := 0
 endif
-
 # --------------------------------------------------
 # 🏗️ CI/CD Functions
 # --------------------------------------------------
@@ -60,7 +59,6 @@ GITHUB_REPO := $(GITHUB_USER)/$(PACKAGE_NAME)
 # 📁 Build Directories
 # --------------------------------------------------
 PROJECT_ROOT := $(PWD)
-COOKIE_DIR := $(PROJECT_ROOT)/{{ cookiecutter.project_slug }}
 HOOKS_DIR := $(PROJECT_ROOT)/hooks
 SRC_DIR := $(HOOKS_DIR)
 TEST_DIR := $(PROJECT_ROOT)/tests
@@ -79,6 +77,12 @@ README_FILE := $(PROJECT_ROOT)/README.md
 CHANGELOG_FILE := $(CHANGELOG_DIR)/CHANGELOG.md
 CHANGELOG_RELEASE_FILE := $(CHANGELOG_RELEASE_DIR)/$(RELEASE).md
 # --------------------------------------------------
+# 🍪 Template Directories (cookiecutter)
+# --------------------------------------------------
+COOKIE_DIR := $(PROJECT_ROOT)/{{ cookiecutter.project_slug }}
+COOKIE_MACRO_DIR := $(COOKIE_DIR)/.cookiecutter_includes
+RENDERED_COOKIE_DIR := /tmp/rendered
+# --------------------------------------------------
 # 🐍 Python / Virtual Environment
 # --------------------------------------------------
 PYTHON_CMD := python3.11
@@ -96,6 +100,10 @@ CREATE_VENV := $(PYTHON_CMD) -m venv $(VENV_DIR)
 ACTIVATE := source $(VENV_DIR)/bin/activate
 PYTHON := $(ACTIVATE) && $(PYTHON_CMD)
 PIP := $(PYTHON) -m pip
+# --------------------------------------------------
+# 🍪 Render template (cookiecutter)
+# --------------------------------------------------
+COOKIECUTTER := cookiecutter
 # --------------------------------------------------
 # 🧬 Dependency Management (deptry)
 # --------------------------------------------------
@@ -242,11 +250,19 @@ format-fix: black-formatter-fix
 # --------------------------------------------------
 # 🔍 Linting (jinja2, ruff, toml, & yaml)
 # --------------------------------------------------
+# NOTE: Nutri-matic needs to be installed in current working env for this to work.
+render-cookiecutter:
+	$(AT)rm -rf $(RENDERED_COOKIE_DIR)
+	$(AT)$(COOKIECUTTER) . --no-input \
+		--output-dir $(RENDERED_COOKIE_DIR) \
+		--overwrite-if-exists
+
+# TODO: Need test if cookiecutter has been rendered in $(RENDERED_COOKIE_DIR)
+
 jinja2-lint-check:
-	$(AT)echo "🔍 jinja2 linting all template files under $(COOKIE_DIR)..."
+	$(AT)echo "🔍 jinja2 linting all template files under $(COOKIE_MACRO_DIR)..."
 	$(AT)jq '{cookiecutter: .}' cookiecutter.json > /tmp/_cc_wrapped.json
-	$(AT)find '$(COOKIE_DIR)' -type f \
-		! -path "$(COOKIE_DIR)/.github/*" \
+	$(AT) find '$(COOKIE_MACRO_DIR)' -type f \
 		! -name "*.png" \
 		! -name "*.jpg" \
 		! -name "*.ico" \
@@ -257,7 +273,7 @@ jinja2-lint-check:
 				$(JINJA) "$$f" /tmp/_cc_wrapped.json || exit 1; \
 			fi; \
 		done
-	$(AT)echo "✅ Finished linting check of jinja2 files with jinja2!"
+	$(AT)echo "✅ Finished linting check of jinja2 macro files with jinja2!"
 
 ruff-lint-check:
 	$(AT)echo "🔍 Running ruff linting..."
@@ -276,7 +292,7 @@ ruff-lint-fix:
 toml-lint-check:
 	$(AT)echo "🔍 Running Tomllint..."
 	$(AT)$(ACTIVATE) && \
-		find $(PROJECT_ROOT) -name "*.toml" \
+		find $(RENDERED_COOKIE_DIR) -name "*.toml" \
 			! -path "$(VENV_DIR)/*" \
 			! -path "*{{*" \
 			! -path "*}}*" \
@@ -285,10 +301,10 @@ toml-lint-check:
 
 yaml-lint-check:
 	$(AT)echo "🔍 Running yamllint..."
-	$(AT)$(YAMLLINT) .
+	$(AT)$(YAMLLINT) $(RENDERED_COOKIE_DIR)
 	$(AT)echo "✅ Finished linting check of yaml files with yamllint!"
 
-lint-check: jinja2-lint-check ruff-lint-check toml-lint-check yaml-lint-check
+lint-check: render-cookiecutter ruff-lint-check toml-lint-check yaml-lint-check
 lint-fix: ruff-lint-fix
 # --------------------------------------------------
 # 🎓 Spellchecker (codespell)
