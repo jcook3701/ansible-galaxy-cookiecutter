@@ -14,7 +14,7 @@
     {%- set end_comment = newline + '-->' -%}
 {%- else -%}
     {# Default to hash/pound symbol for yaml, toml, shell scripts, etc. #}
-    {%- set start_comment = '# ' -%}
+    {%- set start_comment = '#' -%}
     {%- set end_comment = newline -%}
 {%- endif -%}
 
@@ -102,19 +102,19 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {%- endif -%}
 {%- endset -%}
-
-{{ start_comment -}}
-
 {# Wrap the generated text with the appropriate start and end delimiters #}
 {%- if comment_style == 'python' or comment_style == 'html' -%}
+{{ start_comment -}}
 {{ license_text | trim }}
-{%- else -%}
-    {# Hash comments: use replace to add '# ' to the start of all lines #}
-    {%- set commented_text = license_text | trim | replace('\n', '\n# ') -%}
-    {# Then use replace again to remove the space specifically from blank lines #}
-    {%- set commented_text = commented_text | replace('\n# ', '\n#') -%}
-    {# Output the final text, ensuring the first line starts correctly #}
-{{ commented_text }}
-{%- endif -%}
 {{- end_comment }}
+{%- else -%}
+    {# For hash comments, prefix every line with '#' #}
+    {%- if commented_text == '/n' -%}
+        {% set commented_text = license_text | trim | replace('\n', '\n#') %}
+    {%- else -%}
+        {% set commented_text = license_text | trim | replace('\n', '\n# ') %}
+    {%- endif -%}
+#{{ commented_text }}
+{%- endif -%}
+
 {%- endmacro -%}
