@@ -111,9 +111,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     {% set text = license_text | trim %}
     {# For hash comments, prefix every line with '#' #}
     {%- if text == '/n' -%}
-        {% set commented_text = text | replace('\n', '\n#') %}
+        {%- set commented_text = text | replace('\n', '\n#') -%}
     {%- else -%}
-         | {% commented_text = text | replace('\n', '\n# ') %}
+        {%- set commented_text = text | replace('\n', '\n# ') -%}
     {%- endif -%}
 #{{ commented_text }}
 {%- endif -%}
