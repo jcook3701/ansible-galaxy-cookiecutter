@@ -106,16 +106,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {{ license_text | trim }}
 {{- end_comment }}
 {%- else -%}
-    {% set text = license_text.split('\n') | trim %}
-    {# For hash comments, prefix every line with '#' #}
-    {% for line in text %}
-        {%- if text == '\n' -%}
-            {%- set commented_line = line | replace('\n', '\n#') -%}
-        {%- else -%}
-            {%- set commented_line = line | replace('\n', '\n# ') -%}
-        {%- endif -%}
-#{{ commented_line }}
-    {% endfor %}
+
+{% set text = license_text.split('\n') | trim %}
+{# For hash comments, prefix every line with '#' #}
+{% for line in text %}
+    {%- if text == '\n' -%}
+        {%- set commented_line = line | replace('\n', '\n#') -%}
+    {%- else -%}
+        {%- set commented_line = line | replace('\n', '\n# ') -%}
+    {%- endif -%}
+#{{ line }}
+{% endfor %}
 {%- endif -%}
 
 {%- endmacro -%}
