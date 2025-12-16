@@ -32,6 +32,11 @@
   "_copy_without_render": [
     ".github/workflows/*"
   ],
+  "_jinja2_env_vars": {
+    "lstrip_blocks": true,
+    "trim_blocks": true,
+    "keep_trailing_newline": false
+  },
   "add_github_docs": true,
   "add_sphinx_docs": true
 }
