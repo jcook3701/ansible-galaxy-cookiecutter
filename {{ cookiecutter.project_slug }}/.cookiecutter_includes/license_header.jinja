@@ -111,9 +111,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {%- for line in text -%}
 {%- set trimmed_line = line | trim -%}
 {%- if line == '' or line == '\n' -%}
-    {%- set commented_line = trimmed_line -%}
+{%- set commented_line = trimmed_line -%}
 {%- else -%}
-    {%- set commented_line = " " + trimmed_line -%}
+{%- set commented_line = " " + trimmed_line -%}
 {%- endif -%}
 #{{ commented_line }}
 {% endfor -%}
