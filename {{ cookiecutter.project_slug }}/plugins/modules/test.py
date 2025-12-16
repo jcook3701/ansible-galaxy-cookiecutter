@@ -4,6 +4,6 @@
   cookiecutter.author,
   cookiecutter.project_slug,
   file_name='test.py',
-  comment_style='python') -}}
+  comment_style='python') }}
 
 import sphinx
