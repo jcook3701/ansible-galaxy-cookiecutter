@@ -1,11 +1,11 @@
 # galaxy.yml
 {%- import '.cookiecutter_includes/license_header.jinja' as license_macros with context -%}
-{{ license_macros.license_header(
+{{- license_macros.license_header(
   cookiecutter.license,
   cookiecutter.author,
-  file_name='galaxy.yml',
   cookiecutter.project_slug,
-  comment_style='hash') }}
+  file_name='galaxy.yml',
+  comment_style='hash') -}}
 ---
 namespace: "{{ cookiecutter.__namespace }}"
 name: "{{ cookiecutter.__project_name }}"
