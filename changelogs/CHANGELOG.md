@@ -129,6 +129,7 @@ Feat 002 (#7)
 ### 🚜 Refactoring
 
 - *(license)* Reformat of license texts to be in alphabetical order.
+- *(license)* Reformat of license texts to be in alphabetical order.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous
