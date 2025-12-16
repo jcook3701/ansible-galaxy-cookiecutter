@@ -4,7 +4,6 @@
 {%- set start_comment = "" -%}
 {%- set end_comment = "" -%}
 {%- set newline = "\n" -%}
-
 {# Determine the correct comment style #}
 {%- if comment_style == 'python' -%}
     {%- set start_comment = '"""' + newline -%}
@@ -17,7 +16,6 @@
     {%- set start_comment = '#' -%}
     {%- set end_comment = newline -%}
 {%- endif -%}
-
 {# Generate the core license text #}
 {%- set license_text -%}
 {{ project_name }}
@@ -110,7 +108,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {%- else -%}
     {% set text = license_text | trim %}
     {# For hash comments, prefix every line with '#' #}
-    {%- if text == '/n' -%}
+    {%- if text == '\n' -%}
         {%- set commented_text = text | replace('\n', '\n#') -%}
     {%- else -%}
         {%- set commented_text = text | replace('\n', '\n# ') -%}
