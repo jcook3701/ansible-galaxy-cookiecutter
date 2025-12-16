@@ -26,7 +26,7 @@
 {{- project_name }}
 Copyright (c) {% now 'utc', '%Y' %}, {{ author }}
 
-{%- if license_type == "MIT" -%}
+{% if license_type == "MIT" -%}
 SPDX-License-Identifier: MIT
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
