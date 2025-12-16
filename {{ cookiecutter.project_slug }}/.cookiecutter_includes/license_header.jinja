@@ -115,7 +115,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     {%- else -%}
         {%- set commented_line = " " + line -%}
     {%- endif -%}
-#{{ line }}
+#{{ commented_line }}
 {% endfor %}
 {%- endif -%}
 
