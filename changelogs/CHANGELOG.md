@@ -125,6 +125,10 @@ Feat 002 (#7)
 - *(header)* Got license headers working.
 - *(header)* Got license headers working.
 - *(header)* Got license headers working.
+
+### 🚜 Refactoring
+
+- *(license)* Reformat of license texts to be in alphabetical order.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous

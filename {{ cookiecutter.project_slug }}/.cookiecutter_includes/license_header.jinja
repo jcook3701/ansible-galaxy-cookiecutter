@@ -29,7 +29,7 @@
 {# Generate the core license text #}
 {% set license_text %}
 {{ file_name }} for {{ project_name }}
-
+--------------------------------------------------
 Copyright (c) {% now 'utc', '%Y' %}, {{ author }}
 {% if license_type == "Apache-2.0" -%}
 SPDX-License-Identifier: Apache-2.0
