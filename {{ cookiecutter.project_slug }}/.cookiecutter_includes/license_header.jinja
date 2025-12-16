@@ -20,7 +20,6 @@
 {%- set license_text -%}
 {{- project_name }}
 Copyright (c) {% now 'utc', '%Y' %}, {{ author }}
-
 {%- if license_type == "MIT" -%}
 SPDX-License-Identifier: MIT
 
@@ -109,11 +108,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {%- set text = license_text.split('\n') -%}
 {# For hash comments, prefix every line with '#' #}
 {%- for line in text -%}
-    {%- if line == '' or line == '\n' -%}
-        {%- set commented_line = line -%}
-    {%- else -%}
-        {%- set commented_line = " " + line -%}
-    {%- endif -%}
+{%- if line == '' or line == '\n' -%}
+    {%- set commented_line = line -%}
+{%- else -%}
+    {%- set commented_line = " " + line -%}
+{%- endif -%}
 #{{ commented_line }}
 {% endfor %}
 {%- endif -%}
