@@ -34,8 +34,7 @@
   ],
   "_jinja2_env_vars": {
     "lstrip_blocks": true,
-    "trim_blocks": true,
-    "keep_trailing_newline": false
+    "trim_blocks": true
   },
   "add_github_docs": true,
   "add_sphinx_docs": true
