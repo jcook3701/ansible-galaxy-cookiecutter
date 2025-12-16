@@ -126,6 +126,7 @@ Feat 002 (#7)
 - *(header)* Got license headers working.
 - *(header)* Got license headers working.
 - *(header)* Got license headers working.
+- *(cookiecutter)* Setup cookiecutter renderer within build to make it possible to lint toml and yaml files before committing edits.
 
 ### 🚜 Refactoring
 

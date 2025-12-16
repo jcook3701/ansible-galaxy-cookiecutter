@@ -103,7 +103,7 @@ PIP := $(PYTHON) -m pip
 # --------------------------------------------------
 # 🍪 Render template (cookiecutter)
 # --------------------------------------------------
-COOKIECUTTER := cookiecutter
+COOKIECUTTER := $(ACTIVATE) && cookiecutter
 # --------------------------------------------------
 # 🧬 Dependency Management (deptry)
 # --------------------------------------------------
