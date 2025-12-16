@@ -73,6 +73,7 @@ Feat 002 (#7)
 - *(header)* Trying to fix too many newlines being added above header.
 - *(header)* Trying to fix too many newlines being added above header.
 - *(header)* Trying to fix too many newlines being added above header.
+- *(header)* Trying to fix too many newlines being added above header.
 
 ### 🚀 Added
 
