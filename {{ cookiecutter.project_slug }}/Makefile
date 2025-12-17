@@ -1,8 +1,10 @@
-# Makefile for {{ cookiecutter.project_slug }}
-# =========================================
-# Project: {{ cookiecutter.__project_name }}
-# =========================================
-
+{% import '.cookiecutter_includes/license_header.j2' as license_macros with context %}
+{{- license_macros.license_header(
+	cookiecutter.license,
+	cookiecutter.author,
+	cookiecutter.project_slug,
+	file_name='Makefile',
+	comment_style='hash') -}}
 # --------------------------------------------------
 # ⚙️ Environment Settings
 # --------------------------------------------------
@@ -62,11 +64,10 @@ GITHUB_REPO = $(GITHUB_USER)/$(PACKAGE_NAME)
 # --------------------------------------------------
 # 📁 Build Directories
 # --------------------------------------------------
-LIBRARY_DIR := $(PROJECT_ROOT)/library
 PLAYBOOKS_DIR := $(PROJECT_ROOT)/playbooks
 PLUGINS_DIR := $(PROJECT_ROOT)/plugins
 ROLES_DIR := $(PROJECT_ROOT)/roles
-SRC_DIR := $(PLUGINS_DIR) $(LIBRARY_DIR)
+SRC_DIR := $(PLUGINS_DIR)
 TESTS_DIR := $(PROJECT_ROOT)/tests
 DOCS_DIR := $(PROJECT_ROOT)/docs
 SPHINX_DIR := $(DOCS_DIR)/sphinx
@@ -200,7 +201,6 @@ list-python-folders:
 	$(AT)printf "\
 	🐍 Python Source Paths: 📁\n\
 	🔌 Plugins: $(PLUGINS_DIR)\n\
-	🏛️ Libraries: $(LIBRARY_DIR)\n\
 	🧪 Test: $(TESTS_DIR)\n"
 # --------------------------------------------------
 # 🩹 Hacks (ansible-autodoc)

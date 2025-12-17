@@ -10,17 +10,17 @@
   "email": "jcook3701+github@gmail.com",
   "version": "1.0.0",
   "license": [
-    "MIT",
     "GPL-3.0",
     "Apache-2.0",
-    "BSD-3"
+    "BSD-3-Clause",
+    "MIT"
   ],
   "__copyright": "Copyright (c) {% now 'utc', '%Y' %} {{ cookiecutter.author }}",
   "description": "Description of Ansible Galaxy project",
   "release_summary": "Initial Release of {{ cookiecutter.project_slug }}",
   "python_version": [
-    "3.10",
-    "3.11"
+    "3.11",
+    "3.10"
   ],
   "__python_target_version": "py{{ cookiecutter.python_version|replace('.', '') }}",
   "ga_tracking": "G-C7PWLWSHB9",
@@ -32,6 +32,10 @@
   "_copy_without_render": [
     ".github/workflows/*"
   ],
+  "_jinja2_env_vars": {
+    "lstrip_blocks": true,
+    "trim_blocks": true
+  },
   "add_github_docs": true,
   "add_sphinx_docs": true
 }

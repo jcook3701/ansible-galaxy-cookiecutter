@@ -14,11 +14,11 @@ repos:
       - id: mixed-line-ending
         args: [--fix=lf]
       - id: check-yaml
-        exclude: '{{ cookiecutter.project_slug }}/changelogs/changelog.yml'
+        exclude: '{{ cookiecutter.project_slug }}/.*'
       - id: check-json
-        exclude: '{{ cookiecutter.project_slug }}/docs/cookiecutter_input.json'
+        exclude: '{{ cookiecutter.project_slug }}/.*'
       - id: check-toml
-        exclude: '{{ cookiecutter.project_slug }}/cliff.toml'
+        exclude: '{{ cookiecutter.project_slug }}/.*'
       - id: detect-private-key
       - id: check-case-conflict
       - id: check-added-large-files
@@ -28,6 +28,7 @@ repos:
     rev: 25.11.0
     hooks:
       - id: black
+        exclude: '{{ cookiecutter.project_slug }}/.*'
 
   - repo: local
     hooks:

@@ -42,6 +42,7 @@ dev = [
   "bump-my-version>=1.2",
   "black>=25.11",
   "codespell>=2.4",
+  "cookiecutter>=2.6",
   "coverage>=7.12",
   "deptry>=0.24",
   "json-lint-tools>=0.1",

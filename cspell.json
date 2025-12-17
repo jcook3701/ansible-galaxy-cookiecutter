@@ -8,6 +8,7 @@
         "cookiecutter_project_upgrader",
         "cli",
         "mkdirp",
+        "pyproject",
         "tsmerge",
         "githubusercontent",
         "streetsidesoftware",
