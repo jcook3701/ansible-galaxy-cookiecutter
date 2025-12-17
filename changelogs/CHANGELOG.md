@@ -59,6 +59,10 @@ Feat 002 (#7)
 
 Feat 003 (#10)
 
+### 🐛 Fixed
+
+- *(cspell)* Updated cspell to allow a few more words.
+
 ### 🚀 Added
 
 - *(git)* Init check to make sure that the project has not already been initialized.
