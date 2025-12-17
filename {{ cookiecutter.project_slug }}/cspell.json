@@ -10,6 +10,7 @@
         "{{ cookiecutter.project_slug }}",
         "{{ cookiecutter.github_username }}",
         "codespell",
+        "cookiecutter",
         "cli",
         "mkdirp",
         "tsmerge",

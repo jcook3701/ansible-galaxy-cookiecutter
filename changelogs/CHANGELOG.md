@@ -58,6 +58,10 @@ Feat 002 (#7)
 - Merge pull request #11 from jcook3701/develop
 
 Feat 003 (#10)
+
+### 🚀 Added
+
+- *(git)* Init check to make sure that the project has not already been initialized.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous
