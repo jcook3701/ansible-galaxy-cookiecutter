@@ -82,6 +82,7 @@ CHANGELOG_RELEASE_FILE := $(CHANGELOG_RELEASE_DIR)/$(RELEASE).md
 COOKIE_DIR := $(PROJECT_ROOT)/{{ cookiecutter.project_slug }}
 COOKIE_MACRO_DIR := $(COOKIE_DIR)/.cookiecutter_includes
 RENDERED_COOKIE_DIR := /tmp/rendered
+RENDERED_VENV_DIR := $(RENDERED_COOKIE_DIR)/**/.venv
 # --------------------------------------------------
 # 🐍 Python / Virtual Environment
 # --------------------------------------------------
@@ -175,6 +176,28 @@ PRECOMMIT := $(ACTIVATE) && pre-commit
 # --------------------------------------------------
 NUTRIMATIC := $(PYTHON) -m nutrimatic
 # --------------------------------------------------
+# Functions
+# --------------------------------------------------
+# Finds files of a given extension or "*" (all files) under a directory,
+# skipping VENV_DIR and template markers like {{ }}.
+define get_files_by_extension
+	find $(1) -name "$(2)" \
+		! -path "$(VENV_DIR)/*" \
+		! -path "$(RENDERED_VENV_DIR)/*" \
+		! -path "*{{*" \
+		! -path "*}}*" \
+		-print0
+endef
+
+JINJA_FILE_LIST := ( \
+		$(call get_files_by_extension,$(PROJECT_ROOT),*.j2); \
+		$(call get_files_by_extension,$(RENDERED_COOKIE_DIR),*.j2) \
+	)
+TOML_FILE_LIST := 	( \
+		$(call get_files_by_extension,$(PROJECT_ROOT),*.toml); \
+		$(call get_files_by_extension,$(RENDERED_COOKIE_DIR),*.toml) \
+	)
+# --------------------------------------------------
 .PHONY: all list-folders venv install pre-commit-init security \
 	dependency-check black-formatter-check black-formatter-fix \
 	format-check format-fix ruff-lint-check ruff-lint-fix \
@@ -250,24 +273,18 @@ format-fix: black-formatter-fix
 # --------------------------------------------------
 # 🔍 Linting (jinja2, ruff, toml, & yaml)
 # --------------------------------------------------
-# NOTE: Nutri-matic needs to be installed in current working env for this to work.
 render-cookiecutter:
 	$(AT)rm -rf $(RENDERED_COOKIE_DIR)
 	$(AT)$(COOKIECUTTER) . --no-input \
 		--output-dir $(RENDERED_COOKIE_DIR) \
 		--overwrite-if-exists
 
-# TODO: Need test if cookiecutter has been rendered in $(RENDERED_COOKIE_DIR)
-
 jinja2-lint-check:
-	$(AT)echo "🔍 jinja2 linting all template files under $(COOKIE_MACRO_DIR)..."
+	$(AT)echo "🔍 jinja2 lint..."
 	$(AT)jq '{cookiecutter: .}' cookiecutter.json > /tmp/_cc_wrapped.json
-	$(AT) find '$(COOKIE_MACRO_DIR)' -type f \
-		! -name "*.png" \
-		! -name "*.jpg" \
-		! -name "*.ico" \
-		! -name "*.gif" \
-		-print0 | while IFS= read -r -d '' f; do \
+	$(AT)$(JINJA_FILE_LIST) | tr '\0' '\n'
+	$(AT)$(ACTIVATE) && $(JINJA_FILE_LIST) | \
+		while IFS= read -r -d '' f; do \
 			if file "$$f" | grep -q text; then \
 				echo "Checking $$f"; \
 				$(JINJA) "$$f" /tmp/_cc_wrapped.json || exit 1; \
@@ -291,16 +308,15 @@ ruff-lint-fix:
 
 toml-lint-check:
 	$(AT)echo "🔍 Running Tomllint..."
+	$(AT)$(TOML_FILE_LIST) | tr '\0' '\n'
 	$(AT)$(ACTIVATE) && \
-		find $(RENDERED_COOKIE_DIR) -name "*.toml" \
-			! -path "$(VENV_DIR)/*" \
-			! -path "*{{*" \
-			! -path "*}}*" \
-			-print0 | xargs -0 -n 1 $(TOMLLINT)
-	$(AT)echo "✅ Finished linting check of toml configuration files with Tomllint!"
+		$(TOML_FILE_LIST) \
+		| xargs -0 -n 1 $(TOMLLINT)
+	$(AT)echo "✅ Finished linting check of toml files with Tomllint!"
 
 yaml-lint-check:
 	$(AT)echo "🔍 Running yamllint..."
+	$(AT)$(YAMLLINT) $(PROJECT_ROOT)
 	$(AT)$(YAMLLINT) $(RENDERED_COOKIE_DIR)
 	$(AT)echo "✅ Finished linting check of yaml files with yamllint!"
 
