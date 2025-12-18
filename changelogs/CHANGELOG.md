@@ -62,6 +62,7 @@ Feat 003 (#10)
 ### 🐛 Fixed
 
 - *(cspell)* Updated cspell to allow a few more words.
+- *(cspell)* Updated cspell to allow a few more words.
 
 ### 🚀 Added
 

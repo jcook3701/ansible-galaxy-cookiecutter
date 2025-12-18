@@ -236,7 +236,7 @@ install: venv
 # --------------------------------------------------
 pre-commit-init:
 	$(AT)echo "📦 Installing pre-commit hooks and hook-types..."
-	$(AT)which $(GIT) >/dev/null || { $(AT)echo "Git is required"; exit 1; }
+	$(AT)which $(GIT) >/dev/null || { echo "Git is required"; exit 1; }
 	$(AT)$(PRECOMMIT) install --install-hooks
 	$(AT)$(PRECOMMIT) install --hook-type pre-commit --hook-type commit-msg
 	$(AT)echo "✅ pre-commit dependencies installed!"

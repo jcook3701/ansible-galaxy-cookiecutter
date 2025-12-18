@@ -184,5 +184,5 @@ $ cargo install git-cliff
 
 ### Authors Hidden TODO's
 
-1.
+1. [cla](https://github.com/marketplace/actions/cla-assistant-lite) for contributors.
 --->

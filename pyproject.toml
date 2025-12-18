@@ -77,6 +77,27 @@ include = [
   "hooks*",
 ]
 # ====================================
+# Black Configuration: (Formatting)
+# ====================================
+[tool.black]
+line-length = 88          # Maximum line length (default is 88)
+target-version = ["py311"] # Target Python version(s)
+skip-string-normalization = false  # Whether to skip normalizing string quotes
+include = '\.pyi?$'       # Which files to include (regex)
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+# ====================================
 # Version Bumping (bump-my-version):
 # ====================================
 [tool.bumpversion]
