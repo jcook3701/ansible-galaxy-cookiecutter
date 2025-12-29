@@ -1,0 +1,88 @@
+# cliff.toml for ansible-galaxy-cookiecutter
+#
+# Copyright (c) 2025, Jared Cook
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <www.gnu.org>.
+#
+
+# Git-Cliff config for hybrid changelog system
+[git]
+conventional_commits = true
+filter_unconventional = false
+include_commits = "all"
+
+commit_parsers = [
+    { message = "^init", group = "🌱 Init", type = "init" },
+    { message = "^feat", group = "🚀 Added", type = "feat" },
+    { message = "^fix", group = "🐛 Fixed", type = "fix" },
+    { message = "^doc", group = "📚 Documentation", type = "docs" },
+    { message = "^perf", group = "⚡ Performance", type = "perf" },
+    { message = "^refactor", group = "🚜 Refactoring", type = "refactor" },
+    { message = "^style", group = "🎨 Styling", type = "style" },
+    { message = "^test", group = "🧪 Tests", type = "test" },
+    { message = "^deprecate", group = "⚠️ Deprecated", type = "deprecate" },
+    { message = "^remove", group = "🚫 Removed", type = "remove" },
+    { message = "^security", group = "🔒 Security", type = "security" },
+    { message = "^chore|^ci", group = "⚙️  Miscellaneous", type = "chore" },
+    { message = ".*", group = "⚙️  Miscellaneous", type = "chore" },
+]
+
+exclude = [
+    "^Merge",
+    "^chore: bump version",
+    "^chore: update changelog",
+    "^docs: update readme",
+]
+
+[sections]
+"🌱 Init" = ["init"]
+"🚀 Added" = ["feat"]
+"🐛 Fixed" = ["fix"]
+"📚 Documentation" = ["docs"]
+"⚡ Performance" = ["perf"]
+"🚜 Refactoring" = ["refactor"]
+"🎨 Styling" = ["style"]
+"🧪 Tests" = ["test"]
+"⚠️ Deprecated" = ["deprecate"]
+"🚫 Removed" = ["remove"]
+"🔒 Security" = ["security"]
+"👷 CI" = ["ci"]
+"🔨 Build System" = ["build"]
+"⚙️  Miscellaneous" = ["chore"]
+
+[changelog]
+# This tells git-cliff to manage the file persistently
+header = """
+# --------------------------------------------------
+# Changelog:
+# --------------------------------------------------
+
+"""
+# This setting controls how new entries are added
+prepend = true
+
+# Sorts commits from oldest to newest within each release section
+sort = "oldest"
+# Hides sections if they have no commits in that release
+filter_sections = true
+# Use a custom template to define the output format
+template = """
+{% for section, commits in sections %}
+## {{ section | striptags | trim }}
+{% for commit in commits %}
+* {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}]({{ commit.external_link }}))
+{% endfor %}
+{% endfor %}
+"""

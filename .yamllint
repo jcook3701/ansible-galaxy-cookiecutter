@@ -1,0 +1,54 @@
+# .yamllint for ansible-galaxy-cookiecutter
+#
+# Copyright (c) 2025, Jared Cook
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <www.gnu.org>.
+#
+---
+extends: default
+ignore:
+  - .venv
+  - changelogs
+  - '{{ cookiecutter.project_slug }}'
+
+rules:
+  line-length:
+    max: 120
+    level: warning
+  braces:
+    min-spaces-inside: 0
+    max-spaces-inside: 1
+  comments:
+    # prettier compatibility
+    min-spaces-from-content: 1
+  comments-indentation: false
+  document-start:
+    present: true
+    level: error
+  key-duplicates:
+    forbid-duplicated-merge-keys: true
+  indentation:
+    level: error
+    indent-sequences: consistent
+  octal-values:
+    forbid-implicit-octal: true
+    forbid-explicit-octal: true
+  quoted-strings:
+    quote-type: double
+    required: false
+    level: warning
+  truthy:
+    allowed-values:
+      ["true", "false", "yes", "no", "on", "off"]
