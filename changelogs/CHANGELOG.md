@@ -63,6 +63,7 @@ Feat 003 (#10)
 
 - *(cspell)* Updated cspell to allow a few more words.
 - *(cspell)* Updated cspell to allow a few more words.
+- *(build)* Fixes for black within pyproject.toml.
 
 ### 🚀 Added
 
