@@ -68,6 +68,7 @@ Feat 003 (#10)
 ### 🚀 Added
 
 - *(git)* Init check to make sure that the project has not already been initialized.
+- *(template)* Setup template upgrade from cookiecutter-cookiecutter project.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous

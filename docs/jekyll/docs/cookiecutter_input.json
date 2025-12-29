@@ -1,0 +1,26 @@
+{
+    "_checkout": null,
+    "_copy_without_render": [
+        "README.md",
+        "_includes/*"
+    ],
+    "_jinja2_env_vars": {
+        "lstrip_blocks": true,
+        "trim_blocks": true
+    },
+    "_output_dir": "/home/jcook/Documents/git_repo/ansible-galaxy-cookiecutter/.git/cookiecutter/ansible-galaxy-cookiecutter/docs/_tmp_docs",
+    "_repo_dir": "/home/jcook/.cookiecutters/github-docs-cookiecutter",
+    "_template": "https://github.com/jcook3701/github-docs-cookiecutter.git",
+    "author": "Jared Cook",
+    "buymeacoffee_username": "jcook3701",
+    "description": "Typescript cookiecutter project.",
+    "email": "jcook3701+github@gmail.com",
+    "ga_tracking": "G-C7PWLWSHB9",
+    "github_username": "jcook3701",
+    "linkedin_usercode": "jared-cook-b3585a114",
+    "project_name": "ansible-galaxy-cookiecutter",
+    "project_slug": "ansible-galaxy-cookiecutter",
+    "theme": "pmarsceill/just-the-docs",
+    "twitter_username": "",
+    "version": "0.1.1"
+}

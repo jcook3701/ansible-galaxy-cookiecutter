@@ -1,0 +1,5 @@
+# =========================================
+# cookiecutter project upgrader attributes #
+# =========================================
+cookiecutter.json merge=ours
+**/README.md* merge=ours

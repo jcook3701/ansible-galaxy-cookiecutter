@@ -1,181 +1,177 @@
-# Ansible Galaxy Cookiecutter
+<!--
+  Auto-generated file. Do not edit directly.
+  Edit /home/jcook/Documents/git_repo/ansible-galaxy-cookiecutter/docs/jekyll/README.md instead.
+  Run ```make readme``` to regenerate this file
+-->
+<h1 id="ansible-galaxy-cookiecutter">ansible-galaxy-cookiecutter</h1>
 
-__Author:__ Jared Cook  
-__Version:__ 0.1.1  
+<p><strong>Author:</strong> Jared Cook<br />
+<strong>Version:</strong> 0.1.1</p>
 
-## Overview:
-Ansible Galaxy cookiecutter template project /w Ansible Auto Documentation + [Github docs](https://github.com/jcook3701/github-docs-cookiecutter) template generation + [Sphinx docs](https://github.com/jcook3701/sphinx-cookiecutter) template generation.  
+<h2 id="overview">Overview</h2>
+<p>Typescript cookiecutter project.</p>
 
-![black-format](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/black-format.yml/badge.svg)
-![dependency-check](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/dependency-check.yml/badge.svg)
-![jinja2-lint](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/jinja2-lint.yml/badge.svg)
-![ruff-lint](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/ruff-lint.yml/badge.svg)
-![security-audit](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/security-audit.yml/badge.svg)
-![spellcheck](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/spellcheck.yml/badge.svg)
-![tests](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/tests.yml/badge.svg)
-![typecheck](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/typecheck.yml/badge.svg)
-![yaml-lint](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/yaml-lint.yml/badge.svg)
+<p>Ansible Galaxy cookiecutter template project /w Ansible Auto Documentation + <a href="https://github.com/jcook3701/github-docs-cookiecutter">Github docs</a> template generation + <a href="https://github.com/jcook3701/sphinx-cookiecutter">Sphinx docs</a> template generation.</p>
 
-__Note:__ Unless you are using a newer version of cookiecutter >= 2, ```--no-input``` is necessary for template generation without error.  
+<hr />
 
-## Usage Examples:
-__Example:__ Pull from main branch.  
-__Note:__ [Nutri-Matic](https://github.com/jcook3701/nutri-matic) is needed in active python environment.  
+<p><img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/black-format.yml/badge.svg" alt="black-format" />
+<img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/dependency-check.yml/badge.svg" alt="dependency-check" />
+<img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/jinja2-lint.yml/badge.svg" alt="jinja2-lint" />
+<img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/ruff-lint.yml/badge.svg" alt="ruff-lint" />
+<img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/security-audit.yml/badge.svg" alt="security-audit" />
+<img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/spellcheck.yml/badge.svg" alt="spellcheck" />
+<img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/tests.yml/badge.svg" alt="tests" />
+<img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/typecheck.yml/badge.svg" alt="typecheck" />
+<img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/yaml-lint.yml/badge.svg" alt="yaml-lint" /></p>
 
-```shell
-$ cookiecutter git@github.com:jcook3701/ansible-galaxy-cookiecutter.git \
-    --no-input \
-    namespace="jcook3701" \
-    project_name="test-project" \
-    description="Ansible test project."
-```
+<p><strong>Note:</strong> Unless you are using a newer version of cookiecutter &gt;= 2, <code class="language-plaintext highlighter-rouge">--no-input</code> is necessary for template generation without error.</p>
 
-__Example:__ Pull from develop branch.  
+<h2 id="usage-examples">Usage Examples:</h2>
+<p><strong>Example:</strong> Pull from main branch.<br />
+<strong>Note:</strong> <a href="https://github.com/jcook3701/nutri-matic">Nutri-Matic</a> is needed in active python environment.</p>
 
-```shell
-$ cookiecutter git@github.com:jcook3701/ansible-galaxy-cookiecutter.git \
-    --checkout develop \
-     --no-input \
-    namespace="jcook3701" \
-    project_name="test-project" \
-    description="Ansible test project."
-```
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>cookiecutter git@github.com:jcook3701/ansible-galaxy-cookiecutter.git <span class="se">\</span>
+    <span class="nt">--no-input</span> <span class="se">\</span>
+    <span class="nv">namespace</span><span class="o">=</span><span class="s2">"jcook3701"</span> <span class="se">\</span>
+    <span class="nv">project_name</span><span class="o">=</span><span class="s2">"test-project"</span> <span class="se">\</span>
+    <span class="nv">description</span><span class="o">=</span><span class="s2">"Ansible test project."</span>
+</code></pre></div></div>
 
-__Note:__ replace ```test-project``` or any of the other variables with real context configuration variables.  
+<p><strong>Example:</strong> Pull from develop branch.</p>
 
-***
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>cookiecutter git@github.com:jcook3701/ansible-galaxy-cookiecutter.git <span class="se">\</span>
+    <span class="nt">--checkout</span> develop <span class="se">\</span>
+     <span class="nt">--no-input</span> <span class="se">\</span>
+    <span class="nv">namespace</span><span class="o">=</span><span class="s2">"jcook3701"</span> <span class="se">\</span>
+    <span class="nv">project_name</span><span class="o">=</span><span class="s2">"test-project"</span> <span class="se">\</span>
+    <span class="nv">description</span><span class="o">=</span><span class="s2">"Ansible test project."</span>
+</code></pre></div></div>
 
-## Development Strategy:
+<p><strong>Note:</strong> replace <code class="language-plaintext highlighter-rouge">test-project</code> or any of the other variables with real context configuration variables.</p>
 
-__Note:__ All Makefile commands are used in ci/cd to ensure that if they pass locally they should also pass once pushed to github.  
-### 🐍️ Build environment (.venv)
+<hr />
 
-``` shell
-$ make install
-```
+<h2 id="development-strategy">Development Strategy:</h2>
 
-### 🧬 Dependency Management (deptry)
+<p><strong>Note:</strong> All Makefile commands are used in ci/cd to ensure that if they pass locally they should also pass once pushed to github.</p>
+<h3 id="️-build-environment-venv">🐍️ Build environment (.venv)</h3>
 
-```shell
-$ make dependency-check
-```
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make <span class="nb">install</span>
+</code></pre></div></div>
 
-### 🛡️ Security Audit (pip-audit)
+<h3 id="-dependency-management-deptry">🧬 Dependency Management (deptry)</h3>
 
-```shell
-$ make security
-```
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make dependency-check
+</code></pre></div></div>
 
-### 🎨 Formatting (black)
+<h3 id="️-security-audit-pip-audit">🛡️ Security Audit (pip-audit)</h3>
 
-```shell
-$ make format-check
-```
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make security
+</code></pre></div></div>
 
-```shell
-$ make format-fix
-```
+<h3 id="-formatting-black">🎨 Formatting (black)</h3>
 
-### 🔍 Linting (jinja2-cli, ruff, tomllint, & yaml-lint)
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make format-check
+</code></pre></div></div>
 
-``` shell
-$ make lint-check
-```
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make format-fix
+</code></pre></div></div>
 
-``` shell
-$ make lint-fix
-```
+<h3 id="-linting-jinja2-cli-ruff-tomllint--yaml-lint">🔍 Linting (jinja2-cli, ruff, tomllint, &amp; yaml-lint)</h3>
 
-### 🎓 Spellchecking (codespell)
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make lint-check
+</code></pre></div></div>
 
-```shell
-$ make spellcheck
-```
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make lint-fix
+</code></pre></div></div>
 
-### 🧠 Typechecking (mypy)
+<h3 id="-spellchecking-codespell">🎓 Spellchecking (codespell)</h3>
 
-``` shell
-$ make typecheck
-```
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make spellcheck
+</code></pre></div></div>
 
-### 🧪 Testing (pytest)
+<h3 id="-typechecking-mypy">🧠 Typechecking (mypy)</h3>
 
-``` shell
-$ make test
-```
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make typecheck
+</code></pre></div></div>
 
-### 🚀 Release (git tag)
+<h3 id="-testing-pytest">🧪 Testing (pytest)</h3>
 
-```shell
-$ make release
-```
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make <span class="nb">test</span>
+</code></pre></div></div>
 
-### ❓ Build Help
+<h3 id="-release-git-tag">🚀 Release (git tag)</h3>
 
-``` shell
-$ make help
-```
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make release
+</code></pre></div></div>
 
-## Commit Help:
+<h3 id="-build-help">❓ Build Help</h3>
 
-__Note:__ Commits are required to be conventional git commit message.  This helps with the auto-generation of the changelog files and is enforced by pre-commit.  
-__example:__  
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make <span class="nb">help</span>
+</code></pre></div></div>
 
-```shell
-<type>[optional scope]: <description>
+<h2 id="commit-help">Commit Help:</h2>
 
-[optional body]
+<p><strong>Note:</strong> Commits are required to be conventional git commit message.  This helps with the auto-generation of the changelog files and is enforced by pre-commit.<br />
+<strong>example:</strong></p>
 
-[optional footer(s)]
-```
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;<span class="nb">type</span><span class="o">&gt;[</span>optional scope]: &lt;description&gt;
 
-* ```<type>```: A required noun that describes the nature of the change.  
-* ```[optional scope]```: An optional phrase within parentheses that specifies the part of the codebase being affected (e.g., fix(parser):).  
-* ```<description>```: A required short, imperative-mood summary of the changes.  
-* ```[optional body]```: A longer description providing additional context and "what and why" details.  
-* ```[optional footer(s)]```: Used for adding meta-information, such as issue references (Fixes #123) or indicating breaking changes.  
+<span class="o">[</span>optional body]
 
-***
+<span class="o">[</span>optional footer<span class="o">(</span>s<span class="o">)]</span>
+</code></pre></div></div>
 
-## Requirements:
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">&lt;type&gt;</code>: A required noun that describes the nature of the change.</li>
+  <li><code class="language-plaintext highlighter-rouge">[optional scope]</code>: An optional phrase within parentheses that specifies the part of the codebase being affected (e.g., fix(parser):).</li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;description&gt;</code>: A required short, imperative-mood summary of the changes.</li>
+  <li><code class="language-plaintext highlighter-rouge">[optional body]</code>: A longer description providing additional context and “what and why” details.</li>
+  <li><code class="language-plaintext highlighter-rouge">[optional footer(s)]</code>: Used for adding meta-information, such as issue references (Fixes #123) or indicating breaking changes.</li>
+</ul>
 
-__Python 3.11__  
+<hr />
 
-```shell
-$ sudo apt install python3.11
-```
+<h2 id="requirements">Requirements:</h2>
 
-__[Nutri-Matic](https://github.com/jcook3701/nutri-matic)__  
-__Note:__ This is needed for the cookiecutter hooks to run correctly.  Without this package installed in active python environment cookiecutter pull will fail.  
+<p><strong>Python 3.11</strong></p>
 
-```shell
-$ pip install nutri-matic
-```
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>apt <span class="nb">install </span>python3.11
+</code></pre></div></div>
 
-__[rustup](https://rust-lang.org/tools/install/)__  
-__Note:__ I found that it is easiest to use rustup to manage rustc and cargo but this is not required.  
-__Example:__ Install rustup with the following:  
+<p><strong><a href="https://github.com/jcook3701/nutri-matic">Nutri-Matic</a></strong><br />
+<strong>Note:</strong> This is needed for the cookiecutter hooks to run correctly.  Without this package installed in active python environment cookiecutter pull will fail.</p>
 
-```shell
-$ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-```
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>pip <span class="nb">install </span>nutri-matic
+</code></pre></div></div>
 
-__[git-cliff](https://git-cliff.org/)__  
-__Note:__ git-cliff can generate changelog files from the Git history by utilizing conventional commits as well as regex-powered custom parsers.  
+<p><strong><a href="https://rust-lang.org/tools/install/">rustup</a></strong><br />
+<strong>Note:</strong> I found that it is easiest to use rustup to manage rustc and cargo but this is not required.<br />
+<strong>Example:</strong> Install rustup with the following:</p>
 
-```shell
-$ cargo install git-cliff
-```
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">--proto</span> <span class="s1">'=https'</span> <span class="nt">--tlsv1</span>.2 <span class="nt">-sSf</span> https://sh.rustup.rs | sh
+</code></pre></div></div>
 
-***
+<p><strong><a href="https://git-cliff.org/">git-cliff</a></strong><br />
+<strong>Note:</strong> git-cliff can generate changelog files from the Git history by utilizing conventional commits as well as regex-powered custom parsers.</p>
 
-### Authors Notes:
-1. This code currently works with cookiecutter 1.7 from Ubuntu's apt repositories.
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>cargo <span class="nb">install </span>git-cliff
+</code></pre></div></div>
 
-### TODO's
-1. Update pyproject.toml to use latest version of cookiecutter to get latest features.
-2. Update cookiecutter.json with:
-	```"license": ["MIT", "GPLv3", "Apache 2.0"],```
+<hr />
+
+<h3 id="authors-notes">Authors Notes:</h3>
+<ol>
+  <li>This code currently works with cookiecutter 1.7 from Ubuntu’s apt repositories.</li>
+</ol>
+
+<h3 id="todos">TODO’s</h3>
+<ol>
+  <li>Update pyproject.toml to use latest version of cookiecutter to get latest features.</li>
+  <li>Update cookiecutter.json with:
+ <code class="language-plaintext highlighter-rouge">"license": ["MIT", "GPLv3", "Apache 2.0"],</code></li>
+</ol>
 
 <!--
 ### Helpful Emojis:

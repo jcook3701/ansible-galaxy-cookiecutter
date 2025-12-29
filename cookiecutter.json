@@ -17,6 +17,7 @@
   ],
   "__copyright": "Copyright (c) {% now 'utc', '%Y' %} {{ cookiecutter.author }}",
   "description": "Description of Ansible Galaxy project",
+  "release_summary": "Initial Release of {{ cookiecutter.project_slug }}",
   "python_version": [
     "3.11",
     "3.10"
@@ -27,10 +28,7 @@
   "twitter_username": "",
   "linkedin_usercode": "jared-cook-b3585a114",
   "buymeacoffee_username": "jcook3701",
-  "theme": [
-    "pmarsceill/just-the-docs",
-    "carlosperate/jekyll-theme-rtd"
-  ],
+  "theme": ["pmarsceill/just-the-docs", "carlosperate/jekyll-theme-rtd"],
   "_copy_without_render": [
     ".github/workflows/*"
   ],
