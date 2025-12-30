@@ -58,6 +58,7 @@ Feat 002 (#7)
 - Merge pull request #11 from jcook3701/develop
 
 Feat 003 (#10)
+- Update template
 
 ### 🐛 Fixed
 
@@ -69,6 +70,7 @@ Feat 003 (#10)
 
 - *(git)* Init check to make sure that the project has not already been initialized.
 - *(template)* Setup template upgrade from cookiecutter-cookiecutter project.
+- *(chore)* Upgraded project from cookiecutter-cookiecutter.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous

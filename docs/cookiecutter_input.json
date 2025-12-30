@@ -25,7 +25,7 @@
     "_hooks": {
         "post_gen_make_cmds": {
             "build-docs": false,
-            "changelog": true,
+            "changelog": false,
             "git-init": true,
             "install": true,
             "pre-commit-init": true
