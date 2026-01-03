@@ -1,0 +1,167 @@
+<!-- social-bar -->
+<div id="social-bar">
+  <ul class="icons" style="vertical-align: middle">
+    {% if site.twitter_username %}
+    <li>
+      <a
+        class="icon circle twitter"
+        href="https://x.com/{{ site.twitter_username }}"
+        title="Twitter"
+      >
+        <i class="fab fa-x-twitter"></i>
+      </a>
+    </li>
+    {% endif %}
+    <!-- Linkedin Link -->
+    {% if site.linkedin_usercode %}
+    <li>
+      <a
+        class="icon circle linkedin"
+        href="https://www.linkedin.com/in/{{ site.linkedin_usercode }}/"
+        title="LinkedIn"
+      >
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+    {% endif %}
+    <!-- GitHub Link -->
+    {% if site.github_username %}
+    <li>
+      <a
+        class="icon circle github"
+        href="https://github.com/{{ site.github_username }}"
+        title="GitHub"
+      >
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+    {% endif %}
+    <!-- Buy Me A Coffee Link -->
+    <!-- Buy Me A Coffee Link -->
+    {% if site.buymeacoffee_username %}
+    <li>
+      <a
+        href="https://www.buymeacoffee.com/{{ site.buymeacoffee_username }}"
+        class="icon circle buymeacoffee"
+        title="Buy me a coffee"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i class="fa-solid fa-mug-hot"></i>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</div>
+
+<style>
+  /* ================================
+   * Social Bar Styling
+   * ================================ */
+
+  #social-bar {
+    text-align: center;
+    padding: 1rem 1rem;
+  }
+
+  /* Icon List */
+  #social-bar .icons {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  /* ensure li itself has no marker */
+  #social-bar .icons li {
+    display: inline-flex;
+    list-style: none;
+  }
+
+  #social-bar .icons li::before {
+    content: none !important;
+  }
+
+  /* Circle Icon Styling */
+  #social-bar .icon.circle {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #fff;
+    color: #111;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+    position: relative;
+  }
+
+  /* Brand icon colors when not hovered */
+  #social-bar .fa-x-twitter {
+    color: #333;
+  }
+  #social-bar .fa-linkedin {
+    color: #0077b5;
+  }
+  #social-bar .fa-github {
+    color: #333;
+  }
+  #social-bar .fa-mug-hot {
+    color: #f4b400; /* coffee-like color by default */
+  }
+
+  /* Hover effect: circle background changes, icon inside turns white */
+  #social-bar .icon.circle:hover {
+    background-color: currentColor; /* optional if you want circle to match brand */
+  }
+
+  /* Make icons inside turn white on hover of parent circle */
+  #social-bar .icon.circle:hover i,
+  #social-bar .icon.circle:hover svg {
+    color: #fff !important;
+  }
+
+  #social-bar .icon.twitter:hover {
+    background-color: #333;
+    color: #fff;
+  }
+
+  #social-bar .icon.linkedin:hover {
+    background-color: #0077b5;
+    color: #fff;
+  }
+
+  #social-bar .icon.github:hover {
+    background-color: #333;
+    color: #fff;
+  }
+
+  #social-bar .icon.buymeacoffee:hover {
+    background-color: #f4b400;
+    color: #fff;
+  }
+
+  /* Buy Me a Coffee Wrapper */
+  #social-bar .bmc-wrapper {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    #social-bar .icon.circle {
+      width: 44px;
+      height: 44px;
+      font-size: 1.1rem;
+    }
+  }
+</style>

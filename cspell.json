@@ -1,0 +1,51 @@
+{
+    "version": "0.2",
+    "language": "en",
+    "useGitignore": true,
+    "words": [
+        "bumpversion",
+        "cli",
+        "codespell",
+        "cookiecutter",
+        "cookiecutter_project_upgrader",
+        "deptry",
+        "ehthumbs",
+        "gitcliff",
+        "githubusercontent",
+        "mkdirp",
+        "nutrimatic",
+        "nutri-matic",
+        "pipaudit",
+        "pip-audit",
+        "pyproject",
+        "pytest",
+        "rpmnew",
+        "streetsidesoftware",
+        "tomllint",
+        "tsmerge",
+        "upgrader",
+        "venv",
+        "visualstudio",
+        "vsmarketplacebadge"
+    ],
+    "flagWords": [
+        "hte"
+    ],
+    "dictionaries": [
+        "bash",
+        "companies",
+        "css",
+        "docker",
+        "django",
+        "filetypes",
+        "git",
+        "html",
+        "javascript",
+        "misc",
+        "npm",
+        "python",
+        "python-common",
+        "softwareTerms",
+        "typescript"
+    ]
+}
