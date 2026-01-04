@@ -15,15 +15,15 @@
 
 <hr />
 
-<p><img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/black-format.yml/badge.svg" alt="black-format" />
-<img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/dependency-check.yml/badge.svg" alt="dependency-check" />
-<img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/jinja2-lint.yml/badge.svg" alt="jinja2-lint" />
-<img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/ruff-lint.yml/badge.svg" alt="ruff-lint" />
+<p><img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/dependency-check.yml/badge.svg" alt="dependency-check" />
+<img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/format-check.yml/badge.svg" alt="format-check" />
+<img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/lint-check.yml/badge.svg" alt="lint-check" />
 <img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/security-audit.yml/badge.svg" alt="security-audit" />
 <img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/spellcheck.yml/badge.svg" alt="spellcheck" />
 <img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/tests.yml/badge.svg" alt="tests" />
-<img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/typecheck.yml/badge.svg" alt="typecheck" />
-<img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/yaml-lint.yml/badge.svg" alt="yaml-lint" /></p>
+<img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/typecheck.yml/badge.svg" alt="typecheck" /></p>
+
+<hr />
 
 <p><strong>Note:</strong> Unless you are using a newer version of cookiecutter &gt;= 2, <code class="language-plaintext highlighter-rouge">--no-input</code> is necessary for template generation without error.</p>
 
