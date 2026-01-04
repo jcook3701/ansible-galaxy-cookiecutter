@@ -1,0 +1,59 @@
+{#
+# make/phony.j2 for cookiecutter-cookiecutter
+#
+# Copyright (c) 2025, Jared Cook
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <www.gnu.org>.
+#}
+
+{% macro phony(
+    jekyll_enabled,
+    sphinx_enabled
+) -%}
+    {%- set targets = [
+        'all', 'list-folders'
+    ] -%}
+    {%- set python_targets = [
+        'venv', 'install', 'pre-commit-init', 'security',
+        'dependency-check', 'black-formatter-check', 'black-formatter-fix',
+        'render-cookiecutter', 'jinja2-lint-check', 'ruff-lint-check',
+        'ruff-lint-fix', 'toml-lint-check', 'yaml-lint-check'
+    ] -%}
+    {%- set ci_cd_targets = [
+        'format-check', 'format-fix', 'lint-check', 'lint-fix',
+        'spellcheck', 'typecheck', 'test'
+    ] -%}
+    {%- set release_targets = [
+        'build-docs', 'bump-version-patch', 'changelog',
+        'git-release', 'pre-commit', 'pre-release', 'release'
+    ] -%}
+    {%- set internal_tool_targets = [
+        'clean-docs', 'clean-build', 'clean', 'version', 'help'
+    ] -%}
+
+    {# TODO: Thinking about adding a python_enabled selection to this... #}
+    {%- do targets.extend(python_targets) -%}
+    {%- do targets.extend(ci_cd_targets) -%}
+    {%- if sphinx_enabled %}{% do targets.append('sphinx') %}{% endif %}
+	{%- if jekyll_enabled %}{% do targets.extend(['jekyll', 'readme', 'jekyll-serve', 'run-docs']) %}{% endif %}
+    {%- do targets.extend(release_targets) -%}
+    {%- do targets.extend(internal_tool_targets) -%}
+
+{# .PHONY: {{ targets | join(' \\\n\t') }} #}
+.PHONY:
+{%- for group in targets | batch(4) %}
+{{ ' \\\n\t' }}{{ group | join(' ') }}
+{%- endfor %}
+{%- endmacro -%}

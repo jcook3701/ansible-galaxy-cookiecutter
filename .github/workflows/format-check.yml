@@ -1,4 +1,4 @@
-# tests.yml for ansible-galaxy-cookiecutter
+# black-format.yml for ansible-galaxy-cookiecutter
 #
 # Copyright (c) 2026, Jared Cook
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -17,12 +17,12 @@
 # along with this program.  If not, see <www.gnu.org>.
 #
 ---
-name: Cookiecutter Template Tests
+name: Cookiecutter Template Format Check
 
 on: [push, pull_request]
 
 jobs:
-  tests:
+  black-format-check:
     runs-on: ubuntu-latest
 
     steps:
@@ -34,10 +34,10 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install pytest
+      - name: Install Formatting Tools
         run: |
           make install
 
-      - name: Run tests
+      - name: Black Format Check
         run: |
-            make test
+          make black-formatter-check

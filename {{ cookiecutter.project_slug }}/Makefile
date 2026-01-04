@@ -161,10 +161,12 @@ PATCH := patch
 ANTSICHAUT := $(ACTIVATE) && antsichaut
 ANTSIBULL_CHANGELOG := $(ACTIVATE) && antsibull-changelog
 # --------------------------------------------------
-# 🐙 Github Tools (git)
+# 🐙 Github Tools (git, gh)
 # --------------------------------------------------
 GIT := git
 GITHUB := gh
+# Commands:
+GIT_INIT_STATUS := git rev-parse --is-inside-work-tree > /dev/null 2>&1
 # --------------------------------------------------
 # 🚨 Pre-Commit (pre-commit)
 # --------------------------------------------------
@@ -182,6 +184,10 @@ NUTRIMATIC := $(PYTHON) -m nutrimatic
 # --------------------------------------------------
 AUTODOC_FIX := sed -i 's|yaml.load(yaml_file)|yaml.load(yaml_file, Loader=yaml.SafeLoader)|' \
 	$(VENV_DIR)/lib/$(PYTHON_CMD)/site-packages/ansibleautodoc/Annotation.py
+# --------------------------------------------------
+# Functions
+# --------------------------------------------------
+# (Add functions here)
 # --------------------------------------------------
 .PHONY: all list-python-folders autodoc-hack venv install pre-commit-init security \
 	dependency-check black-formatter-check black-formatter-fix format-check \
@@ -212,11 +218,11 @@ autodoc-hack:
 # --------------------------------------------------
 # Dependency Checks
 # --------------------------------------------------
-git-check:
+git-dependency-check:
 	$(AT)which $(GIT) >/dev/null || \
 		{ echo "Git is required: sudo apt install git"; exit 1; }
 
-gh-check:
+gh-dependency-check:
 	$(AT)which $(GITHUB) >/dev/null || \
 		{ echo "GitHub is required: sudo apt install gh"; exit 1; }
 # --------------------------------------------------
@@ -238,7 +244,7 @@ install: venv
 # --------------------------------------------------
 # 🚨 Pre-Commit (pre-commit)
 # --------------------------------------------------
-pre-commit-init: git-check
+pre-commit-init: git-dependency-check
 	$(AT)echo "📦 Installing pre-commit hooks and hook-types..."
 	$(AT)$(PRECOMMIT) install --install-hooks
 	$(AT)$(PRECOMMIT) install --hook-type pre-commit --hook-type commit-msg
@@ -410,20 +416,28 @@ changelog-release: update-changelog
 # --------------------------------------------------
 # 🐙 Github Commands (git)
 # --------------------------------------------------
-git-init: git-check
-	$(AT)echo "🌱 $(GALAXY_PACKAGE_NAME) Git initialization! 🎉"
-	$(AT)$(GIT) init
-	$(AT)$(GIT) add --all
-	$(AT)$(GIT) commit -m "chore(init): Init commit. \
-		Project $(GALAXY_PACKAGE_NAME) template generation complete."
-	$(AT)echo "✅ Finished Git initialization!"
+git-init: git-dependency-check
+	$(AT)if ! $(GIT_INIT_STATUS); then \
+		echo "🌱 $(GALAXY_PACKAGE_NAME) Git initialization! 🎉"; \
+		$(GIT) init; \
+		$(GIT) add --all; \
+		$(GIT) commit -m "chore(init): Init commit. \
+			Project $(GALAXY_PACKAGE_NAME) template generation complete."; \
+		echo "✅ Finished Git initialization!"; \
+	else \
+		echo "ℹ️ Git is already initialized for $(GALAXY_PACKAGE_NAME)."; \
+	fi
 
-git-release: git-check gh-check
-	$(AT)echo "📦 $(GALAXY_PACKAGE_NAME) Release Tag - $(GALAXY_RELEASE)! 🎉"
-	$(AT)$(GIT) tag -a $(GALAXY_RELEASE) -m "Release $(GALAXY_RELEASE)"
-	$(AT)$(GIT) push origin $(GALAXY_RELEASE)
-	$(AT)$(GITHUB) release create $(REGALAXY_RELEASELEASE) --generate-notes
-	$(AT)echo "✅ Finished uploading Release - $(GALAXY_RELEASE)!"
+git-release: git-dependency-check gh-dependency-check
+	$(AT)if $(GIT_INIT_STATUS); then \
+		echo "📦 $(GALAXY_PACKAGE_NAME) Release Tag - $(GALAXY_RELEASE)! 🎉"; \
+		$(GIT) tag -a $(GALAXY_RELEASE) -m "Release $(GALAXY_RELEASE)"; \
+		$(GIT) push origin $(GALAXY_RELEASE); \
+		$(GITHUB) release create $(REGALAXY_RELEASELEASE) --generate-notes; \
+		echo "✅ Finished uploading Release - $(GALAXY_RELEASE)!"; \
+	else \
+		echo "❌ Git is not yet initialized.  Skipping version release." \
+	fi
 # --------------------------------------------------
 # 🪐 Ansible Galaxy Commands (ansible-galaxy)
 # --------------------------------------------------

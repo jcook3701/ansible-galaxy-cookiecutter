@@ -89,6 +89,27 @@ include = [
   "modules*",
 ]
 # ====================================
+# Black Configuration: (Formatting)
+# ====================================
+[tool.black]
+line-length = 88          # Maximum line length (default is 88)
+target-version = ["{{ cookiecutter.__python_target_version }}"] # Target Python version(s)
+skip-string-normalization = false  # Whether to skip normalizing string quotes
+include = '\.pyi?$'       # Which files to include (regex)
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+# ====================================
 # Version Bumping (bump-my-version):
 # ====================================
 [tool.bumpversion]
@@ -210,27 +231,6 @@ indent-style = "space"
 line-ending = "lf"
 skip-magic-trailing-comma = false
 docstring-code-format = true
-# ====================================
-# Black Configuration: (Formatting)
-# ====================================
-[tool.black]
-line-length = 88          # Maximum line length (default is 88)
-target-version = ["{{ cookiecutter.__python_target_version }}"] # Target Python version(s)
-skip-string-normalization = false  # Whether to skip normalizing string quotes
-include = '\.pyi?$'       # Which files to include (regex)
-exclude = '''
-/(
-    \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
-)/
-'''
 # ====================================
 # Mypy (type-checker) Configuration:
 # ====================================
