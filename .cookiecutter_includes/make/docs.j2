@@ -1,0 +1,173 @@
+{#
+# make/docs.j2 for cookiecutter-cookiecutter
+#
+# Copyright (c) 2025, Jared Cook
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <www.gnu.org>.
+#}
+
+{% macro sphinx_cmds() -%}
+  {# formatted sphinx command string. #}
+sphinx:
+	$(ACTIVATE) && $(MAKE) -C $(SPHINX_DIR) all PUBLISHDIR=$(JEKYLL_SPHINX_DIR)
+{%- endmacro -%}
+
+
+{% macro jekyll_cmds() -%}
+  {# formatted jekyll command string. #}
+jekyll:
+	$(MAKE) -C $(JEKYLL_DIR) all;
+
+jekyll-serve: docs
+	$(MAKE) -C $(JEKYLL_DIR) run;
+
+readme:
+	$(AT)$(NUTRIMATIC) build readme $(JEKYLL_DIR) $(README_FILE) \
+		--tmp-dir $(README_GEN_DIR) --jekyll-cmd '$(JEKYLL_BUILD)'
+{%- endmacro -%}
+
+
+{% macro generate_doc_title(jekyll_enabled, sphinx_enabled) -%}
+  {#
+    Generates a formatted documentation title string based on active tools.
+
+    Args:
+      jekyll_enabled (bool): Whether GitHub/Jekyll is being used.
+      sphinx_enabled (bool): Whether Sphinx is being used.
+
+    Returns:
+      String: A combined title like "Sphinx + Jekyll + nutrimatic".
+  #}
+    {%- set title -%}
+        {% if sphinx_enabled -%}Sphinx{%- endif -%}
+        {% if sphinx_enabled and jekyll_enabled %} + {% endif -%}
+        {% if jekyll_enabled -%}Jekyll + nutrimatic{%- endif -%}
+    {%- endset -%}
+# --------------------------------------------------
+# 📚 Documentation ({{ title }})
+# --------------------------------------------------
+{%- endmacro -%}
+
+
+{% macro docs_cmds(jekyll_enabled, sphinx_enabled) -%}
+  {#
+    Generates a formatted documentation command string based on active tools.
+
+    Args:
+      jekyll_enabled (bool): Whether GitHub/Jekyll is being used.
+      sphinx_enabled (bool): Whether Sphinx is being used.
+
+    Returns:
+      String: A combined command string for both build-docs and run-docs".
+  #}
+    {%- set sphinx_cmds = sphinx_cmds() -%}
+    {%- set jekyll_cmds = jekyll_cmds() -%}
+
+    {%- set docs_body -%}
+        {% if sphinx_enabled and jekyll_enabled %}
+{{ sphinx_cmds }}
+
+{{ jekyll_cmds}}
+        {% elif sphinx_enabled %}
+{{ sphinx_cmds }}
+        {% elif jekyll_enabled %}
+{{ jekyll_cmds }}
+        {% endif %}
+
+# Note: Run as part of pre-commit.  No manual run needed.
+build-docs:
+        {%- if sphinx_enabled %} sphinx {%- endif %}
+        {%- if jekyll_enabled %} jekyll readme
+	$(AT)$(GIT) add $(DOCS_DIR)
+	$(AT)$(GIT) add $(README_FILE)
+
+run-docs: jekyll-serve
+        {%- else -%}
+        {%- endif -%}
+    {%- endset -%}
+{{ docs_body }}
+{%- endmacro -%}
+
+
+{% macro docs_enabled(
+    jekyll_enabled,
+    sphinx_enabled,
+    macro
+)%}
+    {% if not sphinx_enabled and not jekyll_enabled %}
+    {% else %}
+{{ macro }}
+    {%- endif -%}
+{%- endmacro -%}
+
+
+{% macro doc_commands_section(
+    jekyll_enabled,
+    sphinx_enabled
+) -%}
+  {#
+    Generates a formatted Makefile documentation command section based on active tools.
+
+    Args:
+      jekyll_enabled (bool): Whether GitHub/Jekyll is being used.
+      sphinx_enabled (bool): Whether Sphinx is being used.
+
+    Returns:
+      String: Makefile documentation command section.
+  #}
+    {%- set title = generate_doc_title(jekyll_enabled, sphinx_enabled) -%}
+
+    {%- set python_commands_section -%}
+{{ title }}
+        {% if sphinx_enabled %}
+SPHINX := $(PYTHON) -m sphinx -b markdown
+        {% endif %}
+        {% if jekyll_enabled %}
+JEKYLL_BUILD := bundle exec jekyll build --quiet
+JEKYLL_CLEAN := bundle exec jekyll clean
+JEKYLL_SERVE := bundle exec jekyll serve
+        {%- endif -%}
+    {%- endset -%}
+
+    {%- set return = docs_enabled(jekyll_enabled, sphinx_enabled, python_commands_section) -%}
+
+{{ return }}
+{%- endmacro -%}
+
+
+{% macro doc_actions(
+    jekyll_enabled,
+    sphinx_enabled
+) -%}
+  {#
+    Generates a formatted Makefile documentation command section based on active tools.
+
+    Args:
+      jekyll_enabled (bool): Whether GitHub/Jekyll is being used.
+      sphinx_enabled (bool): Whether Sphinx is being used.
+
+    Returns:
+      String: Makefile documentation command section.
+  #}
+    {%- set title = generate_doc_title(jekyll_enabled, sphinx_enabled) -%}
+    {%- set cmds = docs_cmds(jekyll_enabled, sphinx_enabled) -%}
+
+    {%- set make_commands_section %}
+{{ title }}
+{{ cmds }}
+    {%- endset -%}
+    {%- set return = docs_enabled(jekyll_enabled, sphinx_enabled, make_commands_section) -%}
+{{ return }}
+{%- endmacro -%}

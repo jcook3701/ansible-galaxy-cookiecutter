@@ -40,99 +40,38 @@ This reverts commit 560ce6be59543a2e24cd7e670e65bf6662bc4d50.
 - Merge pull request #8 from jcook3701/develop
 
 Feat 002 (#7)
+- Feat 003 (#10)
+
+* feat(license): Updates to license headers.
+
+* fix(header): trying to fix too many newlines being added above header.
+
+* refactor(license): reformat of license texts to be in alphabetical order.
+
+* feat(header): Got license headers working.
+
+* feat(cookiecutter): Setup cookiecutter renderer within build to make it possible to lint toml and yaml files before committing edits.
+
+* fix(build): added cookiecutter to pyproject.toml to allow rendering of project from build.
+
+* feat(build): Created tool to collect files by type and ignores the template directory.  Also Generate cookiecutter template that is linted through to avoid testing by pushing.
+- Merge pull request #11 from jcook3701/develop
+
+Feat 003 (#10)
+- Update template
 
 ### 🐛 Fixed
 
-- *(build)* Removed library as it was replaced by plugins.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(header)* Trying to fix too many newlines being added above header.
-- *(build)* Added cookiecutter to pyproject.toml to allow rendering of project from build.
+- *(cspell)* Updated cspell to allow a few more words.
+- *(cspell)* Updated cspell to allow a few more words.
+- *(build)* Fixes for black within pyproject.toml.
+- *(upgrade)* Fixed upgrade file to remove changelog generation during upgrade.
 
 ### 🚀 Added
 
-- *(license)* Updates to license headers.
-- *(license)* Updates to license headers.
-- *(license)* Updates to license headers.
-- *(header)* Got license headers working.
-- *(header)* Got license headers working.
-- *(header)* Got license headers working.
-- *(header)* Got license headers working.
-- *(header)* Got license headers working.
-- *(cookiecutter)* Setup cookiecutter renderer within build to make it possible to lint toml and yaml files before committing edits.
-
-### 🚜 Refactoring
-
-- *(license)* Reformat of license texts to be in alphabetical order.
-- *(license)* Reformat of license texts to be in alphabetical order.
+- *(git)* Init check to make sure that the project has not already been initialized.
+- *(template)* Setup template upgrade from cookiecutter-cookiecutter project.
+- *(chore)* Upgraded project from cookiecutter-cookiecutter.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous

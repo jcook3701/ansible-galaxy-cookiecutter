@@ -1,4 +1,4 @@
-# tests.yml for ansible-galaxy-cookiecutter
+# lint-check.yml for ansible-galaxy-cookiecutter
 #
 # Copyright (c) 2026, Jared Cook
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -17,12 +17,12 @@
 # along with this program.  If not, see <www.gnu.org>.
 #
 ---
-name: Cookiecutter Template Tests
+name: Cookiecutter Template Lint Check
 
 on: [push, pull_request]
 
 jobs:
-  tests:
+  jinja2-lint:
     runs-on: ubuntu-latest
 
     steps:
@@ -34,10 +34,23 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install pytest
+      - name: Install Linting Tools
         run: |
           make install
 
-      - name: Run tests
+      - name: Render Cookiecutter Template
         run: |
-            make test
+          make render-cookiecutter
+
+      - name: Lint Jinja templates
+        run: |
+          make jinja2-lint-check
+      - name: Run Ruff Lint Check
+        run: |
+          make ruff-lint-check
+      - name: Run Toml Lint Check
+        run: |
+          make toml-lint-check
+      - name: Run YAML Lint Check
+        run: |
+          make yaml-lint-check

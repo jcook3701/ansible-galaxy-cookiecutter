@@ -1,6 +1,7 @@
-# .gitignore for ansible-galaxy-cookiecutter
+{#
+# gitignore.j2 for cookiecutter-cookiecutter
 #
-# Copyright (c) 2026, Jared Cook
+# Copyright (c) 2025, Jared Cook
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 # This program is free software: you can redistribute it and/or modify
@@ -15,11 +16,13 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <www.gnu.org>.
-#
-# =========================================
-# text editor ignores #
-# =========================================
-.vscode/
+#}
+
+{% macro gitignore(
+    template_type
+) -%}
+
+{%- set ansible -%}
 # =========================================
 # Ansible Galaxy Ignores #
 # =========================================
@@ -29,6 +32,9 @@ inventory.yml
 **/vault.yml
 /group_vars
 /host_vars
+{%- endset -%}
+
+{%- set python -%}
 # =========================================
 # Python project ignores #
 # =========================================
@@ -39,58 +45,34 @@ __pycache__/
 .ruff_cache/
 .venv/
 dist/
-# =========================================
-## Default Ignores #
-# =========================================
+{%- endset -%}
 
+{%- set ansible_cookiecutter = ansible ~ '\n' ~ python -%}
+
+{% if template_type == "ansible" %}
+{{ ansible_cookiecutter }}
+{% elif template_type in ["c", "c++", "c/cc", "c/c++"] %}
 # =========================================
-# Backup Extensions #
+# C/C++ Ignores #
 # =========================================
-*.bak
-*.old
-*.save
-# =========================================
-# Emacs Tmp Extensions #
-# =========================================
-*.tmp
-*.tmp.*
-*.rpmnew
-.#*
-# =========================================
-# Compiled source Extensions #
-# =========================================
-*.com
-*.class
-*.dll
-*.exe
 *.o
-*.so
+*.a
+*.out
+{% elif template_type in ["cookiecutter", "python"] %}
+{{ python }}
+{% elif template_type == "ros2" %}
 # =========================================
-# Package Extensions #
+# ROS2 Ignores #
 # =========================================
-# it's better to unpack these files and commit the raw source
-# git has its own built in compression methods
-*.7z
-*.dmg
-*.gz
-*.iso
-*.jar
-*.rar
-*.tar
-*.zip
+install/
+build/
+log/
+{% elif template_type == "typescript" %}
 # =========================================
-# Logs and databases Extensions #
+# Typescript Ignores #
 # =========================================
-*.log
-*.sql
-*.sqlite
-# =========================================
-# OS generated files #
-# =========================================
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+node_modules/
+dist/
+*.tsbuildinfo
+{% endif %}
+{%- endmacro -%}

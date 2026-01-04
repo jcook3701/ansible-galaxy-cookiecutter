@@ -1,0 +1,58 @@
+{
+    "__copyright": "Copyright (c) 2025 Jared Cook",
+    "__python": {
+        "keywords": [
+            "ansible",
+            "galaxy",
+            "python3",
+            "cookiecutter",
+            "template",
+            "automation"
+        ],
+        "project_name": "ansible-galaxy-cookiecutter",
+        "target_version": "py311"
+    },
+    "_checkout": "main",
+    "_copy_without_render": [
+        "{{ '{{' }} cookiecutter.project_slug {{ '}}' }}/*",
+        ".cookiecutter_includes/*",
+        ".cookiecutter_includes/**/*"
+    ],
+    "_extensions": [
+        "jinja2.ext.do",
+        "jinja2.ext.loopcontrols"
+    ],
+    "_hooks": {
+        "post_gen_make_cmds": {
+            "build-docs": false,
+            "changelog": false,
+            "git-init": true,
+            "install": true,
+            "pre-commit-init": true
+        }
+    },
+    "_jinja2_env_vars": {
+        "lstrip_blocks": true,
+        "trim_blocks": true
+    },
+    "_output_dir": "/home/jcook/Documents/git_repo/ansible-galaxy-cookiecutter/.git/cookiecutter",
+    "_repo_dir": "/home/jcook/.cookiecutters/cookiecutter-cookiecutter",
+    "_template": "git@github.com:jcook3701/cookiecutter-cookiecutter.git",
+    "add_github_docs": true,
+    "add_sphinx_docs": false,
+    "author": "Jared Cook",
+    "buymeacoffee_username": "jcook3701",
+    "description": "Ansible Galaxy cookiecutter template + integration with (github-docs-cookiecutter) Github docs template generation.",
+    "email": "jcook3701+github@gmail.com",
+    "ga_tracking": "G-C7PWLWSHB9",
+    "github_username": "jcook3701",
+    "license": "GPL-3.0",
+    "linkedin_usercode": "jared-cook-b3585a114",
+    "project_name": "ansible-galaxy-cookiecutter",
+    "project_slug": "ansible-galaxy-cookiecutter",
+    "python_version": "3.11",
+    "template_type": "ansible",
+    "theme": "pmarsceill/just-the-docs",
+    "twitter_username": "",
+    "version": "0.1.1"
+}
