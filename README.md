@@ -9,7 +9,7 @@
 <strong>Version:</strong> 0.1.1</p>
 
 <h2 id="overview">Overview</h2>
-<p>Typescript cookiecutter project.</p>
+<p>Ansible Galaxy cookiecutter template + integration with (github-docs-cookiecutter) Github docs template generation.</p>
 
 <p>Ansible Galaxy cookiecutter template project /w Ansible Auto Documentation + <a href="https://github.com/jcook3701/github-docs-cookiecutter">Github docs</a> template generation + <a href="https://github.com/jcook3701/sphinx-cookiecutter">Sphinx docs</a> template generation.</p>
 

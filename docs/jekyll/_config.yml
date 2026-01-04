@@ -4,7 +4,7 @@
 title: "ansible-galaxy-cookiecutter"
 author: "Jared Cook"
 version: "0.1.1"
-description: "Typescript cookiecutter project."
+description: "Ansible Galaxy cookiecutter template + integration with (github-docs-cookiecutter) Github docs template generation."
 remote_theme: "pmarsceill/just-the-docs"
 ga_tracking: "G-C7PWLWSHB9"
 

@@ -13,7 +13,7 @@
     "_template": "https://github.com/jcook3701/github-docs-cookiecutter.git",
     "author": "Jared Cook",
     "buymeacoffee_username": "jcook3701",
-    "description": "Typescript cookiecutter project.",
+    "description": "Ansible Galaxy cookiecutter template + integration with (github-docs-cookiecutter) Github docs template generation.",
     "email": "jcook3701+github@gmail.com",
     "ga_tracking": "G-C7PWLWSHB9",
     "github_username": "jcook3701",
