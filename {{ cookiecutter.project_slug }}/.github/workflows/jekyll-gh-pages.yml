@@ -10,10 +10,9 @@
 name: Deploy Jekyll site to Pages
 
 on:
-  pull_request:
-    types:
-      - closed
+  push:
     branches:
+      - master
       - main
     paths:
       - "docs/**"
@@ -61,7 +60,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: docs/_site/
-
+{% raw %}
   # Deployment job
   deploy:
     environment:
@@ -73,3 +72,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+{% endraw %}

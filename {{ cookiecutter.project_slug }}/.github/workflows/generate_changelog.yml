@@ -1,4 +1,10 @@
-# .github/workflows/generate_changelog.yml
+{% import '.cookiecutter_includes/license_header.j2' as license_macros with context %}
+{{- license_macros.license_header(
+	cookiecutter.license,
+	cookiecutter.author,
+	cookiecutter.project_slug,
+	file_name='generate_changelog.yml',
+	comment_style='hash') -}}
 ---
 name: Auto-generate Changelog Fragments
 on:
@@ -32,7 +38,7 @@ jobs:
 
       - name: Install dependencies
         run: make install
-
+{% raw %}
       - name: Generate changelog fragments
         # Uses GITHUB_TOKEN to authenticate with GitHub API
         env:
@@ -42,7 +48,7 @@ jobs:
         run: >-
           antsichaut --github_token $GITHUB_TOKEN \
                      --repository $GITHUB_REPO
-
+{% endraw %}
       - name: Lint changelog fragments
         run: antsibull-changelog lint
 

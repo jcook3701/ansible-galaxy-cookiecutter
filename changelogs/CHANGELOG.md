@@ -78,6 +78,10 @@ Feat 003 (#10)
 - Merge pull request #13 from jcook3701/develop
 
 Feat 004 (#12)
+
+### 🐛 Fixed
+
+- *(docs)* Readme badge fix.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous
