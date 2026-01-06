@@ -10,15 +10,15 @@ Ansible Galaxy cookiecutter template project /w Ansible Auto Documentation + [Gi
 
 ***
 
-![black-format](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/black-format.yml/badge.svg)
 ![dependency-check](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/dependency-check.yml/badge.svg)
-![jinja2-lint](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/jinja2-lint.yml/badge.svg)
-![ruff-lint](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/ruff-lint.yml/badge.svg)
+![format-check](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/format-check.yml/badge.svg)
+![lint-check](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/lint-check.yml/badge.svg)
 ![security-audit](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/security-audit.yml/badge.svg)
 ![spellcheck](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/spellcheck.yml/badge.svg)
 ![tests](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/tests.yml/badge.svg)
 ![typecheck](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/typecheck.yml/badge.svg)
-![yaml-lint](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/yaml-lint.yml/badge.svg)
+
+***
 
 __Note:__ Unless you are using a newer version of cookiecutter >= 2, ```--no-input``` is necessary for template generation without error.  
 

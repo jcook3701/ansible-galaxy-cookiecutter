@@ -1,12 +1,14 @@
-# .github/workflows/spellcheck.yml
+{% import '.cookiecutter_includes/license_header.j2' as license_macros with context %}
+{{- license_macros.license_header(
+	cookiecutter.license,
+	cookiecutter.author,
+	cookiecutter.project_slug,
+	file_name='spellcheck.yml',
+	comment_style='hash') -}}
 ---
 name: Codespell Spellcheck
 
-on:
-  push:
-    branches: [main, develop]
-  pull_request:
-    branches: [main, develop]
+on: [push, pull_request]
 
 jobs:
   spellcheck:

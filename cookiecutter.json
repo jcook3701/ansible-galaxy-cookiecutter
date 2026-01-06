@@ -29,13 +29,15 @@
   "linkedin_usercode": "jared-cook-b3585a114",
   "buymeacoffee_username": "jcook3701",
   "theme": ["pmarsceill/just-the-docs", "carlosperate/jekyll-theme-rtd"],
-  "_copy_without_render": [
-    ".github/workflows/*"
-  ],
+  "_copy_without_render": [],
   "_jinja2_env_vars": {
     "lstrip_blocks": true,
     "trim_blocks": true
   },
+  "_extensions": [
+    "jinja2.ext.do",
+    "jinja2.ext.loopcontrols"
+  ],
   "add_github_docs": true,
   "add_sphinx_docs": true
 }
