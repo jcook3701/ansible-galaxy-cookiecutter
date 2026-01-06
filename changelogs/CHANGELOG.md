@@ -82,6 +82,7 @@ Feat 004 (#12)
 ### 🐛 Fixed
 
 - *(docs)* Readme badge fix.
+- *(ci/cd)* Fixed ci/cd to run on feature branches.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous
