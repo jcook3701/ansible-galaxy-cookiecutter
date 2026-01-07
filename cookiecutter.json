@@ -29,6 +29,18 @@
   "linkedin_usercode": "jared-cook-b3585a114",
   "buymeacoffee_username": "jcook3701",
   "theme": ["pmarsceill/just-the-docs", "carlosperate/jekyll-theme-rtd"],
+  "template_type": [
+    "ansible"
+  ],
+  "_hooks": {
+    "post_gen_make_cmds": {
+      "install": true,
+      "git-init": true,
+      "pre-commit-init": true,
+      "changelog": false,
+      "build-docs": false
+    }
+  },
   "_copy_without_render": [],
   "_jinja2_env_vars": {
     "lstrip_blocks": true,

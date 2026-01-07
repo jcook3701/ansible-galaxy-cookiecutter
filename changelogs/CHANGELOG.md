@@ -78,11 +78,16 @@ Feat 003 (#10)
 - Merge pull request #13 from jcook3701/develop
 
 Feat 004 (#12)
+- Feat 005 (#14)
 
-### 🐛 Fixed
+* fix(docs): readme badge fix.
 
-- *(docs)* Readme badge fix.
-- *(ci/cd)* Fixed ci/cd to run on feature branches.
+* fix(ci/cd): fixed ci/cd to run on feature branches.
+
+* fix(jinja): fixed template error in github pages ci/cd.
+- Merge pull request #15 from jcook3701/develop
+
+Feat 005 (#14)
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous
