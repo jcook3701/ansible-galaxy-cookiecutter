@@ -17,7 +17,7 @@ authors = [
     { name="{{ cookiecutter.author }}", email="{{ cookiecutter.email }}" }
 ]
 readme = "./README.md"
-license = "MIT"
+license = "{{ cookiecutter.license }}"
 license-files = ["LICENSE"]
 requires-python = ">={{ cookiecutter.python_version }}"
 dependencies = []
@@ -60,6 +60,7 @@ tools = [
   "pytest>=9.0",
   "pytest-ansible>=1.3",
   "pytest-cov>=7.0",
+  "pytest-custom-exit-code>=0.3.0",
   "ruff>=0.14.0",
   "tomllint>=0.3",
   "yamllint>=1.0",
@@ -126,9 +127,13 @@ filename = "galaxy.yml"
 [[tool.bumpversion.files]]
 filename = "Makefile"
 [[tool.bumpversion.files]]
+filename = "./docs/cookiecutter_input.json"
+[[tool.bumpversion.files]]
 filename = "./docs/jekyll/Makefile"
 [[tool.bumpversion.files]]
 filename = "./docs/jekyll/_config.yml"
+[[tool.bumpversion.files]]
+filename = "./docs/sphinx/Makefile"
 [[tool.bumpversion.files]]
 filename = "./docs/sphinx/conf.py"
 # ====================================

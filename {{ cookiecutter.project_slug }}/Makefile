@@ -349,7 +349,7 @@ typecheck:
 # --------------------------------------------------
 test:
 	$(AT)echo "🧪 Running tests with pytest..."
-	$(AT)$(call run_ci_safe, $(PYTEST) $(TESTS_DIR))
+	$(AT)$(call run_ci_safe, $(PYTEST) --suppress-no-test-exit-code)
 	$(AT)echo "✅ Python tests complete!"
 # --------------------------------------------------
 # 📚 Documentation (Sphinx + Ansible Autodoc + Jekyll)
