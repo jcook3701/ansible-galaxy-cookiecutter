@@ -98,6 +98,7 @@ Feat 005 (#14)
 
 - *(template)* Updates to cookiecutter.json to run hooks.
 - *(template)* Updates to cookiecutter.json to run hooks.
+- *(git)* Added git attributes file.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous

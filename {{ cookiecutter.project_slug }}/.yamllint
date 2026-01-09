@@ -8,8 +8,8 @@
 ---
 extends: default
 ignore: |
-  .venv
-  .git
+  .venv/
+  .git/
   changelogs/.plugin-cache.yaml
 
 rules:
