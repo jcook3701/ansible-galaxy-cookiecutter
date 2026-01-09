@@ -175,6 +175,7 @@ PRECOMMIT := $(ACTIVATE) && pre-commit
 # 🪐 Ansible Galaxy
 # --------------------------------------------------
 ANSIBLE_GALAXY := $(ACTIVATE) && ansible-galaxy
+GALAXY_IMPORTER := $(PYTHON) -m galaxy_importer.main
 # --------------------------------------------------
 # 🏃‍♂️ Nutri-Matic Commands
 # --------------------------------------------------

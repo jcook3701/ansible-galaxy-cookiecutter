@@ -43,6 +43,7 @@ dev = [
   "ansible>=12.0",
   "ansible-core>=2.0",
   "ansible-runner>=2.4",
+  "galaxy-importer>=0.4",
 ]
 tools = [
   "antsibull-changelog>=0.34",
@@ -164,6 +165,13 @@ exclude = [
     "tests/*",
     "docs/*",
 ]
+# ====================================
+# Galaxy Importer Configuration:
+# ====================================
+[galaxy-importer]
+LOG_LEVEL_MAIN = "INFO"
+RUN_ANSIBLE_TEST = false
+ANSIBLE_LOCAL_TMP = '~/.ansible/tmp'
 # ====================================
 # Ruff Configuration: (Linting)
 # ====================================

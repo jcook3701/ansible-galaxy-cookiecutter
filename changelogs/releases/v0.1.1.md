@@ -93,6 +93,7 @@ Feat 005 (#14)
 
 - *(template)* Fixed template ci cd errors.
 - *(build)* Build fixes for license files.
+- *(yamllint)* Updates to yamllint ignore section.
 
 ### 🚀 Added
 
