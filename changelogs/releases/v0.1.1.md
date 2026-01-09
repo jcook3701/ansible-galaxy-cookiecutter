@@ -92,6 +92,7 @@ Feat 005 (#14)
 ### 🐛 Fixed
 
 - *(template)* Fixed template ci cd errors.
+- *(build)* Build fixes for license files.
 
 ### 🚀 Added
 
