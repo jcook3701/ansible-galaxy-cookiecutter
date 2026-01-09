@@ -381,6 +381,9 @@ readme:
 		--tmp-dir $(README_GEN_DIR) --jekyll-cmd '$(JEKYLL_BUILD)'
 
 build-docs: sphinx autodoc jekyll readme
+	$(AT)$(GIT) add $(DOCS_DIR)
+	$(AT)$(GIT) add $(README_FILE)
+
 run-docs: jekyll-serve
 # --------------------------------------------------
 # 🔖 Version Bumping (bumpy-my-version)
