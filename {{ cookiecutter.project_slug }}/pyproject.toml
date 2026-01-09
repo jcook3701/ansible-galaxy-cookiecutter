@@ -133,8 +133,6 @@ filename = "./docs/jekyll/Makefile"
 [[tool.bumpversion.files]]
 filename = "./docs/jekyll/_config.yml"
 [[tool.bumpversion.files]]
-filename = "./docs/sphinx/Makefile"
-[[tool.bumpversion.files]]
 filename = "./docs/sphinx/conf.py"
 # ====================================
 # Codespell Configuration:

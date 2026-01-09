@@ -89,6 +89,10 @@ Feat 004 (#12)
 
 Feat 005 (#14)
 
+### 🐛 Fixed
+
+- *(template)* Fixed template ci cd errors.
+
 ### 🚀 Added
 
 - *(template)* Updates to cookiecutter.json to run hooks.

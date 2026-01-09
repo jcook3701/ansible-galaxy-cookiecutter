@@ -12,8 +12,7 @@ version: "{{ cookiecutter.version }}"
 authors:
   - "{{ cookiecutter.author }} @{{ cookiecutter.github_username }}"
 license:
-  - MIT
-license_file: LICENSE
+  - {{ cookiecutter.license }}
 readme: ./README.md
 description: >
   {{ cookiecutter.description }}

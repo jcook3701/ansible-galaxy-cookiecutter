@@ -436,7 +436,7 @@ git-release: git-dependency-check gh-dependency-check
 		$(GITHUB) release create $(REGALAXY_RELEASELEASE) --generate-notes; \
 		echo "✅ Finished uploading Release - $(GALAXY_RELEASE)!"; \
 	else \
-		echo "❌ Git is not yet initialized.  Skipping version release." \
+		echo "❌ Git is not yet initialized.  Skipping version release."; \
 	fi
 # --------------------------------------------------
 # 🪐 Ansible Galaxy Commands (ansible-galaxy)
@@ -460,7 +460,7 @@ galaxy-publish:
 # --------------------------------------------------
 pre-commit: test security dependency-check format-fix lint-check spellcheck typecheck
 pre-release: clean install pre-commit build-docs changelog galaxy-build
-# release: git-release galaxy-publish bump-version-patch
+release: git-release bump-version-patch
 # --------------------------------------------------
 # 🧹 Clean artifacts
 # --------------------------------------------------

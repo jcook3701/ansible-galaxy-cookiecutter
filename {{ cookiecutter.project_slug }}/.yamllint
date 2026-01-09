@@ -1,10 +1,16 @@
-# .yamllint
+{% import '.cookiecutter_includes/license_header.j2' as license_macros with context %}
+{{- license_macros.license_header(
+  cookiecutter.license,
+  cookiecutter.author,
+  cookiecutter.project_slug,
+  file_name='.yamllint',
+  comment_style='hash') -}}
 ---
 extends: default
-ignore:
-  - .venv
-  - .git
-  - changelogs/.plugin-cache.yaml
+ignore: |
+  .venv
+  .git
+  changelogs/.plugin-cache.yaml
 
 rules:
   line-length:
@@ -21,7 +27,7 @@ rules:
     present: true
     level: error
   key-duplicates:
-    forbid-duplicated-merge-keys: true
+    level: error
   indentation:
     level: error
     indent-sequences: consistent
