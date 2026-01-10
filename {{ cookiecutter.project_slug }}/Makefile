@@ -83,6 +83,7 @@ CHANGELOG_RELEASE_DIR := $(CHANGELOG_DIR)/releases
 README_FILE := $(PROJECT_ROOT)/README.md
 AUTODOC_README_FILE := $(JEKYLL_AUTODOC_DIR)/ansible-autodoc.md
 CHANGELOG_FILE := $(CHANGELOG_DIR)/changelog.yml
+TARBALL := $(GALAXY_NAMESPACE)-$(GALAXY_COLLECTION)-*.tar.gz
 # --------------------------------------------------
 # 🐍 Python / Virtual Environment
 # --------------------------------------------------
@@ -447,18 +448,21 @@ git-release: git-dependency-check gh-dependency-check
 # --------------------------------------------------
 galaxy-build:
 	$(AT)echo "🔨 Building Ansible Galaxy collection... 🪐"
-	$(AT)$(ANSIBLE_GALAXY) collection build $(GALAXY_PATH)
+	$(AT)$(ANSIBLE_GALAXY) collection build $(GALAXY_PATH) --force
 	$(AT)echo "✅ Build complete."
 
 galaxy-install:
 	$(AT)echo "📦 Installing local Ansible Galaxy collection... 🪐"
-	$(AT)$(ANSIBLE_GALAXY) collection install $(GALAXY_NAMESPACE)-$(GALAXY_COLLECTION)-*.tar.gz --force
+	$(AT)$(ANSIBLE_GALAXY) collection install $(TARBALL) --pre --force
 	$(AT)echo "✅ Installed."
 
 galaxy-publish:
 	$(AT)echo "🚀 Publishing collection to Ansible Galaxy... 🪐"
-	$(AT)$(ANSIBLE_GALAXY) collection publish $(GALAXY_NAMESPACE)-$(GALAXY_COLLECTION)-*.tar.gz
+	$(AT)$(ANSIBLE_GALAXY) collection publish $(TARBALL)
 	$(AT)echo "✅ Published."
+
+galaxy-import:
+	$(GALAXY_IMPORTER) $(TARBALL)
 # --------------------------------------------------
 # 📢 Release
 # --------------------------------------------------
@@ -480,10 +484,15 @@ clean-build:
 	$(AT)rm -rf build dist *.egg-info
 	$(AT)find $(SRC_DIR) $(TESTS_DIR) -name "__pycache__" -type d -exec rm -rf {} +
 	$(AT)-[ -d "$(VENV_DIR)" ] && rm -r $(VENV_DIR)
-	$(AT)rm -f $(GALAXY_NAMESPACE)-$(GALAXY_COLLECTION)-*.tar.gz
+	$(AT)rm -f $(TARBALL)
 	$(AT)@echo "✅ Cleaned build artifacts."
 
-clean: clean-docs clean-build
+clean-tests:
+	$(AT)echo "🧹 Cleaning test artifacts..."
+	$(AT)rm -f importer_result.json
+	$(AT)@echo "✅ Cleaned test artifacts."
+
+clean: clean-docs clean-build clean-tests
 # --------------------------------------------------
 # Version
 # --------------------------------------------------

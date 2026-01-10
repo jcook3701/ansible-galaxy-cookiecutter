@@ -95,6 +95,7 @@ Feat 005 (#14)
 - *(build)* Build fixes for license files.
 - *(yamllint)* Updates to yamllint ignore section.
 - *(build)* Fix for build-docs so that pre-commit can continue after docs are built without having to re-run git add command.
+- *(ansible)* Created ansible galaxy-importer.cfg file to store configuration rather than trying to use the pyproject file.
 
 ### 🚀 Added
 

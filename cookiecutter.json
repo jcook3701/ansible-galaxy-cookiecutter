@@ -38,7 +38,7 @@
       "git-init": true,
       "pre-commit-init": true,
       "changelog": true,
-      "build-docs": false
+      "build-docs": true
     }
   },
   "_copy_without_render": [],
