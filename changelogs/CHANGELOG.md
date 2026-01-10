@@ -103,6 +103,7 @@ Feat 005 (#14)
 - *(template)* Updates to cookiecutter.json to run hooks.
 - *(git)* Added git attributes file.
 - *(galaxy)* Setting up galaxy-importer for testing.
+- *(galaxy)* Upgrades getting ready for first sub repository publishing to ansible galaxy.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous

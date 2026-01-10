@@ -30,11 +30,11 @@ jobs:
 
       - name: Install antsichaut
         run: pip install antsichaut
-
+{% raw %}
       - name: Run antsichaut
         run: |
           antsichaut --token ${{ secrets.GITHUB_TOKEN }} --repo ${{ github.repository }}
-
+{% endraw %}
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
