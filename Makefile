@@ -391,7 +391,7 @@ spellcheck:
 typecheck:
 	$(AT)echo "🧠 Checking types (MyPy)..."
 	$(AT)$(MAKE) list-folders
-	$(AT)$(call run_ci_safe, $(MYPY) $(SRC_DIR) $(TESTS_DIR))
+	$(AT)$(call run_ci_safe, $(MYPY) '.')
 	$(AT)echo "✅ Python typecheck complete!"
 # --------------------------------------------------
 # 🧪 Testing (pytest)
@@ -462,7 +462,7 @@ git-release:
 		$(GITHUB) release create $(RELEASE) --generate-notes; \
 	echo "✅ Finished uploading Release - $(RELEASE)! 🎉"; \
 	else \
-		echo "❌ Git is not yet initialized.  Skipping version release." \
+		echo "❌ Git is not yet initialized.  Skipping version release."; \
 	fi
 # --------------------------------------------------
 # 📢 Release

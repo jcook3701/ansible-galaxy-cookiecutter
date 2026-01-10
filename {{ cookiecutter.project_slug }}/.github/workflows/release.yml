@@ -1,0 +1,26 @@
+{% import '.cookiecutter_includes/license_header.j2' as license_macros with context %}
+{{- license_macros.license_header(
+	cookiecutter.license,
+	cookiecutter.author,
+	cookiecutter.project_slug,
+	file_name='release.yml',
+	comment_style='hash') -}}
+---
+name: Publish to Ansible Galaxy
+on:
+  release:
+    types: [published]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+{% raw %}
+      - name: Build and Deploy Collection
+        uses: artis3n/ansible_galaxy_collection@v2
+        with:
+          api_key: ${{ secrets.GALAXY_API_KEY }}
+          # The action will find your galaxy.yml and build the tarball automatically
+{% endraw %}
