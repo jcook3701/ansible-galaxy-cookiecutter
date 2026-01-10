@@ -462,7 +462,7 @@ git-release:
 		$(GITHUB) release create $(RELEASE) --generate-notes; \
 	echo "✅ Finished uploading Release - $(RELEASE)! 🎉"; \
 	else \
-		echo "❌ Git is not yet initialized.  Skipping version release." \
+		echo "❌ Git is not yet initialized.  Skipping version release."; \
 	fi
 # --------------------------------------------------
 # 📢 Release

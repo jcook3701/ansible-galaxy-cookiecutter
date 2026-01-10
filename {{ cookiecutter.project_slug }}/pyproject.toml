@@ -166,13 +166,6 @@ exclude = [
     "docs/*",
 ]
 # ====================================
-# Galaxy Importer Configuration:
-# ====================================
-[galaxy-importer]
-LOG_LEVEL_MAIN = "INFO"
-RUN_ANSIBLE_TEST = false
-ANSIBLE_LOCAL_TMP = '~/.ansible/tmp'
-# ====================================
 # Ruff Configuration: (Linting)
 # ====================================
 [tool.ruff]
