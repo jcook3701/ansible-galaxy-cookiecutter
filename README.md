@@ -5,7 +5,7 @@
 -->
 <h1 id="ansible-galaxy-cookiecutter">ansible-galaxy-cookiecutter</h1>
 
-<p><a href="LICENSE.md"><img src="https://img.shields.io/github/license/jcook3701/cookiecutter-cookiecutter" alt="License" /></a></p>
+<p><a href="LICENSE.md"><img src="https://img.shields.io/github/license/jcook3701/ansible-galaxy-cookiecutter" alt="License" /></a></p>
 
 <p><strong>Author:</strong> Jared Cook<br />
 <strong>Version:</strong> 0.1.1</p>

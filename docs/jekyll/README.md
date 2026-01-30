@@ -1,6 +1,6 @@
 # {{ site.title }}
 
-[![License](https://img.shields.io/github/license/jcook3701/cookiecutter-cookiecutter)](LICENSE.md)
+[![License](https://img.shields.io/github/license/{{ site.github_username }}{{ site.baseurl }})](LICENSE.md)
 
 **Author:** {{ site.author }}  
 **Version:** {{ site.version }}  
