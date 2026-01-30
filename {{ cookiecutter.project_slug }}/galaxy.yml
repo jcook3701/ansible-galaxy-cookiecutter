@@ -1,5 +1,5 @@
-{% import '.cookiecutter_includes/license_header.j2' as license_macros with context %}
-{{- license_macros.license_header(
+{% import '.cookiecutter_includes/license/__init__.j2' as license_macros with context %}
+{{- license_macros.license_header.create(
   cookiecutter.license,
   cookiecutter.author,
   cookiecutter.project_slug,
@@ -12,8 +12,7 @@ version: "{{ cookiecutter.version }}"
 authors:
   - "{{ cookiecutter.author }} @{{ cookiecutter.github_username }}"
 license:
-  - MIT
-license_file: LICENSE
+  - {{ cookiecutter.license }}
 readme: ./README.md
 description: >
   {{ cookiecutter.description }}
@@ -25,29 +24,39 @@ tags:
   - infrastructure
 
 dependencies:
-  jcook3701.pkgs: "*"
-  jcook3701.utils: "*"
-  ansible.builtin: "*"
-  community.general: ">=8.0.0"
+  # jcook3701.pkgs: "*"
+  # jcook3701.utils: "*"
+  community.general: ">=12.0.0"
 
 build_ignore:
-  - .gitignore
-  - .github/
-  - tests/
-  - docs/
-  - scripts/
-  - .venv/
+  - "*.tar.gz"
+  - ".gitignore"
+  - ".gitattributes"
+  - ".git"
+  - ".github"
+  - ".ansible-lint*"
+  - ".mypy_cache"
+  - ".pytest_cache"
+  - ".ruff_cache"
+  - ".yamllint"
+  - ".pre-commit-config.yaml"
+  - "pyproject.toml"
+  - "galaxy-importer.cfg"
+  - "cspell.json"
+  - "autodoc.config.yaml"
+  - ".cookiecutter_includes"
+  - "importer_result.json"
+  - "tests"
+  - "docs"
+  - ".venv"
+  - "Makefile"
 
 repository: >-
-  https://github.com/{{ cookiecutter.github_username }}/\
-  {{ cookiecutter.github_username }}.{{ cookiecutter.project_slug }}
+  https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}
 documentation: >-
-  https://github.com/{{ cookiecutter.github_username }}/\
-  {{ cookiecutter.github_username }}.{{ cookiecutter.project_slug }}/blob/main/README.md
+  https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/blob/master/README.md
 homepage: >-
-  https://github.com/{{ cookiecutter.github_username }}/\
-  {{ cookiecutter.github_username }}.{{ cookiecutter.project_slug }}
+  https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}
 issues: >-
-  https://github.com/{{ cookiecutter.github_username }}/\
-  {{ cookiecutter.github_username }}.{{ cookiecutter.project_slug }}/issues
+  https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/issues
 ...

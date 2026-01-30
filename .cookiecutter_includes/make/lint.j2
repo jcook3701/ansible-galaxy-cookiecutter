@@ -1,19 +1,118 @@
 {#
 # make/lint.j2 for cookiecutter-cookiecutter
 #
-# Copyright (c) 2025, Jared Cook
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
 #
 # This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# GNU Affero General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <www.gnu.org>.
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
+
+{%- macro header(
+    ansible,
+    jinja,
+    ruff,
+    toml,
+    yaml
+) -%}
+    {%- set title -%}
+        {% if ansible -%}Sphinx{%- endif -%}
+        {% if sphinx_enabled and jekyll_enabled %} + {% endif -%}
+        {% if jekyll_enabled -%}Jekyll + nutrimatic{%- endif -%}
+    {%- endset -%}
+# --------------------------------------------------
+# 🔍 Linting (ruff, yaml, jinja2)
+# --------------------------------------------------
+{%- endmacro -%}
+
+
+{%- macro settings(
+    ansible,
+    jinja,
+    ruff,
+    toml,
+    yaml
+) -%}
+RUFF := $(PYTHON) -m ruff
+TOMLLINT := tomllint
+YAMLLINT := $(PYTHON) -m yamllint
+JINJA := $(ACTIVATE) && jinja2 --strict \
+	--extension=cookiecutter.extensions.JsonifyExtension \
+	--extension=cookiecutter.extensions.RandomStringExtension \
+	--extension=cookiecutter.extensions.SlugifyExtension \
+	--extension=cookiecutter.extensions.TimeExtension \
+	--extension=cookiecutter.extensions.UUIDExtension
+{%- endmacro -%}
+
+
+{% macro actions(
+    ansible,
+    jinja,
+    ruff,
+    toml,
+    yaml
+) -%}
+
+# --------------------------------------------------
+# 🔍 Linting (jinja2, ruff, toml, & yaml)
+# --------------------------------------------------
+render-cookiecutter:
+	$(AT)rm -rf $(RENDERED_COOKIE_DIR)
+	$(AT)$(COOKIECUTTER) . --no-input \
+		--output-dir $(RENDERED_COOKIE_DIR) \
+		--overwrite-if-exists
+
+jinja2-lint-check:
+	$(AT)echo "🔍 jinja2 lint..."
+	$(AT)jq '{cookiecutter: .}' cookiecutter.json > /tmp/_cc_wrapped.json
+	$(AT)$(JINJA_FILE_LIST) | tr '\0' '\n'
+	$(AT)$(ACTIVATE) && $(JINJA_FILE_LIST) | \
+		while IFS= read -r -d '' f; do \
+			if file "$$f" | grep -q text; then \
+				echo "Checking $$f"; \
+				$(JINJA) "$$f" /tmp/_cc_wrapped.json || exit 1; \
+			fi; \
+		done
+	$(AT)echo "✅ Finished linting check of jinja2 macro files with jinja2!"
+
+ruff-lint-check:
+	$(AT)echo "🔍 Running ruff linting..."
+	$(AT)$(MAKE) list-folders
+	$(AT)$(RUFF) check --config pyproject.toml $(SRC_DIR) $(TESTS_DIR) \
+		--force-exclude '$(COOKIE_DIR)/pyproject.toml'
+	$(AT)echo "✅ Finished linting check of Python code with Ruff!"
+
+ruff-lint-fix:
+	$(AT)echo "🎨 Running ruff lint fixes..."
+	$(AT)$(RUFF) check --config pyproject.toml --show-files $(SRC_DIR) $(TESTS_DIR)
+	$(AT)$(RUFF) check --config pyproject.toml --fix $(SRC_DIR) $(TESTS_DIR) \
+		--force-exclude '$(COOKIE_DIR)/pyproject.toml'
+	$(AT)echo "✅ Finished linting Python code with Ruff!"
+
+toml-lint-check:
+	$(AT)echo "🔍 Running Tomllint..."
+	$(AT)$(TOML_FILE_LIST) | tr '\0' '\n'
+	$(AT)$(ACTIVATE) && \
+		$(TOML_FILE_LIST) \
+		| xargs -0 -n 1 $(TOMLLINT)
+	$(AT)echo "✅ Finished linting check of toml files with Tomllint!"
+
+yaml-lint-check:
+	$(AT)echo "🔍 Running yamllint..."
+	$(AT)$(YAMLLINT) $(PROJECT_ROOT)
+	$(AT)$(YAMLLINT) $(RENDERED_COOKIE_DIR)
+	$(AT)echo "✅ Finished linting check of yaml files with yamllint!"
+
+lint-check: render-cookiecutter ruff-lint-check toml-lint-check yaml-lint-check
+lint-fix: ruff-lint-fix
+{%- endmacro -%}
