@@ -30,7 +30,7 @@ def test_bake_with_defaults(cookies: Cookies) -> None:
     # Optional sanity checks
     project_name = result.project_path.name
     assert project_name  # non-empty
-    test_file = result.project_path / "LICENSE"
+    test_file = result.project_path / "LICENSE.md"
     assert test_file.exists()
 
 

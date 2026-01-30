@@ -104,6 +104,7 @@ Feat 005 (#14)
 - *(testing)* Testing settings update.
 - *(testing)* Testing settings update.
 - *(template)* Fixed license headers in template. Next is to fix python configuration file.
+- *(template)* This now renders.  Should pass more ci/cd tests.
 
 ### 🚀 Added
 
