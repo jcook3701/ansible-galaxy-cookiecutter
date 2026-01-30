@@ -63,7 +63,7 @@
     "publication_year": "2025",
     "python_version": "3.11",
     "repo_url": "https://github.com/jcook3701/ansible-galaxy-cookiecutter",
-    "template_type": "cookiecutter",
+    "template_type": "ansible",
     "theme": "just-the-docs/just-the-docs@v0.11.0",
     "timezone": "America/Los_Angeles",
     "twitter_username": "",

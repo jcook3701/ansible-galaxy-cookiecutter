@@ -30,7 +30,7 @@ def test_bake_with_defaults(cookies: Cookies) -> None:
     # Optional sanity checks
     project_name = result.project_path.name
     assert project_name  # non-empty
-    test_file = result.project_path / "Makefile"
+    test_file = result.project_path / "LICENSE.md"
     assert test_file.exists()
 
 
@@ -41,4 +41,4 @@ def test_bake_with_custom_name(cookies: Cookies) -> None:
     assert result.exit_code == 0
     assert result.exception is None
     assert result.project_path.is_dir()
-    assert result.project_path.name == "test-project"
+    assert result.project_path.name == "jcook3701.test_project"
