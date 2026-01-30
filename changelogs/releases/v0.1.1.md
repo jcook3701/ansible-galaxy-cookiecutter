@@ -98,6 +98,7 @@ Feat 005 (#14)
 - *(ansible)* Created ansible galaxy-importer.cfg file to store configuration rather than trying to use the pyproject file.
 - *(ci/cd)* Fix to changelog jinja templating.
 - *(template)* Hopefully template fix.
+- *(template)* Testing template settings.
 
 ### 🚀 Added
 
