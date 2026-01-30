@@ -6,11 +6,11 @@
   file_name='pyproject.toml',
   comment_style='hash') -}}
 [build-system]
-requires = ["setuptools>=65.0.0", "wheel"]
+requires = ["setuptools>=80.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "{{ cookiecutter.__py_package_name }}"
+name = "{{ cookiecutter.__python.project_name }}"
 version = "{{ cookiecutter.version }}"
 description = "{{ cookiecutter.description }}"
 authors = [
@@ -20,7 +20,9 @@ readme = "./README.md"
 license = "{{ cookiecutter.license }}"
 license-files = ["LICENSE.md"]
 requires-python = ">={{ cookiecutter.python_version }}"
-dependencies = []
+dependencies = [
+  "nutri-matic>=0.1",
+]
 keywords = [
   "ansible",
   "galaxy",
@@ -34,9 +36,9 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/{{ cookiecutter.project_slug }}"
-Repository = "https://github.com/{{ cookiecutter.project_slug }}"
-Documentation = "https://github.com/{{ cookiecutter.project_slug }}/docs/jekyll"
+Homepage = "{{ cookiecutter.repo_url }}"
+Repository = "{{ cookiecutter.repo_url }}"
+Documentation = "{{ cookiecutter.repo_url }}/docs/jekyll"
 
 [project.optional-dependencies]
 dev = [
@@ -54,8 +56,12 @@ tools = [
   "cookiecutter-project-upgrader>=1.3",
   "coverage>=7.12",
   "deptry>=0.24",
+  "djlint>=1.36",
+  "json-lint-tools>=0.1",
+  "jinja2-cli>=0.8",
+  "jinja2-time>=0.2",
   "mypy==1.9",
-  "nutri-matic>=0.1",
+  "nameisok>=0.1",
   "pip-audit>=2.10",
   "pre-commit>=4.5",
   "pytest>=9.0",
@@ -95,7 +101,7 @@ include = [
 # ====================================
 [tool.black]
 line-length = 88          # Maximum line length (default is 88)
-target-version = ["{{ cookiecutter.__python_target_version }}"] # Target Python version(s)
+target-version = ["{{ cookiecutter.__python.target_version }}"] # Target Python version(s)
 skip-string-normalization = false  # Whether to skip normalizing string quotes
 include = '\.pyi?$'       # Which files to include (regex)
 exclude = '''
@@ -170,7 +176,7 @@ exclude = [
 # ====================================
 [tool.ruff]
 # Target Python version
-target-version = "{{ cookiecutter.__python_target_version }}"
+target-version = "{{ cookiecutter.__python.target_version }}"
 # Directories to lint and format
 src = [
   "plugins",

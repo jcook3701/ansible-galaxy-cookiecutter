@@ -103,6 +103,7 @@ Feat 005 (#14)
 - *(template)* Testing template settings.
 - *(testing)* Testing settings update.
 - *(testing)* Testing settings update.
+- *(template)* Fixed license headers in template. Next is to fix python configuration file.
 
 ### 🚀 Added
 

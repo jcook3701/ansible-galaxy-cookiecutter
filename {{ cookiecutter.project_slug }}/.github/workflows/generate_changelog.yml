@@ -37,7 +37,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: make install
+        run: make python-install
 {% raw %}
       - name: Generate changelog fragments
         # Uses GITHUB_TOKEN to authenticate with GitHub API

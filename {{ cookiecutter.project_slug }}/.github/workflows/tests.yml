@@ -26,7 +26,7 @@ jobs:
 
       - name: Install pytest
         run: |
-          make install
+          make python-install
 
       - name: Run tests
         run: |

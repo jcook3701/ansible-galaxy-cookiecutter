@@ -25,7 +25,7 @@ jobs:
 
       - name: Install Project Dependencies
         run: |
-          make install
+          make python-install
 
       - name: Run Ruff Lint Check
         run: |
