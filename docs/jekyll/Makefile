@@ -39,22 +39,28 @@ AUTHOR = "Jared Cook"
 VERSION = "0.1.1"
 PUBLISHDIR ?=
 # --------------------------------------------------
-# 📘 Documentation (Sphinx + Jekyll)
+# 📚 Documentation (Sphinx + Jekyll)
 # --------------------------------------------------
-JEKYLL_BUILD := bundle exec jekyll build --quiet
+RUBY_INSTALL := bundle install
+JEKYLL_BUILD := bundle exec jekyll build --trace --verbose
 JEKYLL_CLEAN := bundle exec jekyll clean
 JEKYLL_SERVE := bundle exec jekyll serve
 # --------------------------------------------------
-.PHONY: all jekyll jekyll-serve build run clean help
+.PHONY: all ruby-install jekyll jekyll-serve build run clean help
 # --------------------------------------------------
 # Default:
 # --------------------------------------------------
-all: build
+all: ruby-install build
 # --------------------------------------------------
-# 📘 Documentation (Jekyll)
+# ♦️ Ruby
+# --------------------------------------------------
+ruby-install:
+	$(AT)$(RUBY_INSTALL)
+# --------------------------------------------------
+# 📚 Documentation (Jekyll)
 # --------------------------------------------------
 jekyll:
-	$(AT)echo "🔨 Building Jekyll site 📘..."
+	$(AT)echo "🔨 Building Jekyll site 📚..."
 	$(AT)$(JEKYLL_BUILD)
 	$(AT)echo "✅ Full documentation build complete!"
 
@@ -80,6 +86,7 @@ help:
 	$(AT)echo "   version: $(PACKAGE_VERSION)"
 	$(AT)echo ""
 	$(AT)echo "Usage:"
+	$(AT)echo "  make ruby-install           Installs Gemfile packages."
 	$(AT)echo "  make build                  Generate Jekyll documentation"
 	$(AT)echo "  make run                    Serve Jekyll site locally"
 	$(AT)echo "  make clean                  Clean Jekyll build artifacts"

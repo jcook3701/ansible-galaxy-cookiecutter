@@ -1,4 +1,10 @@
-# ./pre-commit-config.yaml
+{% import '.cookiecutter_includes/license/__init__.j2' as license_macros with context %}
+{{- license_macros.license_header.create(
+  cookiecutter.license,
+  cookiecutter.author,
+  cookiecutter.project_slug,
+  file_name='pre-commit-config.yaml',
+  comment_style='hash') -}}
 ---
 default_install_hook_types:
   - pre-commit
@@ -20,15 +26,17 @@ repos:
     rev: v6.0.0
     hooks:
       - id: end-of-file-fixer
+        exclude: "docs/jekyll/ansible-docs/ansible-autodoc.md"
       - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md, --markdown-linebreak-ext=mdx]
+        exclude: "docs/jekyll/ansible-docs/ansible-autodoc.md"
       - id: mixed-line-ending
         args: [--fix=lf]
       - id: check-yaml
       - id: check-json
-        exclude: "{{ cookiecutter.project_slug }}/docs/cookiecutter_input.json"
+        exclude: "docs/cookiecutter_input.json"
       - id: check-toml
-        exclude: "{{ cookiecutter.project_slug }}/cliff.toml"
+        exclude: "cliff.toml"
       - id: check-case-conflict
       - id: check-added-large-files
       - id: check-symlinks
@@ -37,6 +45,15 @@ repos:
     rev: 25.11.0
     hooks:
       - id: black
+
+  - repo: local
+    hooks:
+      - id: generate-docs
+        name: Generate Documentation
+        entry: make build-docs
+        language: system
+        always_run: true
+        pass_filenames: false
 
   - repo: https://github.com/streetsidesoftware/cspell-cli
     rev: v9.3.3

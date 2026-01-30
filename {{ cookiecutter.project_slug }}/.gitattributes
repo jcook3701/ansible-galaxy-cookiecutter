@@ -1,0 +1,7 @@
+# =========================================
+# cookiecutter project upgrader attributes #
+# =========================================
+**/README.md* merge=ours
+
+changelogs/** merge=ours
+CHANGELOG.rst merge=ours

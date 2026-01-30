@@ -1,7 +1,14 @@
+{% import '.cookiecutter_includes/license/__init__.j2' as license_macros with context %}
+{{- license_macros.license_header.create(
+  cookiecutter.license,
+  cookiecutter.author,
+  cookiecutter.project_slug,
+  file_name='autodoc.config.yaml',
+  comment_style='hash') -}}
 ---
 # General project information
 name: "{{ cookiecutter.project_slug }}"
-license: "MIT"
+license: "{{ cookiecutter.license }}"
 author: "{{ cookiecutter.author }}"
 email: "{{ cookiecutter.email }}"
 description: "{{ cookiecutter.description }}"

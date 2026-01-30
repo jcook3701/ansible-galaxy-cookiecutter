@@ -9,35 +9,82 @@
   "author": "Jared Cook",
   "email": "jcook3701+github@gmail.com",
   "version": "1.0.0",
+  "timezone": [
+    "America/Los_Angeles"
+  ],
   "license": [
-    "GPL-3.0",
+    "AGPL-3.0-or-later",
+    "AGPL-3.0-only",
+    "GPL-3.0-or-later",
+    "GPL-3.0-only",
     "Apache-2.0",
     "BSD-3-Clause",
-    "MIT"
+    "BSD-2-Clause",
+    "0BSD",
+    "MIT",
+    "Unlicense"
   ],
-  "__copyright": "Copyright (c) {% now 'utc', '%Y' %} {{ cookiecutter.author }}",
+  "contribution_model": [
+    "CLA",
+    "DCO"
+  ],
+  "publication_year": "2025",
+  "current_year": "{% now 'local', '%Y' %}",
+  "__year_range": "{% if cookiecutter.publication_year == cookiecutter.current_year %}{{ cookiecutter.current_year }}{% else %}{{ cookiecutter.publication_year }}-{{ cookiecutter.current_year }}{% endif %}",
+  "copyright": "Copyright (c) {{ cookiecutter.__year_range }}, {{ cookiecutter.author }}",
   "description": "Description of Ansible Galaxy project",
   "release_summary": "Initial Release of {{ cookiecutter.project_slug }}",
   "python_version": [
     "3.11",
     "3.10"
   ],
-  "__python_target_version": "py{{ cookiecutter.python_version|replace('.', '') }}",
+  "__python": {
+    "project_name": "{{ cookiecutter.project_slug }}",
+    "target_version": "py{{ cookiecutter.python_version|replace('.', '') }}",
+    "keywords": [
+      "python3",
+      "cookiecutter",
+      "template",
+      "automation"
+    ]
+  },
   "ga_tracking": "G-C7PWLWSHB9",
+  "github_org": null,
   "github_username": "jcook3701",
+  "github_io": "https://{{ cookiecutter.github_username }}.github.io/{{ cookiecutter.project_slug }}",
   "twitter_username": "",
   "linkedin_usercode": "jared-cook-b3585a114",
   "buymeacoffee_username": "jcook3701",
-  "theme": ["pmarsceill/just-the-docs", "carlosperate/jekyll-theme-rtd"],
+  "repo_url": "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}",
+  "theme": [
+    "just-the-docs/just-the-docs@v0.11.0",
+    "pmarsceill/just-the-docs",
+    "carlosperate/jekyll-theme-rtd"
+  ],
+  "template_type": [
+    "ansible"
+  ],
+  "_hooks": {
+    "post_gen_make_cmds": {
+      "python-install": true,
+      "git-init": true,
+      "pre-commit-init": true,
+      "changelog": true,
+      "build-docs": false
+    }
+  },
+  "_default_branch": "main",
+  "_is_sub_template": false,
   "_copy_without_render": [],
+  "_extensions": [
+    "jinja2.ext.do",
+    "jinja2.ext.loopcontrols",
+    "jinja2_time.TimeExtension"
+  ],
   "_jinja2_env_vars": {
     "lstrip_blocks": true,
     "trim_blocks": true
   },
-  "_extensions": [
-    "jinja2.ext.do",
-    "jinja2.ext.loopcontrols"
-  ],
   "add_github_docs": true,
   "add_sphinx_docs": true
 }

@@ -1,21 +1,21 @@
 {#
 # tests/bake.j2 for cookiecutter-cookiecutter
 #
-# Copyright (c) 2025, Jared Cook
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
 #
 # This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# GNU Affero General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <www.gnu.org>.
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
 
@@ -23,9 +23,9 @@
     template_type
 ) -%}
 {# returns the test_file name depending on the template type. #}
-    {% if template_type in ["ansible", "c", "c++", "c/cc", "c/c++", "ros2"] -%}
-        LICENSE
-    {%- elif template_type ==  "cookiecutter" -%}
+    {% if template_type in ["ansible", "c", "c++", "ros2"] -%}
+        LICENSE.md
+    {%- elif template_type in ["cookiecutter", "documentation"] -%}
         Makefile
     {%- elif template_type == "python" -%}
         pyproject.toml
@@ -67,7 +67,7 @@ def test_bake_with_defaults(cookies: Cookies) -> None:
 #}
     {%- set use_default_slug = [
         "c", "c++", "c/cc", "c/c++",
-        "cookiecutter", "python", "ros2",
+        "cookiecutter", "documentation", "python", "ros2",
         "typescript"] -%}
 
     {% if template_type == "ansible" -%}

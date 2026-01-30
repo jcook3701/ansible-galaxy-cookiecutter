@@ -1,0 +1,14 @@
+{
+    "templates": {
+        "search_paths": [
+            ".",
+            "./.cookiecutter_includes",
+            "./{{ cookiecutter.project_slug }}"
+        ],
+        "base_dir": "."
+    },
+    "_jinja2_env_vars": {
+        "lstrip_blocks": true,
+        "trim_blocks": true
+    }
+}

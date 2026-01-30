@@ -1,5 +1,5 @@
-{% import '.cookiecutter_includes/license_header.j2' as license_macros with context %}
-{{- license_macros.license_header(
+{% import '.cookiecutter_includes/license/__init__.j2' as license_macros with context %}
+{{- license_macros.license_header.create(
 	cookiecutter.license,
 	cookiecutter.author,
 	cookiecutter.project_slug,
@@ -37,7 +37,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: make install
+        run: make python-install
 {% raw %}
       - name: Generate changelog fragments
         # Uses GITHUB_TOKEN to authenticate with GitHub API

@@ -1,21 +1,21 @@
 {#
 # make/docs.j2 for cookiecutter-cookiecutter
 #
-# Copyright (c) 2025, Jared Cook
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
 #
 # This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# GNU Affero General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <www.gnu.org>.
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
 {% macro sphinx_cmds() -%}
@@ -27,6 +27,9 @@ sphinx:
 
 {% macro jekyll_cmds() -%}
   {# formatted jekyll command string. #}
+ruby-install:
+	$(MAKE) -C $(JEKYLL_DIR) ruby-install;
+
 jekyll:
 	$(MAKE) -C $(JEKYLL_DIR) all;
 
@@ -79,7 +82,7 @@ readme:
         {% if sphinx_enabled and jekyll_enabled %}
 {{ sphinx_cmds }}
 
-{{ jekyll_cmds}}
+{{ jekyll_cmds }}
         {% elif sphinx_enabled %}
 {{ sphinx_cmds }}
         {% elif jekyll_enabled %}
@@ -105,7 +108,7 @@ run-docs: jekyll-serve
     jekyll_enabled,
     sphinx_enabled,
     macro
-)%}
+) %}
     {% if not sphinx_enabled and not jekyll_enabled %}
     {% else %}
 {{ macro }}
