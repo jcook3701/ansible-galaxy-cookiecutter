@@ -3,6 +3,8 @@
     "language": "en",
     "useGitignore": true,
     "words": [
+        "antsibull",
+        "antsichaut",
         "bumpversion",
         "cla",
         "ccla",
@@ -16,16 +18,21 @@
         "endmacro",
         "endraw",
         "endset",
+        "flatpak",
         "gitcliff",
         "githubusercontent",
         "icla",
         "mkdirp",
+        "nameisok",
         "nutrimatic",
         "nutri-matic",
+        "pkg",
+        "pkgs",
         "pipaudit",
         "pip-audit",
         "pyproject",
         "pytest",
+        "pyupgrade",
         "rpmnew",
         "rustc",
         "streetsidesoftware",
@@ -35,7 +42,8 @@
         "venv",
         "visualstudio",
         "vsmarketplacebadge",
-        "yaml"
+        "yaml",
+        "yamlfixer"
     ],
     "flagWords": [
         "hte"

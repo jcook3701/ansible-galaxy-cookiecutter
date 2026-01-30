@@ -8,7 +8,21 @@ parent: Contribute
 
 Commits are required to be conventional git commit messages.  This helps with the auto-generation of the changelog files and is enforced by [pre-commit](https://pre-commit.com/).  
 
-__example:__  
+**options (default):**
+
+* docs
+* chore
+* feat
+* fix
+* refactor
+* ci
+* test
+* perf
+* revert
+* build
+* style
+
+**example:**  
 
 ```shell
 <type>[optional scope]: <description>

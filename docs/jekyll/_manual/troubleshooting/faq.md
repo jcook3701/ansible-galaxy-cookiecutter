@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Requirements
+title: FAQ
 nav_order: 1
 parent: Troubleshooting
 ---
