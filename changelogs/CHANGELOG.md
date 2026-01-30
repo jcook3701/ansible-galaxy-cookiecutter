@@ -99,6 +99,7 @@ Feat 005 (#14)
 - *(ci/cd)* Fix to changelog jinja templating.
 - *(template)* Hopefully template fix.
 - *(template)* Testing template settings.
+- *(testing)* Testing settings update.
 
 ### 🚀 Added
 
