@@ -142,6 +142,7 @@ Feat 006 (#16)
 ### 🚀 Added
 
 - *(docs)* Readme updates.
+- *(update)* Update to cookiecutter_project_upgrader configuration.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous
