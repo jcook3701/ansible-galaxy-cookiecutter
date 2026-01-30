@@ -1,21 +1,20 @@
 # Makefile for ansible-galaxy-cookiecutter
 #
-# Copyright (c) 2026, Jared Cook
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
 #
 # This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# GNU Affero General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <www.gnu.org>.
-#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # --------------------------------------------------
 # ⚙️ Environment Settings
 # --------------------------------------------------
@@ -107,7 +106,7 @@ CHANGELOG_RELEASE_FILE := $(CHANGELOG_RELEASE_DIR)/$(RELEASE).md
 # --------------------------------------------------
 # 🍪 Template Directories (cookiecutter)
 # --------------------------------------------------
-COOKIE_DIR := $(PROJECT_ROOT)/{{ cookiecutter.project_slug }}
+COOKIE_DIR := {{ cookiecutter.project_slug }}
 COOKIE_MACRO_DIR := $(COOKIE_DIR)/.cookiecutter_includes
 RENDERED_COOKIE_DIR := /tmp/rendered
 RENDERED_VENV_DIR := $(RENDERED_COOKIE_DIR)/**/.venv
@@ -149,6 +148,7 @@ BLACK := $(PYTHON) -m black
 # --------------------------------------------------
 # 🔍 Linting (ruff, yaml, jinja2)
 # --------------------------------------------------
+DJLINT := $(ACTIVATE) && djlint
 RUFF := $(PYTHON) -m ruff
 TOMLLINT := tomllint
 YAMLLINT := $(PYTHON) -m yamllint
@@ -230,7 +230,7 @@ TOML_FILE_LIST := 	( \
 	)
 # --------------------------------------------------
 .PHONY: \
-	all list-folders venv install \
+	all list-folders venv python-install \
 	pre-commit-init security dependency-check black-formatter-check \
 	black-formatter-fix render-cookiecutter jinja2-lint-check ruff-lint-check \
 	ruff-lint-fix toml-lint-check yaml-lint-check format-check \
@@ -243,7 +243,7 @@ TOML_FILE_LIST := 	( \
 # --------------------------------------------------
 # Default: run lint, typecheck, spellcheck, tests, & docs
 # --------------------------------------------------
-all: install lint-check typecheck spellcheck test build-docs
+all: python-install lint-check typecheck spellcheck test build-docs
 # --------------------------------------------------
 # Make Internal Utilities
 # --------------------------------------------------
@@ -269,7 +269,7 @@ venv:
 	$(AT)$(CREATE_VENV)
 	$(AT)echo "✅ Virtual environment created."
 
-install: venv
+python-install: venv
 	$(AT)echo "📦 Installing project dependencies..."
 	$(AT)$(PIP) install --upgrade pip setuptools wheel
 	# $(AT)$(PIP) install -e $(DEPS)
@@ -333,8 +333,20 @@ render-cookiecutter:
 	$(AT)rm -rf $(RENDERED_COOKIE_DIR)
 	$(AT)$(COOKIECUTTER) . --no-input \
 		--output-dir $(RENDERED_COOKIE_DIR) \
-		--overwrite-if-exists
+		--overwrite-if-exists \
+		--keep-project-on-failure
 
+djlint-lint-check:
+	$(AT)echo "🔍 djlint lint..."
+	$(AT)$(DJLINT) . --lint --profile=jinja
+	$(AT)echo "✅ Finished linting check of jinja2 macro files with djlint!"
+
+djlint-lint-fix:
+	$(AT)echo "🔍 djlint reformat..."
+	$(AT)$(DJLINT) . --reformat
+	$(AT)echo "✅ Finished reformatting of jinja2 macro files with djlint!"
+
+# Deprecated for cookiecutter projects (USE: djlint-lint-check)
 jinja2-lint-check:
 	$(AT)echo "🔍 jinja2 lint..."
 	$(AT)jq '{cookiecutter: .}' cookiecutter.json > /tmp/_cc_wrapped.json
@@ -376,7 +388,7 @@ yaml-lint-check:
 	$(AT)$(YAMLLINT) $(RENDERED_COOKIE_DIR)
 	$(AT)echo "✅ Finished linting check of yaml files with yamllint!"
 
-lint-check: render-cookiecutter ruff-lint-check toml-lint-check yaml-lint-check
+lint-check: render-cookiecutter djlint-lint-check ruff-lint-check toml-lint-check yaml-lint-check
 lint-fix: ruff-lint-fix
 # --------------------------------------------------
 # 🎓 Spellchecker (codespell)
@@ -391,7 +403,7 @@ spellcheck:
 typecheck:
 	$(AT)echo "🧠 Checking types (MyPy)..."
 	$(AT)$(MAKE) list-folders
-	$(AT)$(call run_ci_safe, $(MYPY) '.')
+	$(AT)$(call run_ci_safe, $(MYPY) $(SRC_DIR) $(TESTS_DIR))
 	$(AT)echo "✅ Python typecheck complete!"
 # --------------------------------------------------
 # 🧪 Testing (pytest)
@@ -403,6 +415,9 @@ test:
 # --------------------------------------------------
 # 📚 Documentation (Jekyll + nutrimatic)
 # --------------------------------------------------
+ruby-install:
+	$(MAKE) -C $(JEKYLL_DIR) ruby-install;
+
 jekyll:
 	$(MAKE) -C $(JEKYLL_DIR) all;
 
@@ -462,13 +477,13 @@ git-release:
 		$(GITHUB) release create $(RELEASE) --generate-notes; \
 	echo "✅ Finished uploading Release - $(RELEASE)! 🎉"; \
 	else \
-		echo "❌ Git is not yet initialized.  Skipping version release."; \
+		echo "❌ Git is not yet initialized.  Skipping version release." \
 	fi
 # --------------------------------------------------
 # 📢 Release
 # --------------------------------------------------
 pre-commit: test security dependency-check format-fix lint-check spellcheck typecheck
-pre-release: clean install pre-commit build-docs changelog build
+pre-release: clean python-install pre-commit build-docs changelog build
 release: git-release bump-version-patch
 # --------------------------------------------------
 # 🧹 Clean artifacts

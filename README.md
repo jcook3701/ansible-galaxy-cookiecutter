@@ -12,7 +12,7 @@
 
 <h2 id="overview">Overview</h2>
 
-<p>Ansible Galaxy cookiecutter template + integration with (github-docs-cookiecutter) Github docs template generation.</p>
+<p><strong>Ansible Galaxy cookiecutter</strong> template + integration with <strong><a href="https://github.com/jcook3701/github-docs-cookiecutter">Github docs template</a></strong> (github-docs-cookiecutter) generation.</p>
 
 <p><strong>Ansible Galaxy cookiecutter</strong> template project /w Ansible Auto Documentation + <strong><a href="https://github.com/jcook3701/github-docs-cookiecutter">Github docs</a></strong> template generation + <strong><a href="https://github.com/jcook3701/sphinx-cookiecutter">Sphinx docs</a></strong> template generation.</p>
 

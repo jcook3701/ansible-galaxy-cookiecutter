@@ -100,6 +100,7 @@ Feat 005 (#14)
 - *(template)* Hopefully template fix.
 - *(template)* Testing template settings.
 - *(testing)* Testing settings update.
+- *(testing)* Testing settings update.
 
 ### 🚀 Added
 
