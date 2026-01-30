@@ -1,0 +1,75 @@
+{#
+# make/settings.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% macro settings(
+    jekyll_enabled,
+    sphinx_enabled
+) -%}
+# --------------------------------------------------
+# ⚙️ Build Settings
+# --------------------------------------------------
+PROJECT_NAME := "{{ cookiecutter.__python.project_name }}"
+AUTHOR := "{{ cookiecutter.author }}"
+VERSION := {{ cookiecutter.version }}
+RELEASE := v$(VERSION)
+# --------------------------------------------------
+# 🐙 Github Build Settings
+# --------------------------------------------------
+GITHUB_USER := "{{ cookiecutter.github_username }}"
+GITHUB_REPO := $(GITHUB_USER)/$(PROJECT_NAME)
+# --------------------------------------------------
+# 📁 Build Directories
+# --------------------------------------------------
+PROJECT_ROOT := $(call cc_or_std,$(CURDIR),$(PWD))
+HOOKS_DIR := $(PROJECT_ROOT)/hooks
+SRC_DIR := $(HOOKS_DIR)
+TEST_DIR := $(PROJECT_ROOT)/tests
+TESTS_DIR := $(TEST_DIR)
+DOCS_DIR := $(PROJECT_ROOT)/docs
+{% if jekyll_enabled %}
+JEKYLL_DIR := $(DOCS_DIR)/jekyll
+{% endif %}
+{% if sphinx_enabled %}
+SPHINX_DIR := $(DOCS_DIR)/sphinx
+JEKYLL_SPHINX_DIR := $(JEKYLL_DIR)/sphinx
+{% endif %}
+{% if jekyll_enabled %}
+README_GEN_DIR := $(JEKYLL_DIR)/tmp_readme
+{% endif %}
+CHANGELOG_DIR := $(PROJECT_ROOT)/changelogs
+CHANGELOG_RELEASE_DIR := $(CHANGELOG_DIR)/releases
+# --------------------------------------------------
+# 📄 Build Files
+# --------------------------------------------------
+{% if jekyll_enabled %}
+README_FILE := $(PROJECT_ROOT)/README.md
+{% endif %}
+CHANGELOG_FILE := $(CHANGELOG_DIR)/CHANGELOG.md
+CHANGELOG_RELEASE_FILE := $(CHANGELOG_RELEASE_DIR)/$(RELEASE).md
+# --------------------------------------------------
+# 🍪 Template Directories (cookiecutter)
+# --------------------------------------------------
+{%- raw %}
+COOKIE_DIR := {{ cookiecutter.project_slug }}
+{% endraw %}
+COOKIE_MACRO_DIR := $(COOKIE_DIR)/.cookiecutter_includes
+RENDERED_COOKIE_DIR := /tmp/rendered
+RENDERED_VENV_DIR := $(RENDERED_COOKIE_DIR)/**/.venv
+{%- endmacro -%}

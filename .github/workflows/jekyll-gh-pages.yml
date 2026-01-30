@@ -1,13 +1,30 @@
-# Sample workflow for building and deploying a Jekyll site to GitHub Pages
+# jekyll-gh-pages.yml for ansible-galaxy-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+---
 name: Deploy Jekyll with GitHub Pages dependencies preinstalled
 
 on:
-  # Runs on pushes targeting the default branch
   push:
-    branches: ["master"]
-  pull_request:
-    branches: ["master"]
-
+    branches:
+      - master
+      - main
+    paths:
+      - "docs/**"
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -30,15 +47,31 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Python Tools
+        run: |
+          make python-install
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3" # Recommended for Jekyll 4.4 in 2026
+          bundler-cache: true # Runs "bundle install" and caches gems automatically
+          working-directory: ./docs/jekyll
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Build with Jekyll site in /docs/jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./docs/jekyll
-          destination: ./_site
+        run: make jekyll
+        env:
+          PAGES_REPO_NWO: ${{ github.repository }}
+          JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JEKYLL_ENV: production
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./docs/jekyll/_site
 
   # Deployment job
   deploy:

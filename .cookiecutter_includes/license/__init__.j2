@@ -1,4 +1,5 @@
-# FUNDING.yml for ansible-galaxy-cookiecutter
+{#
+# license/__init__.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -15,7 +16,10 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
----
+#}
 
-# github: ["jcook3701"]
-buy_me_a_coffee: "jcook3701"
+{% import '.cookiecutter_includes/license/license.j2' as _license with context %}
+{% import '.cookiecutter_includes/license/license-header.j2' as _license_header with context %}
+
+{% set license = _license %}
+{% set license_header = _license_header %}

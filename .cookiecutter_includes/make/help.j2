@@ -1,0 +1,71 @@
+{#
+# make/help.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{# TODO: I should probably add pre-commit, pre-release, & release to the menu. #}
+{# TODO: I should probably add options to turn the different features on and of formatters, linters, etc. #}
+
+{% macro help(
+    jekyll_enabled,
+    sphinx_enabled
+) -%}
+# --------------------------------------------------
+# ❓ Help
+# --------------------------------------------------
+help:
+	$(AT)echo "📦 $(PROJECT_NAME) Makefile"
+	$(AT)echo ""
+	$(AT)echo "Usage:"
+	$(AT)echo "  make venv                   Create python virtual environment (venv)"
+	$(AT)echo "  make install                Install python project dependencies (pip)"
+	$(AT)echo "  make security               Security audit (pip-audit)"
+	$(AT)echo "  make dependency-check       dependency check (deptry)"
+	$(AT)echo "  make black-formatter-check  Run Black python formatter check (black)"
+	$(AT)echo "  make black-formatter-fix    Run Black python formatter (black)"
+	$(AT)echo "  make format-check           Run all project formatter checks (black)"
+	$(AT)echo "  make format-fix             Run all project formatter autofixes (black)"
+	$(AT)echo "  make jinja2-lint-check      Run jinja linter (jinja-cmd)"
+	$(AT)echo "  make ruff-lint-check        Run Ruff linter (ruff)"
+	$(AT)echo "  make ruff-lint-fix          Auto-fix python lint issues (ruff)"
+	$(AT)echo "  make toml-lint-check        Run TOML linter (tomllint)"
+	$(AT)echo "  make yaml-lint-check        Run YAML linter (yamllint)"
+	$(AT)echo "  make lint-check             Run all project linters (jinja2, ruff, toml, & yaml)"
+	$(AT)echo "  make lint-fix               Run all project linter autofixes (ruff)"
+	$(AT)echo "  make spellcheck             Run spellcheck (codespell)"
+	$(AT)echo "  make typecheck              Run type checking (mypy)"
+	$(AT)echo "  make test                   Run test suite (pytest)"
+{% if sphinx_enabled %}
+	$(AT)echo "  make sphinx                 Generate Sphinx Documentation"
+{% endif %}
+{% if jekyll_enabled %}
+	$(AT)echo "  make jekyll                 Generate Jekyll Documentation"
+{% endif %}
+{% if jekyll_enabled or sphinx_enabled %}
+	$(AT)echo "  make build-docs             Build all project documentation"
+{% endif %}
+{% if jekyll_enabled %}
+	$(AT)echo "  make run-docs               Serve Jekyll site locally"
+{% endif %}
+	$(AT)echo "  make clean                  Clean build artifacts"
+	$(AT)echo "  make version                Displays project information."
+	$(AT)echo "  make all                    Run lint, typecheck, test, and docs"
+	$(AT)echo "Options:"
+	$(AT)echo "  V=1             Enable verbose output (show all commands being executed)"
+	$(AT)echo "  make -s         Run completely silently (suppress make's own output AND command echo)"
+{%- endmacro -%}

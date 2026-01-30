@@ -1,0 +1,45 @@
+{
+    "__year_range": "2025-2026",
+    "_checkout": null,
+    "_copy_without_render": [
+        "README.md",
+        "_includes/*"
+    ],
+    "_default_branch": "master",
+    "_extensions": [
+        "jinja2.ext.do",
+        "jinja2.ext.loopcontrols",
+        "jinja2_time.TimeExtension"
+    ],
+    "_is_sub_template": true,
+    "_jinja2_env_vars": {
+        "lstrip_blocks": true,
+        "trim_blocks": true
+    },
+    "_output_dir": "/home/jcook/Documents/git_repo/ansible-galaxy-cookiecutter/.git/cookiecutter/ansible-galaxy-cookiecutter/docs/_tmp_docs",
+    "_repo_dir": "/home/jcook/.cookiecutters/github-docs-cookiecutter",
+    "_template": "https://github.com/jcook3701/github-docs-cookiecutter.git",
+    "author": "Jared Cook",
+    "buymeacoffee_username": "jcook3701",
+    "company": null,
+    "contribution_model": "CLA",
+    "copyright": "Copyright (c) 2025-2026, Jared Cook",
+    "current_year": "2026",
+    "description": "**Ansible Galaxy cookiecutter** template + integration with **[Github docs template](https://github.com/jcook3701/github-docs-cookiecutter)** (github-docs-cookiecutter) generation.",
+    "email": "jcook3701+github@gmail.com",
+    "ga_tracking": "G-C7PWLWSHB9",
+    "github_io": "https://jcook3701.github.io/ansible-galaxy-cookiecutter",
+    "github_org": null,
+    "github_username": "jcook3701",
+    "license": "AGPL-3.0-or-later",
+    "linkedin_usercode": "jared-cook-b3585a114",
+    "project_name": "ansible-galaxy-cookiecutter",
+    "project_slug": "ansible-galaxy-cookiecutter",
+    "publication_year": "2025",
+    "repo_url": "https://github.com/jcook3701/ansible-galaxy-cookiecutter",
+    "template_type": "cookiecutter",
+    "theme": "just-the-docs/just-the-docs@v0.11.0",
+    "timezone": "America/Los_Angeles",
+    "twitter_username": "",
+    "version": "0.1.1"
+}

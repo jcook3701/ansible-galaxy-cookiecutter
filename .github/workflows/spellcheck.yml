@@ -1,4 +1,4 @@
-# FUNDING.yml for ansible-galaxy-cookiecutter
+# spellcheck.yml for ansible-galaxy-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -16,6 +16,27 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ---
+name: Cookiecutter Template Spellcheck
 
-# github: ["jcook3701"]
-buy_me_a_coffee: "jcook3701"
+on: [push, pull_request]
+
+jobs:
+  spellcheck:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install codespell
+        run: |
+          make python-install
+
+      - name: Run Spellcheck
+        run: |
+          make spellcheck

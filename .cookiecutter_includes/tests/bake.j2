@@ -1,0 +1,97 @@
+{#
+# tests/bake.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+
+{% macro _get_test_file(
+    template_type
+) -%}
+{# returns the test_file name depending on the template type. #}
+    {% if template_type in ["ansible", "c", "c++", "ros2"] -%}
+        LICENSE.md
+    {%- elif template_type in ["cookiecutter", "documentation"] -%}
+        Makefile
+    {%- elif template_type == "python" -%}
+        pyproject.toml
+    {%- elif template_type == "typescript" -%}
+        package.json
+    {%- endif %}
+{%- endmacro -%}
+
+
+{% macro default_bake(
+    template_type
+) -%}
+{# returns test_bake_with_defaults python function for testing cookiecutter template projects.. #}
+{%- set test_file = _get_test_file(template_type) -%}
+{%- set python_bake_function -%}
+def test_bake_with_defaults(cookies: Cookies) -> None:
+    """Ensure the template bakes correctly with default context."""
+    result = cookies.bake()
+    assert result.exit_code == 0
+    assert result.exception is None
+    assert result.project_path.is_dir()
+
+    # Optional sanity checks
+    project_name = result.project_path.name
+    assert project_name  # non-empty
+    test_file = result.project_path / "{{ test_file }}"
+    assert test_file.exists()
+{%- endset -%}
+{{ python_bake_function }}
+{%- endmacro -%}
+
+
+{% macro _get_test_name(
+    template_type
+) -%}
+{#
+  returns the expected project_slug for the test project name
+  depending on the template type.
+#}
+    {%- set use_default_slug = [
+        "c", "c++", "c/cc", "c/c++",
+        "cookiecutter", "documentation", "python", "ros2",
+        "typescript"] -%}
+
+    {% if template_type == "ansible" -%}
+        jcook3701.test_project
+    {%- elif template_type in use_default_slug -%}
+        test-project
+    {%- endif %}
+{%- endmacro -%}
+
+
+{% macro custom_bake(
+    template_type
+) -%}
+{# returns test_bake_with_custom_name python function for testing cookiecutter template projects. #}
+{%- set test_name = _get_test_name(template_type) %}
+{%- set python_bake_function -%}
+def test_bake_with_custom_name(cookies: Cookies) -> None:
+    """Ensure custom project_name works."""
+    result = cookies.bake(extra_context={"project_name": "Test Project"})
+    print(result)
+    assert result.exit_code == 0
+    assert result.exception is None
+    assert result.project_path.is_dir()
+    assert result.project_path.name == "{{ test_name }}"
+{%- endset -%}
+{{ python_bake_function }}
+{%- endmacro -%}

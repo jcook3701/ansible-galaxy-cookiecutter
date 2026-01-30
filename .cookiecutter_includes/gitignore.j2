@@ -1,0 +1,78 @@
+{#
+# gitignore.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% macro gitignore(
+    template_type
+) -%}
+
+{%- set ansible -%}
+# =========================================
+# Ansible Galaxy Ignores #
+# =========================================
+ansible.cfg
+hosts
+inventory.yml
+**/vault.yml
+/group_vars
+/host_vars
+{%- endset -%}
+
+{%- set python -%}
+# =========================================
+# Python project ignores #
+# =========================================
+__pycache__/
+*.egg-info/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.venv/
+dist/
+{%- endset -%}
+
+{%- set ansible_cookiecutter = ansible ~ '\n' ~ python -%}
+
+{% if template_type == "ansible" %}
+{{ ansible_cookiecutter }}
+{% elif template_type in ["c", "c++", "c/cc", "c/c++"] %}
+# =========================================
+# C/C++ Ignores #
+# =========================================
+*.o
+*.a
+*.out
+{% elif template_type in ["cookiecutter", "documentation", "python"] %}
+{{ python }}
+{% elif template_type == "ros2" %}
+# =========================================
+# ROS2 Ignores #
+# =========================================
+install/
+build/
+log/
+{% elif template_type == "typescript" %}
+# =========================================
+# Typescript Ignores #
+# =========================================
+node_modules/
+dist/
+*.tsbuildinfo
+{% endif %}
+{%- endmacro -%}

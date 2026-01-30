@@ -1,4 +1,4 @@
-# FUNDING.yml for ansible-galaxy-cookiecutter
+# z-developer-issue.yml for ansible-galaxy-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -16,6 +16,18 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ---
-
-# github: ["jcook3701"]
-buy_me_a_coffee: "jcook3701"
+name: "🛠️ Developer / General Issue"
+description: "Blank template for contributors and maintainers (no form)."
+title: "[Dev]: "
+labels: ["internal"]
+assignees:
+  - jcook3701
+body:
+  - type: textarea
+    id: content
+    attributes:
+      label: Issue Content
+      description: "Free-form text area for developer tasks, refactoring, or general notes."
+      placeholder: "Describe the task or internal update..."
+    validations:
+      required: true

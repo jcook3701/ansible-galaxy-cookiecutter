@@ -1,0 +1,84 @@
+{#
+# license-header.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% import '.cookiecutter_includes/license/license-data.j2' as lics %}
+
+{%- macro create(
+    license,
+    copyright,
+    project_name,
+    file_name='none',
+    comment_style='hash'
+) -%}
+  {#
+    This renders license header depending on user license selection.
+
+    Args:
+      license (str): The SPDX identifier (e.g., 'MIT', 'BSD-3-Clause').
+      copyright (str): The copyright holder line (e.g., '2026 Jane Doe').
+      project_name (str): Name of project for file header.
+      file_name (str): Name of file for license header.
+      comment_style (str): File comment style (e.g., 'hash', 'python', 'html').
+
+    Returns:
+      str: the formatted license header text defined by the comment_style.
+  #}
+  {# This macro generates the correct license header based on input #}
+  {# Define variables for start/end comment delimiters #}
+  {%- set start_comment = '' -%}
+  {%- set end_comment = '' -%}
+  {%- set newline = '\n' -%}
+  {# Determine the correct comment style #}
+  {%- if comment_style == 'python' -%}
+    {# djlint:off T027 #}
+      {%- set start_comment = '"""' + newline -%}
+      {%- set end_comment = newline + '"""' -%}
+    {# djlint:on #}
+  {%- elif comment_style == 'html' -%}
+      {%- set start_comment = '<!-- ' + newline -%}
+      {%- set end_comment = newline + '-->' -%}
+  {%- else -%}
+      {# Default to hash/pound symbol for yaml, toml, shell scripts, etc. #}
+      {%- set start_comment = '#' -%}
+      {%- set end_comment = newline -%}
+  {%- endif -%}
+  {# Generate the core license text #}
+  {%- set license_text -%}
+    {{- lics.get_licence_header(license, copyright, project_name, file_name) }}
+  {%- endset -%}
+  {# Wrap the generated text with the appropriate start and end delimiters #}
+  {%- if comment_style == 'python' or comment_style == 'html' -%}
+    {{- start_comment -}}
+    {{- license_text | trim }}
+    {{- end_comment -}}
+  {%- else -%}
+    {%- set text = license_text.split('\n') -%}
+    {# For hash comments, prefix every line with '#' #}
+      {%- for line in text -%}
+        {%- set content = line.strip() -%}
+        {%- if content != '' -%}
+          {{- "# " }}{{ content -}}{{- "\n" -}}
+        {%- elif not loop.last and not loop.first -%}
+          {# This handles intentional blank lines between text blocks #}
+          {{- "#" }}{{- "\n" -}}
+        {%- endif -%}
+      {% endfor -%}
+  {%- endif -%}
+{%- endmacro -%}

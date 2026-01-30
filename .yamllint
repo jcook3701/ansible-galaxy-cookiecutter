@@ -1,4 +1,4 @@
-# FUNDING.yml for ansible-galaxy-cookiecutter
+# .yamllint for ansible-galaxy-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -16,6 +16,38 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ---
+extends: default
+ignore:
+  - .venv
+  - changelogs
+  - '{{ cookiecutter.project_slug }}'
 
-# github: ["jcook3701"]
-buy_me_a_coffee: "jcook3701"
+rules:
+  line-length:
+    max: 120
+    level: warning
+  braces:
+    min-spaces-inside: 0
+    max-spaces-inside: 1
+  comments:
+    # prettier compatibility
+    min-spaces-from-content: 1
+  comments-indentation: false
+  document-start:
+    present: true
+    level: error
+  key-duplicates:
+    forbid-duplicated-merge-keys: true
+  indentation:
+    level: error
+    indent-sequences: consistent
+  octal-values:
+    forbid-implicit-octal: true
+    forbid-explicit-octal: true
+  quoted-strings:
+    quote-type: double
+    required: false
+    level: warning
+  truthy:
+    allowed-values:
+      ["true", "false", "yes", "no", "on", "off"]

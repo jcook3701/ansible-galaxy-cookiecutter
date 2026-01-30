@@ -1,0 +1,46 @@
+{#
+# make/clean.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% macro clean(
+    jekyll_enabled,
+    sphinx_enabled
+) -%}
+# --------------------------------------------------
+# 🧹 Clean artifacts
+# --------------------------------------------------
+clean-docs:
+	$(AT)echo "🧹 Cleaning documentation artifacts..."
+{% if sphinx_enabled %}
+	$(AT)$(MAKE) -C $(SPHINX_DIR) clean
+{% endif %}
+{% if jekyll_enabled %}
+	$(AT)$(MAKE) -C $(JEKYLL_DIR) clean
+{% endif %}
+	$(AT)echo "✅ Cleaned documentation artifacts..."
+
+clean-build:
+	$(AT)echo "🧹 Cleaning build artifacts..."
+	$(AT)rm -rf build dist *.egg-info
+	$(AT)find $(SRC_DIR) $(TESTS_DIR) -name "__pycache__" -type d -exec rm -rf {} +
+	$(AT)-[ -d "$(VENV_DIR)" ] && rm -r $(VENV_DIR)
+	$(AT)echo "🧹 Cleaned build artifacts."
+
+clean: clean-docs clean-build
+{%- endmacro -%}

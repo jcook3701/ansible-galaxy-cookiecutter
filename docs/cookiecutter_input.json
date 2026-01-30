@@ -1,0 +1,70 @@
+{
+    "__python": {
+        "keywords": [
+            "ansible",
+            "galaxy",
+            "python3",
+            "cookiecutter",
+            "template",
+            "automation"
+        ],
+        "project_name": "ansible-galaxy-cookiecutter",
+        "target_version": "py311"
+    },
+    "__year_range": "2025-2026",
+    "_checkout": "main",
+    "_copy_without_render": [
+        "{{ '{{' }} cookiecutter.project_slug {{ '}}' }}/*",
+        ".cookiecutter_includes/*",
+        ".cookiecutter_includes/**/*"
+    ],
+    "_default_branch": "main",
+    "_extensions": [
+        "jinja2.ext.do",
+        "jinja2.ext.loopcontrols",
+        "jinja2_time.TimeExtension"
+    ],
+    "_hooks": {
+        "post_gen_make_cmds": {
+            "build-docs": false,
+            "changelog": false,
+            "git-init": true,
+            "pre-commit-init": true,
+            "python-install": true
+        }
+    },
+    "_is_sub_template": false,
+    "_jinja2_env_vars": {
+        "lstrip_blocks": true,
+        "trim_blocks": true
+    },
+    "_output_dir": "/home/jcook/Documents/git_repo/ansible-galaxy-cookiecutter/.git/cookiecutter",
+    "_repo_dir": "/home/jcook/.cookiecutters/cookiecutter-cookiecutter",
+    "_template": "git@github.com:jcook3701/cookiecutter-cookiecutter.git",
+    "add_github_docs": true,
+    "add_sphinx_docs": false,
+    "author": "Jared Cook",
+    "buymeacoffee_username": "jcook3701",
+    "company": null,
+    "contribution_model": "CLA",
+    "copyright": "Copyright (c) 2025-2026, Jared Cook",
+    "current_year": "2026",
+    "description": "**Ansible Galaxy cookiecutter** template + integration with **[Github docs template](https://github.com/jcook3701/github-docs-cookiecutter)** (github-docs-cookiecutter) generation.",
+    "email": "jcook3701+github@gmail.com",
+    "ga_tracking": "G-C7PWLWSHB9",
+    "github_io": "https://jcook3701.github.io/ansible-galaxy-cookiecutter",
+    "github_org": null,
+    "github_username": "jcook3701",
+    "license": "AGPL-3.0-or-later",
+    "linkedin_usercode": "jared-cook-b3585a114",
+    "project_name": "ansible-galaxy-cookiecutter",
+    "project_slug": "ansible-galaxy-cookiecutter",
+    "publication_year": "2025",
+    "python_version": "3.11",
+    "repo_url": "https://github.com/jcook3701/ansible-galaxy-cookiecutter",
+    "template_type": "cookiecutter",
+    "theme": "just-the-docs/just-the-docs@v0.11.0",
+    "timezone": "America/Los_Angeles",
+    "twitter_username": "",
+    "version": "0.1.1"
+}

@@ -1,0 +1,157 @@
+{#
+#  license-data.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% import '.cookiecutter_includes/license/0bsd.j2' as _0bsd with context %}
+{% import '.cookiecutter_includes/license/agpl-3.0.j2' as _agpl_3_0 with context %}
+{% import '.cookiecutter_includes/license/apache-2.0.j2' as _apache_2_0 with context %}
+{% import '.cookiecutter_includes/license/bsd-2-clause.j2' as _bsd_2_clause with context %}
+{% import '.cookiecutter_includes/license/bsd-3-clause.j2' as _bsd_3_clause with context %}
+{% import '.cookiecutter_includes/license/gpl-3.0.j2' as _gpl_3_0 with context %}
+{% import '.cookiecutter_includes/license/mit.j2' as _mit with context %}
+{% import '.cookiecutter_includes/license/unlicense.j2' as _unlicense with context %}
+
+{% set zero_bsd = _0bsd %}
+{% set agpl_3_0 = _agpl_3_0 %}
+{% set apache_2_0 = _apache_2_0 %}
+{% set bsd_2_clause = _bsd_2_clause %}
+{% set bsd_3_clause = _bsd_3_clause %}
+{% set gpl_3_0 = _gpl_3_0 %}
+{% set mit = _mit %}
+{% set unlicense = _unlicense %}
+
+{%- macro spdx(
+    license,
+    copyright,
+    project_name
+) -%}
+    {#
+    This renders license SPDX.
+
+    Args:
+      license (str): The SPDX identifier (e.g., 'MIT', 'BSD-3-Clause').
+      copyright (str): The copyright holder line (e.g., '2026 Jane Doe').
+      project_name (str): Name of project for copyright.
+
+    Returns:
+      str: the formatted license SPDX text.
+    #}
+    {%- set year %}{% now "utc", "%Y" %}{% endset -%}
+    {%- set spdx_copyright = "SPDX-FileCopyrightText: " ~ copyright -%}
+    {%- set spdx_license = "SPDX-License-Identifier: " ~ license -%}
+    {%- set sdpx_text -%}
+        {{- spdx_copyright -}}{{- "\n" -}}
+        {{- spdx_license -}}
+    {%- endset -%}
+    {{ sdpx_text }}
+{%- endmacro -%}
+
+{%- macro get_licence_header_summery(
+    license
+) -%}
+    {#
+    This renders license header depending on user license selection.
+
+    Args:
+      license (str): The SPDX identifier (e.g., 'MIT', 'BSD-3-Clause').
+
+    Returns:
+      str: the license header text
+    #}
+    {% if license == "0BSD" -%}
+        {{- zero_bsd.license_header -}}
+    {%- elif license in agpl_3_0.spdx -%}
+        {{- agpl_3_0.license_header -}}
+    {%- elif license == "Apache-2.0" -%}
+        {{- apache_2_0.license_header -}}
+    {%- elif license == "BSD-2-Clause" -%}
+        {{- bsd_2_clause.license_header -}}
+    {%- elif license == "BSD-3-Clause" -%}
+        {{- bsd_3_clause.license_header -}}
+    {%- elif license in gpl_3_0.spdx -%}
+        {{- gpl_3_0.license_header -}}
+    {%- elif license == "MIT" -%}
+        {{- mit.license_header -}}
+    {%- elif license == "Unlicense" -%}
+        {{- unlicense.license_header -}}
+    {%- endif -%}
+{%- endmacro -%}
+
+{%- macro get_licence_header(
+    license,
+    copyright,
+    project_name,
+    file_name='none'
+) -%}
+    {#
+    This renders license header depending on user license selection.
+
+    Args:
+      license (str): The SPDX identifier (e.g., 'MIT', 'BSD-3-Clause').
+      copyright(str): The copyright holder line (e.g., '2026 Jane Doe').
+      project_name(str): project_name (str): Name of project for file header.
+      file_name(str): Name of file for license header.
+
+    Returns:
+      str: the license header text
+    #}
+    {{- file_name }} for {{ project_name -}}
+    {{- "\n\n" -}}
+    {{- spdx(license, copyright, project_name) -}}
+    {%- set header_notice = get_licence_header_summery(license) -%}
+    {%- if header_notice != "" -%}
+        {{- "\n\n" -}}
+        {{- header_notice -}}
+    {%- endif -%}
+{%- endmacro -%}
+
+{%- macro get_license(
+    license,
+    copyright
+) -%}
+    {#
+    This renders license depending on user license selection. Some licenses are templates
+    themselves and explicitly require insertion of copyright notice directly into the
+    license text itself. This is handled within this function otherwise license file is copied
+    verbatim.
+
+    Args:
+      license (str): The SPDX identifier (e.g., 'MIT', 'BSD-3-Clause').
+
+    Returns:
+      str: The license text
+    #}
+    {% if license == '0BSD' %}
+        {{- zero_bsd.license(copyright) -}}
+    {% elif license in agpl_3_0.spdx %}
+        {{- agpl_3_0.license -}}
+    {% elif license == 'Apache-2.0' %}
+        {{- apache_2_0.license -}}
+    {% elif license == 'BSD-2-Clause' %}
+        {{- bsd_2_clause.license(copyright) -}}
+    {% elif license == 'BSD-3-Clause' %}
+        {{- bsd_3_clause.license(copyright) -}}
+    {% elif license in gpl_3_0.spdx %}
+        {{- gpl_3_0.license -}}
+    {% elif license == 'MIT' %}
+        {{- mit.license(copyright) -}}
+    {% elif license == 'Unlicense' %}
+        {{- unlicense.license -}}
+    {% endif %}
+{%- endmacro -%}

@@ -1,4 +1,4 @@
-# FUNDING.yml for ansible-galaxy-cookiecutter
+# ISSUE_TEMPLATE/config.yml.yml for ansible-galaxy-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -16,6 +16,11 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ---
-
-# github: ["jcook3701"]
-buy_me_a_coffee: "jcook3701"
+blank_issues_enabled: false
+contact_links:
+  - name: GitHub Community Support
+    url: https://github.com/orgs/community/discussions
+    about: Please ask and answer questions here.
+  - name: GitHub Security Bug Bounty
+    url: https://bounty.github.com/
+    about: Please report security vulnerabilities here.

@@ -1,4 +1,5 @@
-# FUNDING.yml for ansible-galaxy-cookiecutter
+{#
+#  license.j2 for cookiecutter-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -15,7 +16,26 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
----
+#}
 
-# github: ["jcook3701"]
-buy_me_a_coffee: "jcook3701"
+{% import '.cookiecutter_includes/license/license-data.j2' as lics %}
+
+{% macro create(
+    license,
+    copyright
+) %}
+  {#
+    Generates a license based on the selected SPDX identifier.
+
+    This macro maps a license string to its corresponding full
+    text stored in the `lics` data object.
+
+    Args:
+      license (str): The SPDX identifier (e.g., 'MIT', 'BSD-3-Clause').
+      copyright (str): The copyright holder line (e.g., '2026 Jane Doe').
+
+    Returns:
+        str: The formatted license text as Markdown.
+  #}
+  {{- lics.get_license(license, copyright) -}}
+{% endmacro %}

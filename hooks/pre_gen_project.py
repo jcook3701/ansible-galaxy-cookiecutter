@@ -1,4 +1,4 @@
-# FUNDING.yml for ansible-galaxy-cookiecutter
+# pre_gen_project.py for ansible-galaxy-cookiecutter
 #
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -15,7 +15,21 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
----
 
-# github: ["jcook3701"]
-buy_me_a_coffee: "jcook3701"
+
+import json
+import os
+
+
+def main() -> None:
+    """Cookiecutter Pre Generation Scripts"""
+    # Detect CI (e.g. GitHub Actions, GitLab CI, etc.)
+    if os.getenv("CI"):
+        print("⚙️  Detected CI environment — skipping GitHub Docs generation.")
+        return
+    context = json.loads("""{{ cookiecutter | jsonify }}""")
+    print(f"Context: {context}")
+
+
+if __name__ == "__main__":
+    main()
