@@ -71,134 +71,36 @@ $ cookiecutter git@github.com:jcook3701/ansible-galaxy-cookiecutter.git \
 
 ***
 
-## Development Strategy
+## Getting Started
 
-**Note:** All Makefile commands are used in ci/cd to ensure that if they pass locally they should also pass once pushed to github.  
+* [Requirements]({{ site.github_io_url }}/manual/setup-guide/requirements)
+* [Installation guide]({{ site.github_io_url }}/manual/introduction/installation-guide)  
 
-### 🐍️ Build environment (.venv)
+## Documentation
 
-``` shell
-$ make install
-```
+The {{ site.title }} documentation is available at [docs]({{ site.github_io_url }}).  
 
-### 🧬 Dependency Management (deptry)
+## Contributing
 
-```shell
-$ make dependency-check
-```
-
-### 🛡️ Security Audit (pip-audit)
-
-```shell
-$ make security
-```
-
-### 🎨 Formatting (black)
-
-```shell
-$ make format-check
-```
-
-```shell
-$ make format-fix
-```
-
-### 🔍 Linting (jinja2-cli, ruff, tomllint, & yaml-lint)
-
-``` shell
-$ make lint-check
-```
-
-``` shell
-$ make lint-fix
-```
-
-### 🎓 Spellchecking (codespell)
-
-```shell
-$ make spellcheck
-```
-
-### 🧠 Typechecking (mypy)
-
-``` shell
-$ make typecheck
-```
-
-### 🧪 Testing (pytest)
-
-``` shell
-$ make test
-```
-
-### 🚀 Release (git tag)
-
-```shell
-$ make release
-```
-
-### ❓ Build Help
-
-``` shell
-$ make help
-```
-
-## Commit Help
-
-**Note:** Commits are required to be conventional git commit message.  This helps with the auto-generation of the changelog files and is enforced by pre-commit.  
-**example:**  
-
-```shell
-<type>[optional scope]: <description>
-
-[optional body]
-
-[optional footer(s)]
-```
-
-* ```<type>```: A required noun that describes the nature of the change.  
-* ```[optional scope]```: An optional phrase within parentheses that specifies the part of the codebase being affected (e.g., fix(parser):).  
-* ```<description>```: A required short, imperative-mood summary of the changes.  
-* ```[optional body]```: A longer description providing additional context and "what and why" details.  
-* ```[optional footer(s)]```: Used for adding meta-information, such as issue references (Fixes #123) or indicating breaking changes.  
-
-***
-
-## Requirements
-
-**Python 3.11**  
-
-```shell
-$ sudo apt install python3.11
-```
-
-**[Nutri-Matic](https://github.com/jcook3701/nutri-matic)**  
-**Note:** This is needed for the cookiecutter hooks to run correctly.  Without this package installed in active python environment cookiecutter pull will fail.  
-
-```shell
-$ pip install nutri-matic
-```
-
-**[rustup](https://rust-lang.org/tools/install/)**  
-**Note:** I found that it is easiest to use rustup to manage rustc and cargo but this is not required.  
-**Example:** Install rustup with the following:  
-
-```shell
-$ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-```
-
-**[git-cliff](https://git-cliff.org/)**  
-**Note:** git-cliff can generate changelog files from the Git history by utilizing conventional commits as well as regex-powered custom parsers.  
-
-```shell
-$ cargo install git-cliff
-```
+If you're interested in contributing to the {{ site.title }} project:  
+* Start by reading the [contributing guide]({{ site.github_io_url }}/manual/developer-resources/contribute).  
+* Learn how to setup your local environment, in our [developer guide]({{ site.github_io_url }}/manual/contribute/developer-guide).  
+* Look through our [style guide]({{ site.github_io_url }}/manual/contribute/style-guides/index).  
 
 ***
 
 ## Authors Notes
 
 1. This code currently works with cookiecutter (V2.6) from Ubuntu's apt repositories.
+
+## License
+
+{{ site.copyright }}  
+
+This project is licensed under the **{{ site.license }} License**.  
+See the [LICENSE]({{ site.repo_blob }}/LICENSE.md) file for the full license text.  
+
+SPDX-License-Identifier: {{ site.license }}
 
 <!--
 ### Helpful Emojis:
