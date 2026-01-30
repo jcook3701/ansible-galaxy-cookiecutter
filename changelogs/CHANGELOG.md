@@ -109,6 +109,7 @@ Feat 005 (#14)
 - *(update)* Preparation for update from cookiecutter-cookiecutter project.
 - *(docs)* Readme updates.
 - *(docs)* Readme updates.
+- *(docs)* Readme updates.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous

@@ -14,7 +14,6 @@
     "__year_range": "2025-2026",
     "_checkout": "main",
     "_copy_without_render": [
-        "{{ '{{' }} cookiecutter.project_slug {{ '}}' }}/*",
         ".cookiecutter_includes/*",
         ".cookiecutter_includes/**/*"
     ],
