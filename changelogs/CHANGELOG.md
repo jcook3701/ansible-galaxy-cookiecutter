@@ -138,12 +138,19 @@ Feat 005 (#14)
 - Merge pull request #18 from jcook3701/develop
 
 Feat 006 (#16)
+- *(CLA)* Creating file for storing CLA Signatures.
+- Feat 007 (#19)
 
-### 🚀 Added
+* chore(upgrader): Update template with cookiecutter_project_upgrader.
 
-- *(docs)* Readme updates.
-- *(update)* Update to cookiecutter_project_upgrader configuration.
-- *(upgrader)* Cookiecutter_project_upgrader configuration update.
+* feat(docs): readme updates.
+
+* feat(update): Update to cookiecutter_project_upgrader configuration.
+
+* feat(upgrader): cookiecutter_project_upgrader configuration update.
+- Merge pull request #20 from jcook3701/develop
+
+Feat 007 (#19)
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous
