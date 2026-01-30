@@ -18,7 +18,7 @@ authors = [
 ]
 readme = "./README.md"
 license = "{{ cookiecutter.license }}"
-license-files = ["LICENSE"]
+license-files = ["LICENSE.md"]
 requires-python = ">={{ cookiecutter.python_version }}"
 dependencies = []
 keywords = [
