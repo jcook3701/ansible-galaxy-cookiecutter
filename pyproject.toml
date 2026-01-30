@@ -30,7 +30,7 @@ authors = [
 ]
 readme = "README.md"
 license = "AGPL-3.0-or-later"
-license-files = ["LICENSE"]
+license-files = ["LICENSE.md"]
 requires-python = ">=3.11"
 dependencies = [
   "nutri-matic>=0.1",
