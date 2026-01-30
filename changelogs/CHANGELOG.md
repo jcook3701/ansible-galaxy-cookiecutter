@@ -138,6 +138,10 @@ Feat 005 (#14)
 - Merge pull request #18 from jcook3701/develop
 
 Feat 006 (#16)
+
+### 🚀 Added
+
+- *(docs)* Readme updates.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous
