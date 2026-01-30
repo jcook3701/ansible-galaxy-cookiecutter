@@ -1,30 +1,34 @@
 # {{ site.title }}
 
-__Author:__ {{ site.author }}  
-__Version:__ {{ site.version }}  
+[![License](https://img.shields.io/github/license/jcook3701/cookiecutter-cookiecutter)](LICENSE.md)
+
+**Author:** {{ site.author }}  
+**Version:** {{ site.version }}  
 
 ## Overview
+
 {{ site.description }}  
 
 Ansible Galaxy cookiecutter template project /w Ansible Auto Documentation + [Github docs](https://github.com/jcook3701/github-docs-cookiecutter) template generation + [Sphinx docs](https://github.com/jcook3701/sphinx-cookiecutter) template generation.  
 
 ***
 
-![dependency-check](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/dependency-check.yml/badge.svg)
-![format-check](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/format-check.yml/badge.svg)
-![lint-check](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/lint-check.yml/badge.svg)
-![security-audit](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/security-audit.yml/badge.svg)
-![spellcheck](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/spellcheck.yml/badge.svg)
-![tests](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/tests.yml/badge.svg)
-![typecheck](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/typecheck.yml/badge.svg)
+* ![dependency-check](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/dependency-check.yml/badge.svg)
+* ![format-check](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/format-check.yml/badge.svg)
+* ![lint-check](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/lint-check.yml/badge.svg)
+* ![security-audit](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/security-audit.yml/badge.svg)
+* ![spellcheck](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/spellcheck.yml/badge.svg)
+* ![tests](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/tests.yml/badge.svg)
+* ![typecheck](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/typecheck.yml/badge.svg)
 
 ***
 
-__Note:__ Unless you are using a newer version of cookiecutter >= 2, ```--no-input``` is necessary for template generation without error.  
+**Note:** Unless you are using a newer version of cookiecutter >= 2, ```--no-input``` is necessary for template generation without error.  
 
-## Usage Examples:
-__Example:__ Pull from main branch.  
-__Note:__ [Nutri-Matic](https://github.com/jcook3701/nutri-matic) is needed in active python environment.  
+## Usage Examples
+
+**Example:** Pull from main branch.  
+**Note:** [Nutri-Matic](https://github.com/jcook3701/nutri-matic) is needed in active python environment.  
 
 ```shell
 $ cookiecutter git@github.com:jcook3701/ansible-galaxy-cookiecutter.git \
@@ -34,7 +38,7 @@ $ cookiecutter git@github.com:jcook3701/ansible-galaxy-cookiecutter.git \
     description="Ansible test project."
 ```
 
-__Example:__ Pull from develop branch.  
+**Example:** Pull from develop branch.  
 
 ```shell
 $ cookiecutter git@github.com:jcook3701/ansible-galaxy-cookiecutter.git \
@@ -45,13 +49,14 @@ $ cookiecutter git@github.com:jcook3701/ansible-galaxy-cookiecutter.git \
     description="Ansible test project."
 ```
 
-__Note:__ replace ```test-project``` or any of the other variables with real context configuration variables.  
+**Note:** replace ```test-project``` or any of the other variables with real context configuration variables.  
 
 ***
 
-## Development Strategy:
+## Development Strategy
 
-__Note:__ All Makefile commands are used in ci/cd to ensure that if they pass locally they should also pass once pushed to github.  
+**Note:** All Makefile commands are used in ci/cd to ensure that if they pass locally they should also pass once pushed to github.  
+
 ### 🐍️ Build environment (.venv)
 
 ``` shell
@@ -120,10 +125,10 @@ $ make release
 $ make help
 ```
 
-## Commit Help:
+## Commit Help
 
-__Note:__ Commits are required to be conventional git commit message.  This helps with the auto-generation of the changelog files and is enforced by pre-commit.  
-__example:__  
+**Note:** Commits are required to be conventional git commit message.  This helps with the auto-generation of the changelog files and is enforced by pre-commit.  
+**example:**  
 
 ```shell
 <type>[optional scope]: <description>
@@ -141,31 +146,31 @@ __example:__
 
 ***
 
-## Requirements:
+## Requirements
 
-__Python 3.11__  
+**Python 3.11**  
 
 ```shell
 $ sudo apt install python3.11
 ```
 
-__[Nutri-Matic](https://github.com/jcook3701/nutri-matic)__  
-__Note:__ This is needed for the cookiecutter hooks to run correctly.  Without this package installed in active python environment cookiecutter pull will fail.  
+**[Nutri-Matic](https://github.com/jcook3701/nutri-matic)**  
+**Note:** This is needed for the cookiecutter hooks to run correctly.  Without this package installed in active python environment cookiecutter pull will fail.  
 
 ```shell
 $ pip install nutri-matic
 ```
 
-__[rustup](https://rust-lang.org/tools/install/)__  
-__Note:__ I found that it is easiest to use rustup to manage rustc and cargo but this is not required.  
-__Example:__ Install rustup with the following:  
+**[rustup](https://rust-lang.org/tools/install/)**  
+**Note:** I found that it is easiest to use rustup to manage rustc and cargo but this is not required.  
+**Example:** Install rustup with the following:  
 
 ```shell
 $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
-__[git-cliff](https://git-cliff.org/)__  
-__Note:__ git-cliff can generate changelog files from the Git history by utilizing conventional commits as well as regex-powered custom parsers.  
+**[git-cliff](https://git-cliff.org/)**  
+**Note:** git-cliff can generate changelog files from the Git history by utilizing conventional commits as well as regex-powered custom parsers.  
 
 ```shell
 $ cargo install git-cliff
@@ -173,20 +178,12 @@ $ cargo install git-cliff
 
 ***
 
-### Authors Notes:
-1. This code currently works with cookiecutter 1.7 from Ubuntu's apt repositories.
+## Authors Notes
 
-### TODO's
-1. Update pyproject.toml to use latest version of cookiecutter to get latest features.
-2. Update cookiecutter.json with:
-	```"license": ["MIT", "GPLv3", "Apache 2.0"],```
+1. This code currently works with cookiecutter (V2.6) from Ubuntu's apt repositories.
 
 <!--
 ### Helpful Emojis:
 
 📡🐋🛢️🚢 🦊💼 👨🏼‍💻🚧 📌 🌱🌳 ⏳🔑 🔫⌚ 🧼🧽 🔌💉
-
-### Authors Hidden TODO's
-
-1. [cla](https://github.com/marketplace/actions/cla-assistant-lite) for contributors.
 --->

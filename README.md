@@ -5,29 +5,35 @@
 -->
 <h1 id="ansible-galaxy-cookiecutter">ansible-galaxy-cookiecutter</h1>
 
+<p><a href="LICENSE.md"><img src="https://img.shields.io/github/license/jcook3701/cookiecutter-cookiecutter" alt="License" /></a></p>
+
 <p><strong>Author:</strong> Jared Cook<br />
 <strong>Version:</strong> 0.1.1</p>
 
 <h2 id="overview">Overview</h2>
+
 <p>Ansible Galaxy cookiecutter template + integration with (github-docs-cookiecutter) Github docs template generation.</p>
 
 <p>Ansible Galaxy cookiecutter template project /w Ansible Auto Documentation + <a href="https://github.com/jcook3701/github-docs-cookiecutter">Github docs</a> template generation + <a href="https://github.com/jcook3701/sphinx-cookiecutter">Sphinx docs</a> template generation.</p>
 
 <hr />
 
-<p><img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/dependency-check.yml/badge.svg" alt="dependency-check" />
-<img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/format-check.yml/badge.svg" alt="format-check" />
-<img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/lint-check.yml/badge.svg" alt="lint-check" />
-<img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/security-audit.yml/badge.svg" alt="security-audit" />
-<img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/spellcheck.yml/badge.svg" alt="spellcheck" />
-<img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/tests.yml/badge.svg" alt="tests" />
-<img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/typecheck.yml/badge.svg" alt="typecheck" /></p>
+<ul>
+  <li><img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/dependency-check.yml/badge.svg" alt="dependency-check" /></li>
+  <li><img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/format-check.yml/badge.svg" alt="format-check" /></li>
+  <li><img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/lint-check.yml/badge.svg" alt="lint-check" /></li>
+  <li><img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/security-audit.yml/badge.svg" alt="security-audit" /></li>
+  <li><img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/spellcheck.yml/badge.svg" alt="spellcheck" /></li>
+  <li><img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/tests.yml/badge.svg" alt="tests" /></li>
+  <li><img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/typecheck.yml/badge.svg" alt="typecheck" /></li>
+</ul>
 
 <hr />
 
 <p><strong>Note:</strong> Unless you are using a newer version of cookiecutter &gt;= 2, <code class="language-plaintext highlighter-rouge">--no-input</code> is necessary for template generation without error.</p>
 
-<h2 id="usage-examples">Usage Examples:</h2>
+<h2 id="usage-examples">Usage Examples</h2>
+
 <p><strong>Example:</strong> Pull from main branch.<br />
 <strong>Note:</strong> <a href="https://github.com/jcook3701/nutri-matic">Nutri-Matic</a> is needed in active python environment.</p>
 
@@ -52,9 +58,10 @@
 
 <hr />
 
-<h2 id="development-strategy">Development Strategy:</h2>
+<h2 id="development-strategy">Development Strategy</h2>
 
 <p><strong>Note:</strong> All Makefile commands are used in ci/cd to ensure that if they pass locally they should also pass once pushed to github.</p>
+
 <h3 id="️-build-environment-venv">🐍️ Build environment (.venv)</h3>
 
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make <span class="nb">install</span>
@@ -111,7 +118,7 @@
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make <span class="nb">help</span>
 </code></pre></div></div>
 
-<h2 id="commit-help">Commit Help:</h2>
+<h2 id="commit-help">Commit Help</h2>
 
 <p><strong>Note:</strong> Commits are required to be conventional git commit message.  This helps with the auto-generation of the changelog files and is enforced by pre-commit.<br />
 <strong>example:</strong></p>
@@ -133,7 +140,7 @@
 
 <hr />
 
-<h2 id="requirements">Requirements:</h2>
+<h2 id="requirements">Requirements</h2>
 
 <p><strong>Python 3.11</strong></p>
 
@@ -161,24 +168,14 @@
 
 <hr />
 
-<h3 id="authors-notes">Authors Notes:</h3>
-<ol>
-  <li>This code currently works with cookiecutter 1.7 from Ubuntu’s apt repositories.</li>
-</ol>
+<h2 id="authors-notes">Authors Notes</h2>
 
-<h3 id="todos">TODO’s</h3>
 <ol>
-  <li>Update pyproject.toml to use latest version of cookiecutter to get latest features.</li>
-  <li>Update cookiecutter.json with:
- <code class="language-plaintext highlighter-rouge">"license": ["MIT", "GPLv3", "Apache 2.0"],</code></li>
+  <li>This code currently works with cookiecutter (V2.6) from Ubuntu’s apt repositories.</li>
 </ol>
 
 <!--
 ### Helpful Emojis:
 
 📡🐋🛢️🚢 🦊💼 👨🏼‍💻🚧 📌 🌱🌳 ⏳🔑 🔫⌚ 🧼🧽 🔌💉
-
-### Authors Hidden TODO's
-
-1. [cla](https://github.com/marketplace/actions/cla-assistant-lite) for contributors.
 --->
