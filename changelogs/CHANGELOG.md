@@ -161,10 +161,14 @@ Feat 007 (#19)
 - Merge pull request #22 from jcook3701/develop
 
 Feat 008 (#21)
+- Feat 009 (#23)
 
-### 🐛 Fixed
+* fix(template): fix for pyproject.toml
 
-- *(template)* Fix for pyproject.toml
+* chore(update): Update template
+- Merge pull request #24 from jcook3701/develop
+
+Feat 009 (#23)
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous

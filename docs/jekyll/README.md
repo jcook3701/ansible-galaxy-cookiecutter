@@ -91,7 +91,7 @@ If you're interested in contributing to the {{ site.title }} project:
 
 ## 🍹 Authors Notes
 
-1. This code currently works with cookiecutter (V2.6) from Ubuntu's apt repositories.
+1. This code currently works with cookiecutter (V2.6) from PyPi's repositories.
 
 ## ⚖️ License
 
