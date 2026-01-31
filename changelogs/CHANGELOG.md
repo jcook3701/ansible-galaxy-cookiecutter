@@ -151,6 +151,10 @@ Feat 006 (#16)
 - Merge pull request #20 from jcook3701/develop
 
 Feat 007 (#19)
+
+### 🐛 Fixed
+
+- *(docs)* Documentation fix for jekyll main page.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous

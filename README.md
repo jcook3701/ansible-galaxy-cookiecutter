@@ -38,7 +38,7 @@ The <strong>ansible-galaxy-cookiecutter</strong> is used to maintain the build a
 
 <hr />
 
-<p><strong>CI/CD Check List:</strong></p>
+<p>🛠️ <strong>CI/CD Check List:</strong></p>
 
 <ul>
   <li><img src="https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/dependency-check.yml/badge.svg" alt="dependency-check" /></li>
@@ -80,18 +80,18 @@ The <strong>ansible-galaxy-cookiecutter</strong> is used to maintain the build a
 
 <hr />
 
-<h2 id="getting-started">Getting Started</h2>
+<h2 id="-getting-started">🌱 Getting Started</h2>
 
 <ul>
   <li><a href="https://jcook3701.github.io/ansible-galaxy-cookiecutter/manual/setup-guide/requirements">Requirements</a></li>
   <li><a href="https://jcook3701.github.io/ansible-galaxy-cookiecutter/manual/introduction/installation-guide">Installation guide</a></li>
 </ul>
 
-<h2 id="documentation">Documentation</h2>
+<h2 id="-documentation">📚 Documentation</h2>
 
 <p>The ansible-galaxy-cookiecutter documentation is available at <a href="https://jcook3701.github.io/ansible-galaxy-cookiecutter">docs</a>.</p>
 
-<h2 id="contributing">Contributing</h2>
+<h2 id="-contributing">🤝 Contributing</h2>
 
 <p>If you’re interested in contributing to the ansible-galaxy-cookiecutter project:</p>
 <ul>
@@ -102,13 +102,13 @@ The <strong>ansible-galaxy-cookiecutter</strong> is used to maintain the build a
 
 <hr />
 
-<h2 id="authors-notes">Authors Notes</h2>
+<h2 id="-authors-notes">🍹 Authors Notes</h2>
 
 <ol>
   <li>This code currently works with cookiecutter (V2.6) from Ubuntu’s apt repositories.</li>
 </ol>
 
-<h2 id="license">License</h2>
+<h2 id="️-license">⚖️ License</h2>
 
 <p>Copyright (c) 2025-2026, Jared Cook</p>
 
