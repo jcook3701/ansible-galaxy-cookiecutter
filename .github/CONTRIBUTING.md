@@ -84,7 +84,7 @@ There are three important things to know:
 Due to legal reasons, contributors will be asked to accept a [CLA](https://jcook3701.github.io/ansible-galaxy-cookiecutter/manual/developer-resources/cla) before they submit the first pull request to this project, this happens in an automated fashion during the submission process.  We use a derivative of the [ASF Contributor Agreements](https://www.apache.org/licenses/contributor-agreements.html) as can be found below.
 
 * [ICLA](https://www.apache.org/licenses/icla.pdf)
-* [CCLA](https://www.apache.org/licenses/cla-corporate.pdf).  
+* [CCLA](https://www.apache.org/licenses/cla-corporate.pdf).
 
 ### Contribution Content Guidelines
 

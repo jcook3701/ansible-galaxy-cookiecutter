@@ -1,0 +1,40 @@
+{#
+# workflows/__init__.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% import '.cookiecutter_includes/workflows/contributor-assistant.j2' as _contributor_assistant with context %}
+{% import '.cookiecutter_includes/workflows/dependency-check.j2' as _dependency_check with context %}
+{% import '.cookiecutter_includes/workflows/format-check.j2' as _format_check with context %}
+{% import '.cookiecutter_includes/workflows/jekyll-gh-pages.j2' as _jekyll_gh_pages with context %}
+{% import '.cookiecutter_includes/workflows/lint-check.j2' as _lint_check with context %}
+{% import '.cookiecutter_includes/workflows/security-audit.j2' as _security_audit with context %}
+{% import '.cookiecutter_includes/workflows/spellcheck.j2' as _spellcheck with context %}
+{% import '.cookiecutter_includes/workflows/tests.j2' as _tests with context %}
+{% import '.cookiecutter_includes/workflows/typecheck.j2' as _typecheck with context %}
+
+
+{% set contributor_assistant = _contributor_assistant %}
+{% set dependency_check = _dependency_check %}
+{% set format_check = _format_check %}
+{% set jekyll_gh_pages = _jekyll_gh_pages %}
+{% set lint_check = _lint_check %}
+{% set security_audit = _security_audit %}
+{% set spellcheck = _spellcheck %}
+{% set tests = _tests %}
+{% set typecheck = _typecheck %}

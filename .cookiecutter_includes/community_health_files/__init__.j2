@@ -1,0 +1,35 @@
+{#
+# community_health_files/__init__.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+{% import '.cookiecutter_includes/community_health_files/code_of_conduct.j2' as _code_of_conduct with context %}
+{% import '.cookiecutter_includes/community_health_files/codeowners.j2' as _codeowners with context %}
+{% import '.cookiecutter_includes/community_health_files/contributing.j2' as _contributing with context %}
+{% import '.cookiecutter_includes/community_health_files/funding.j2' as _funding with context %}
+{% import '.cookiecutter_includes/community_health_files/pull_request_template.j2' as _pull_request_template with context %}
+{% import '.cookiecutter_includes/community_health_files/security.j2' as _security with context %}
+{% import '.cookiecutter_includes/community_health_files/support.j2' as _support with context %}
+
+{% set code_of_conduct = _code_of_conduct %}
+{% set codeowners = _codeowners %}
+{% set contributing = _contributing %}
+{% set funding = _funding %}
+{% set pull_request_template = _pull_request_template %}
+{% set security = _security %}
+{% set support = _support %}
