@@ -155,6 +155,10 @@ Feat 007 (#19)
 ### 🐛 Fixed
 
 - *(docs)* Documentation fix for jekyll main page.
+
+### 🚀 Added
+
+- *(docs)* Added emojis to readme.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous
