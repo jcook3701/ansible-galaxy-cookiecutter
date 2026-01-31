@@ -1,0 +1,3 @@
+{% import '.cookiecutter_includes/community_health_files/issue_template/__init__.j2' as issue_template_macro with context %}
+
+{{- issue_template_macro.config.create() -}}
