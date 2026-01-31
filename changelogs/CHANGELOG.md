@@ -161,6 +161,10 @@ Feat 007 (#19)
 - Merge pull request #22 from jcook3701/develop
 
 Feat 008 (#21)
+
+### 🐛 Fixed
+
+- *(template)* Fix for pyproject.toml
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous
