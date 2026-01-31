@@ -20,9 +20,7 @@ readme = "./README.md"
 license = "{{ cookiecutter.license }}"
 license-files = ["LICENSE.md"]
 requires-python = ">={{ cookiecutter.python_version }}"
-dependencies = [
-  "nutri-matic>=0.1",
-]
+dependencies = []
 keywords = [
   "ansible",
   "galaxy",
@@ -62,6 +60,7 @@ tools = [
   "jinja2-time>=0.2",
   "mypy==1.9",
   "nameisok>=0.1",
+  "nutri-matic>=0.1",
   "pip-audit>=2.10",
   "pre-commit>=4.5",
   "pytest>=9.0",

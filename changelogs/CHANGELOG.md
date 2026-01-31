@@ -151,19 +151,16 @@ Feat 006 (#16)
 - Merge pull request #20 from jcook3701/develop
 
 Feat 007 (#19)
-- Update template
-- Update template
-- Update template
-- Update template
-- Merge branch 'cookiecutter-template' into feat-008
+- Feat 008 (#21)
 
-### 🐛 Fixed
+* fix(docs): documentation fix for jekyll main page.
 
-- *(docs)* Documentation fix for jekyll main page.
+* feat(docs): added emojis to readme.
 
-### 🚀 Added
+* feat(template): community health files + CLA + Jekyll updates.
+- Merge pull request #22 from jcook3701/develop
 
-- *(docs)* Added emojis to readme.
+Feat 008 (#21)
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous
