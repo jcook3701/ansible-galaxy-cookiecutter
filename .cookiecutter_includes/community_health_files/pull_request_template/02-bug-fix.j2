@@ -1,0 +1,43 @@
+{#
+# 02-bug-fix.j2 for cookiecutter-cookiecutter
+#
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026, Jared Cook
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#}
+
+
+{% macro create() %}
+## 🐞 Bug Fix Description
+<!-- Provide a clear and concise description of the bug and why the fix is necessary. -->
+
+**Related Issue:** Fixes # <!-- Link the issue number here -->
+
+### 🛠️ Changes Made
+- [ ] List specific changes or files modified.
+- [ ] Describe how the fix addresses the root cause.
+
+### 🧪 How to Reproduce & Test
+1. **Steps to reproduce:** (e.g., click X, then Y)
+2. **Current behavior:** (before this fix)
+3. **Expected behavior:** (after this fix)
+4. **Testing performed:** (e.g., ran `pytest` or actions performed to recreate live testing situation)
+
+### ✅ Checklist
+- [ ] My code follows the project style guidelines.
+- [ ] I have performed a self-review of my code.
+- [ ] I have added tests that prove my fix is effective.
+- [ ] All new and existing tests passed.
+{% endmacro %}
