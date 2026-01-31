@@ -1,3 +1,3 @@
 {% import '.cookiecutter_includes/community_health_files/__init__.j2' as community_health_files_macro with context %}
 
-{{- community_health_files_macro.funding.create() -}}
+{{- community_health_files_macro.code_of_conduct.create() -}}

@@ -29,7 +29,7 @@ The **{{ site.title }}** is used to maintain the build and ci/cd structure for t
 
 ***
 
-**CI/CD Check List:**
+🛠️ **CI/CD Check List:**
 
 * ![dependency-check](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/dependency-check.yml/badge.svg)
 * ![format-check](https://github.com/jcook3701/ansible-galaxy-cookiecutter/actions/workflows/format-check.yml/badge.svg)
@@ -71,16 +71,16 @@ $ cookiecutter git@github.com:jcook3701/ansible-galaxy-cookiecutter.git \
 
 ***
 
-## Getting Started
+## 🌱 Getting Started
 
 * [Requirements]({{ site.github_io_url }}/manual/setup-guide/requirements)
 * [Installation guide]({{ site.github_io_url }}/manual/introduction/installation-guide)  
 
-## Documentation
+## 📚 Documentation
 
 The {{ site.title }} documentation is available at [docs]({{ site.github_io_url }}).  
 
-## Contributing
+## 🤝 Contributing
 
 If you're interested in contributing to the {{ site.title }} project:  
 * Start by reading the [contributing guide]({{ site.github_io_url }}/manual/developer-resources/contribute).  
@@ -89,11 +89,11 @@ If you're interested in contributing to the {{ site.title }} project:
 
 ***
 
-## Authors Notes
+## 🍹 Authors Notes
 
 1. This code currently works with cookiecutter (V2.6) from Ubuntu's apt repositories.
 
-## License
+## ⚖️ License
 
 {{ site.copyright }}  
 

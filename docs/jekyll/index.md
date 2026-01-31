@@ -2,7 +2,7 @@
 layout: default
 title: ansible-galaxy-cookiecutter
 nav_order: 1
-description: **Ansible Galaxy cookiecutter** template + integration with **[Github docs template](https://github.com/jcook3701/github-docs-cookiecutter)** (github-docs-cookiecutter) generation.
+description: "**Ansible Galaxy cookiecutter** template + integration with **[Github docs template](https://github.com/jcook3701/github-docs-cookiecutter)** (github-docs-cookiecutter) generation."
 ---
 {% include snippet_loader.html %}
 
