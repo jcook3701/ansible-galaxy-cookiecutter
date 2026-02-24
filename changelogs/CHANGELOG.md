@@ -177,6 +177,7 @@ Feat 009 (#23)
 ### 🚀 Added
 
 - *(plugins)* Added python init files for ansible plugins directory.
+- *(template)* Update to tests configuration file within the template.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous
