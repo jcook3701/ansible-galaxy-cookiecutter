@@ -169,6 +169,10 @@ Feat 008 (#21)
 - Merge pull request #24 from jcook3701/develop
 
 Feat 009 (#23)
+
+### 🐛 Fixed
+
+- *(docs)* Minor readme fix.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous

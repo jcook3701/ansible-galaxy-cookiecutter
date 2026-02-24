@@ -4,7 +4,6 @@
   "project_name": "ansible-galaxy-collection",
   "__project_name": "{{ cookiecutter.project_name|lower|replace('-', '_')|replace(' ', '_') }}",
   "project_slug": "{{ cookiecutter.__namespace }}.{{ cookiecutter.__project_name }}",
-  "__py_package_name": "{{ cookiecutter.__namespace }}_{{ cookiecutter.__project_name }}",
   "__title": "{{ cookiecutter.namespace }} {{ cookiecutter.project_name }}",
   "author": "Jared Cook",
   "email": "jcook3701+github@gmail.com",
