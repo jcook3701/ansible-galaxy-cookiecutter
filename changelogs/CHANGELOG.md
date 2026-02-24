@@ -161,10 +161,24 @@ Feat 007 (#19)
 - Merge pull request #22 from jcook3701/develop
 
 Feat 008 (#21)
+- Feat 009 (#23)
+
+* fix(template): fix for pyproject.toml
+
+* chore(update): Update template
+- Merge pull request #24 from jcook3701/develop
+
+Feat 009 (#23)
 
 ### 🐛 Fixed
 
-- *(template)* Fix for pyproject.toml
+- *(docs)* Minor readme fix.
+- *(template)* Template build fixes.
+
+### 🚀 Added
+
+- *(plugins)* Added python init files for ansible plugins directory.
+- *(template)* Update to tests configuration file within the template.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous

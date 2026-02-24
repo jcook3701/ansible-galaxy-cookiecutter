@@ -105,7 +105,7 @@ The <strong>ansible-galaxy-cookiecutter</strong> is used to maintain the build a
 <h2 id="-authors-notes">🍹 Authors Notes</h2>
 
 <ol>
-  <li>This code currently works with cookiecutter (V2.6) from Ubuntu’s apt repositories.</li>
+  <li>This code currently works with cookiecutter (V2.6) from PyPi’s repositories.</li>
 </ol>
 
 <h2 id="️-license">⚖️ License</h2>
