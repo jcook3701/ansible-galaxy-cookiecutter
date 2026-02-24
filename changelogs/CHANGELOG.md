@@ -173,6 +173,10 @@ Feat 009 (#23)
 ### 🐛 Fixed
 
 - *(docs)* Minor readme fix.
+
+### 🚀 Added
+
+- *(plugins)* Added python init files for ansible plugins directory.
 ## [0.1.0] - 2025-12-13
 
 ### ⚙️  Miscellaneous
