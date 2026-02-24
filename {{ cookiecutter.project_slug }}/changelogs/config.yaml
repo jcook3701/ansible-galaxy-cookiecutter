@@ -39,7 +39,7 @@ sections:
   - Bugfixes
 - - known_issues
   - Known Issues
-title: '{{ cookiecutter.__title }}'
+title: "{{ cookiecutter.__title }}"
 trivial_section_name: trivial
 use_fqcn: true
 vcs: auto
