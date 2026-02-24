@@ -173,6 +173,7 @@ Feat 009 (#23)
 ### 🐛 Fixed
 
 - *(docs)* Minor readme fix.
+- *(template)* Template build fixes.
 
 ### 🚀 Added
 
